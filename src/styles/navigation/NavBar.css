@@ -1,0 +1,85 @@
+nav{
+    background-color: var(--light-clr);
+    width: 100%;
+    height: 64px;
+    position: fixed;
+    z-index: 2 !important;
+    box-shadow: none;
+    transform: translateY(0%);
+    
+    transition: transform 0.3s ease;
+    
+}
+
+.navbar-changed{
+    
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+}
+
+nav section{
+    z-index: 1;
+}
+
+ul{
+    list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+   
+    padding-inline: 0.5rem;
+}
+
+li > a {
+    text-decoration: none;
+    color: var(--dark-clr);
+    transition: color 0.3s ease-in-out !important;
+    font-size: var(--fs-base);
+    
+}
+
+li > a:hover {
+    
+    color: var(--primary-clr);
+}
+
+
+
+.categories-brands-expander{
+    position: absolute;
+    height: 300%;
+    background-color: var(--light-clr);
+    bottom: -300%;
+    left: -100%;
+    transition: left 0.3s ease-in-out;
+    
+    z-index: -1 !important;
+}
+
+.categories-brands-expander.expanded {
+    
+    left: 0;
+}
+
+.MuiTextField-root{
+    width: 100%;
+    
+}
+
+.nav-icon{
+    color: var(--dark-clr);
+    transition: color 0.3s ease-in-out !important;
+    width: calc(24px + 0.5rem) !important;
+    height: calc(24px + 0.5rem) !important;
+    margin-right: 0.5rem;
+}
+
+.nav-icon:hover{
+    color: var(--primary-clr);
+}
