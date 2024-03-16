@@ -1,0 +1,16 @@
+
+
+.custom-drawer{
+    --drawer-width: 25%;
+    width: var(--drawer-width);
+    position: relative;
+}
+
+.custom-drawer div:nth-of-type(3){
+    width: var(--drawer-width);
+}
+
+.drawer-list{
+    list-style: none;
+    margin: 0;
+}

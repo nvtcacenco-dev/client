@@ -14,6 +14,7 @@
     "@types/node": "^16.18.84",
     "@types/react": "^18.2.60",
     "@types/react-dom": "^18.2.19",
+    "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
@@ -46,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3"
   }
 }

@@ -1,0 +1,10 @@
+.filter-pill{
+    border-radius: 15px;
+    background-color: var(--main-clr);
+    min-height: 45px;
+    color: var(--dark-clr);
+    text-transform: capitalize;
+    width: max-content;
+    position: relative;
+    overflow: hidden;
+  }

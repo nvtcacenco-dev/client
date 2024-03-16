@@ -1,0 +1,25 @@
+.promotion-banner{
+    
+    background-color: var(--primary-clr-light);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+    transition: height 0.3s ease-in-out;
+}
+
+.promotion-banner > li {
+    padding: 0;
+    color: var(--light-clr); 
+    font-size: var(--fs-base);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .promotion-banner > li {
+       
+        
+        font-size: var(--fs-sm);
+    }
+}

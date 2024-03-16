@@ -1,0 +1,86 @@
+.item-list {
+   
+    list-style: none;
+}
+
+.item {
+    height: 88svh;
+   
+    position: relative;
+    padding: 0;
+}
+
+
+.item-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#img-1:hover, #img1{
+    opacity: 0;
+}
+
+#img-2:hover, #img2{
+    opacity: 0;
+}
+
+.item-description{
+    background-color: var(--light-clr);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: fit-content;
+    max-height: 12svh;
+    overflow: hidden;
+    padding: calc(6px + 0.1rem); 
+}
+
+@media (max-width: 992px) {
+    .item-description{
+        background-color: var(--light-accent);
+    }
+}
+
+.item-description > p{
+    font-size: var(--fs-sm);
+    margin: 0;
+}
+
+.item-description p:nth-of-type(1){
+    font-size: var(--fs-base);
+    font-weight: 600;
+}
+.item-fav-btn-container{
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    z-index: 2 !important;
+    width: 15%;
+    aspect-ratio: 1/1;
+}
+
+.item-fav-btn{
+    
+    background-color: var(--light-clr) !important;
+    
+}
+.item-fav-btn svg{
+    stroke: var(--primary-clr);
+    fill: transparent;
+    overflow: hidden;
+    position: relative;
+    transition: fill 0.3s ease-in-out;
+}
+.item-fav-btn:hover svg{
+    
+   fill: var(--primary-clr);
+    
+}
+

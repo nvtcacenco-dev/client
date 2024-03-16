@@ -1,42 +1,55 @@
-nav{
+.top-nav{
     background-color: var(--light-clr);
     width: 100%;
-    height: 64px;
+    height: 148px;
     position: fixed;
     z-index: 2 !important;
     box-shadow: none;
     transform: translateY(0%);
     
     transition: transform 0.3s ease;
+    z-index: 3 !important;
     
+}
+
+.nav-box-shadow{
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+.nav-position{
+    position: fixed;
 }
 
 .navbar-changed{
     
     transform: translateY(-100%);
     transition: transform 0.3s ease;
+    
 }
 
-nav section{
+.top-nav section{
     z-index: 1;
+   
+    
 }
 
-ul{
+
+.top-nav section ul{
     list-style: none;
     margin: 0 !important;
     padding: 0 !important;
 }
 
-li{
+.top-nav section ul > li{
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 !important;
-   
+    
     padding-inline: 0.5rem;
 }
 
-li > a {
+.nav-link {
     text-decoration: none;
     color: var(--dark-clr);
     transition: color 0.3s ease-in-out !important;
@@ -44,7 +57,7 @@ li > a {
     
 }
 
-li > a:hover {
+.nav-link:hover {
     
     color: var(--primary-clr);
 }
@@ -52,19 +65,68 @@ li > a:hover {
 
 
 .categories-brands-expander{
+    --_expander-height: 130%;
     position: absolute;
-    height: 300%;
+    height: var(--_expander-height);
     background-color: var(--light-clr);
-    bottom: -300%;
+    bottom: calc(var(--_expander-height) - 2 * var(--_expander-height));
     left: -100%;
-    transition: left 0.3s ease-in-out;
+    transition: left 0.3s 0.125s ease-in-out;
     
     z-index: -1 !important;
+
+    
+    
 }
 
 .categories-brands-expander.expanded {
     
     left: 0;
+}
+
+.categories-brands-list{
+    list-style: none;
+    
+    padding-block: calc(12px + 0.5rem);
+    display: grid;
+    
+    grid-template-columns: repeat(2, 200px);
+    justify-items: start;
+   width: fit-content;
+    height: fit-content;
+}
+
+.categories-brands-list li > a{
+    
+    text-align: start;
+    text-decoration: none;
+    color: var(--dark-clr-faded);
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+.categories-brands-list li > a::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    background-color: var(--primary-clr);
+    height: 1.5px;
+    transition: width 0.3s ease-in-out;
+}
+
+.categories-brands-list li a:hover::before {
+    
+    width: 100%;
+    
+    
+}
+.categories-brands-list li a:hover{
+    color: var(--primary-clr);
+}
+.expander-item:hover{
+    height: 100%;
 }
 
 .MuiTextField-root{
@@ -83,3 +145,20 @@ li > a:hover {
 .nav-icon:hover{
     color: var(--primary-clr);
 }
+
+.nav-bar-banner{
+    
+    height: 29.6px;
+    transition: height 0.3s ease-in-out;
+}
+
+.banner-changed {
+    height: 7.4px;
+}
+
+.banner-changed ul > li{
+    transform: scale(0);
+}
+
+
+
