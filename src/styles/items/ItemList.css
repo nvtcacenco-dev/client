@@ -4,31 +4,52 @@
 }
 
 .item {
-    height: 88svh;
+    height: 85svh;
    
     position: relative;
     padding: 0;
 }
+
+.browsing-item-list{
+    list-style: none;
+    padding: 0;
+    padding-block: calc(12px + 0.5rem);
+    display: grid;
+    gap: calc(12px + 0.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.browsing-item{
+    position: relative;
+    padding: 0;
+    
+    aspect-ratio: 1/1.75;
+}
+
 
 
 .item-img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    
     object-position: center;
     position: absolute;
     top: 0;
     left: 0;
-    transition: opacity 0.3s ease-in-out;
+    
+   transition: opacity 0.3s ease-in-out; 
+    
 }
 
-#img-1:hover, #img1{
-    opacity: 0;
-}
 
-#img-2:hover, #img2{
+
+ #img-1:hover {
     opacity: 0;
-}
+    
+}  
+
+
 
 .item-description{
     background-color: var(--light-clr);
@@ -71,16 +92,28 @@
     background-color: var(--light-clr) !important;
     
 }
-.item-fav-btn svg{
+.item-fav-icon {
     stroke: var(--primary-clr);
-    fill: transparent;
+    fill: transparent !important;
     overflow: hidden;
     position: relative;
     transition: fill 0.3s ease-in-out;
+    font-size: var(--fs-md) !important;
 }
-.item-fav-btn:hover svg{
+
+.item-fav-icon-active {
     
-   fill: var(--primary-clr);
+    fill: var(--primary-clr)!important;
+   
+}
+.item-fav-btn:hover .item-fav-icon{
+    
+   fill: var(--primary-clr) !important;
     
 }
 
+
+
+.test{
+    filter: blur(10px);
+}

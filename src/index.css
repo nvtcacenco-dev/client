@@ -2,12 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 :root {
-  --light-clr: #F4F4F1;
+  --light-clr: #fbfbfb;
   --light-accent: #f4f4f1bd;
   --light-bg-clr: #f1f1f1;
   --primary-clr: #BB3E54;
   --primary-clr-light: #b86776;
-  --primary-clr-light-faded: #b8677633;
+  --primary-clr-light-faded: #e8d7d8;
   --secondary-clr: #2f315a;
   --secondary-clr-light: #4b4c5e;
   --dark-clr: #222222;
@@ -24,6 +24,14 @@
   --fs-x3l: clamp(3.05rem, 1.85vw + 2.68rem, 4.16rem);
   --fs-x4l: clamp(3.81rem, 2.87vw + 3.24rem, 5.53rem);
   --fs-x5l: clamp(4.77rem, 4.32vw + 3.9rem, 7.36rem);
+
+
+  --bs-breakpoint-xs: 0;
+  --bs-breakpoint-sm: 576px;
+  --bs-breakpoint-md: 768px;
+  --bs-breakpoint-lg: 992px;
+  --bs-breakpoint-xl: 1200px;
+  --bs-breakpoint-xxl: 1400px; 
 }
 
 @supports (-moz-appearance:none) {

@@ -10,6 +10,11 @@ import { alpha, styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
 import CategoriesBrandsExpander from './CategoriesBrandsExpander';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryID } from '../../network/redux/actions/actions';
+import { RootState } from '../../network/redux/store/store';
+
+import { Turn as Hamburger} from 'hamburger-react'
 
 const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
     createTheme({
@@ -21,6 +26,7 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
                 styleOverrides: {
                     root: {
                         fontSize: 'var(--fs-base)',
+                        paddingLeft: '12px',
                     }
                 }
             },
@@ -42,6 +48,10 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
             MuiFilledInput: {
                 styleOverrides: {
                     root: {
+                        borderRadius: '6px' ,
+                        
+                        overflow: 'hidden',
+                        paddingLeft: '12px',
                         fontSize: 'var(--fs-base)',
                         backgroundColor: 'var(--primary-clr-light-faded)',
 
@@ -79,10 +89,10 @@ export default function NavBar() {
     const [bannerClass, setBannerClass] = useState<boolean>(false);
 
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [isBrands, setIsBrands] = useState<boolean>(false);
+
     const [isCategories, setIsCategories] = useState<boolean>(false);
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
-
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const handleMouseEnter = () => {
         setIsExpanded(true);
     };
@@ -91,13 +101,31 @@ export default function NavBar() {
         setIsExpanded(false);
     };
 
-    
-   
+
+    const location = useLocation();
+    const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
+    const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
+    const dispatch = useDispatch();
+    const isHome = location.pathname === '/';
+
+    useEffect(() => {
+        if (isHome) {
+            dispatch(setCategoryID(null))
+        }
+
+    }, [isHome])
+
+    const mediaQuery = '(max-width: 992px)';
+    const mediaQueryList = window.matchMedia(mediaQuery);
+
+    mediaQueryList.addEventListener('resize', event =>{
+
+    })
 
     const changeNavBarClr = () => {
         if (window.scrollY < 120 || window.scrollY < prevScrollPos) {
             setNavClass(false);
-            
+
             if (window.scrollY < prevScrollPos) {
                 setNavClass2(true);
                 setNavClass3(true);
@@ -116,7 +144,7 @@ export default function NavBar() {
 
         } else {
             setNavClass(false);
-            
+
         }
     };
 
@@ -125,6 +153,21 @@ export default function NavBar() {
         changeNavBarClr();
     };
 
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+
+        window.addEventListener('resize', handleResize);
+
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
     window.addEventListener("scroll", handleScroll);
     const navName = navClass === true ? "navbar-changed" : "";
     const navName2 = navClass2 === true ? "nav-box-shadow" : "";
@@ -132,71 +175,71 @@ export default function NavBar() {
 
     const bannerName = bannerClass === true ? "banner-changed" : "";
     return (
-        <nav className={`top-nav d-flex justify-content-center flex-column align-items-center  ${navName} ${navName2} ${navName3}`}>
-            <div className={`nav-bar-banner col-12 ${bannerName}`}> 
-                <PromotionBanner/>
+        <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center  ${navName} ${navName2} ${navName3} ${windowWidth <= 992 &&('nav-mobile')}`}>
+            <div className={`nav-bar-banner col-12 ${bannerName}`}>
+                <PromotionBanner />
             </div>
-            <section
-                className='d-flex col-12 justify-content-center align-items-center flex-grow-1 '
 
-            >
+
+            {windowWidth >= 992 ? (<section className='d-flex col-12 justify-content-center  align-items-center flex-grow-1 '>
+                
                 <ul className='d-flex col-3 justify-content-center align-items-center h-100'>
-                    <li id='catalog-link' className='h-100' >
-                        <Link className='nav-link'  to={'/catalog'}>Catalog</Link>
+                    <li id='catalog-link' className='h-100'>
+                        <Link className='nav-link' to={'/catalog'}>Catalog</Link>
                     </li>
-                    <li id='categories-link' className='expander-item' 
-                        onMouseEnter={()=>{
-                            handleMouseEnter(); 
-                            setIsCategories(true); 
-                            setIsBrands(false)}} 
-                        onMouseLeave={()=>{
-                            handleMouseLeave(); 
-                            }}>
+                    <li id='categories-link' className='expander-item'
+                        onMouseEnter={() => {
+                            handleMouseEnter();
+                            setIsCategories(true);
+                        }}
+                        onMouseLeave={() => {
+                            handleMouseLeave();
+                        }}>
                         <Link className='nav-link' to={'/catalog/categories'}>Categories</Link>
                     </li>
-
-                    <li id='brands-link' className='expander-item' 
-                        onMouseEnter={()=>{
-                            handleMouseEnter(); 
-                            setIsCategories(false); 
-                            setIsBrands(true)}} 
-                        onMouseLeave={()=>{
-                            handleMouseLeave(); 
-                            }}>
-                        <Link className='nav-link' to={'/catalog/brands'}>Brands</Link>
-                    </li>
                 </ul>
-
-                <div className='col-3 '>
-
-                    <ThemeProvider theme={customTheme(outerTheme)}>
-
-                        <TextField label="Search" variant="filled" InputProps={{
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-
-                        }} />
-
-                    </ThemeProvider>
+            
 
 
-                </div>
+
+            <div className=' col-10 col-sm-5 col-lg-3 '>
+
+                <ThemeProvider theme={customTheme(outerTheme)}>
+
+                    <TextField label="Search" variant="filled" InputProps={{
+                        endAdornment: (
+                            <InputAdornment position='end'>
+                                <IconButton>
+                                    <SearchIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        )
+
+                    }} />
+
+                </ThemeProvider>
+
+
+            </div>
+
+            
 
                 <ul className='d-flex col-3 justify-content-center align-items-center'>
                     <li>
-                        <Link to={'/Cart'}>
+                        <Link className='nav-icon-link' to={'/Cart'}>
                             <ShoppingCartIcon className='nav-icon' />
+                            <div className='icon-product-counter'>
+                                {0}
+                            </div>
                         </Link>
 
                     </li>
                     <li>
-                        <Link to={'/Favorites'}>
+                        <Link className='nav-icon-link' to={'/Favorites'}>
                             <FavoriteIcon className='nav-icon' />
+                            <div className='icon-product-counter'>
+                                {favs.length}
+                            </div>
                         </Link>
 
                     </li>
@@ -207,8 +250,19 @@ export default function NavBar() {
 
                     </li>
                 </ul>
-            </section>
-            <CategoriesBrandsExpander isExpanded={isExpanded} handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} isBrands={isBrands} isCategories={isCategories} />
+                
+            
+
+
+        </section>):(
+        <div className='hamburger-container col-12'>
+            <Hamburger/>
+        </div>
+        
+        
+        )}
+            
+            <CategoriesBrandsExpander isExpanded={isExpanded} handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} isCategories={isCategories} />
         </nav>
     );
 }

@@ -21,6 +21,8 @@
     align-items: center;
     background-attachment: fixed;
 }
+
+
 .hero-page-content section:nth-of-type(2) {
     
     display: flex;
@@ -229,10 +231,11 @@
     padding-block: calc(12px + 0.5rem);
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    position: relative;
 }
 
 .cta-box div:nth-of-type(1){
-    background-color: var(--primary-clr);
+    background-color: var(--primary-clr-light);
     /* border-top-left-radius: 10px;
     border-bottom-left-radius: 10px; */
     
@@ -240,17 +243,17 @@
 
 
 .cta-box div:nth-of-type(1):hover{
-    background-color: var(--primary-clr-light);
+    background-color: var(--primary-clr);
     
 }
 
 .cta-box div:nth-of-type(2):hover{
-    background-color: var(--secondary-clr-light);
+    background-color: var(--secondary-clr);
     
 }
 
 .cta-box div:nth-of-type(2){
-    background-color: var(--secondary-clr);
+    background-color: var(--secondary-clr-light);
     /* border-top-right-radius: 10px;
     border-bottom-right-radius: 10px; */
 }
@@ -265,22 +268,57 @@
     
 }
 
-@media (max-width: 768px ) {
-    .cta-title{
+@media (max-width:1400px) {
+    .hero-page-content section:nth-of-type(2) ul > li div{
         
         font-size: var(--fs-x2l);
+       width: 80%;
+    }
+}
+
+@media (max-width:992px) {
+    .hero-page-content section:nth-of-type(2) ul > li div{
         
+        font-size: var(--fs-x2l);
+       width: 100%;
+    }
+}
+
+@media (max-width: 768px ) {
+    .cta-title{
+        font-size: var(--fs-x2l);
+    }
+
+    .cta-box{
+        height: 30%;
+        bottom: -150px;
+    }
+
+    .hero-page-content section:nth-of-type(2) ul > li div{
         
+        font-size: var(--fs-x3l);
+        background-color: #b8677654;
     }
 }
 
 @media (max-width: 576px ) {
     .cta-title{
-        
-        font-size: var(--fs-xl);
-        
-        
+        font-size: var(--fs-xl); 
     }
+
+    .cta-box{
+        height: 25%;
+        bottom: -150px;
+    }
+
+    .hero-page-content section:nth-of-type(2) ul > li div{
+        
+        font-size: var(--fs-x2l);
+        background-color: #b8677654;
+       
+    }
+
+
 }
 
 .cta-desc{
@@ -288,4 +326,11 @@
     font-size: var(--fs-base);
     font-weight: 500;
 
+}
+
+.cta-icon{
+    fill: var(--light-clr) !important;
+    margin-inline: auto;
+    width: calc(4vw + 24px) !important;
+    height: auto !important;
 }

@@ -1,0 +1,274 @@
+/* --bs-breakpoint-xs: 0;
+--bs-breakpoint-sm: 576px;
+--bs-breakpoint-md: 768px;
+--bs-breakpoint-lg: 992px;
+--bs-breakpoint-xl: 1200px;
+--bs-breakpoint-xxl: 1400px; */
+
+
+.singleItem-page-container{
+    --_padding-inline: calc(6px + 0.25rem + 5vw);
+    --_padding-top: calc(86px + 3rem);
+    min-height: 100svh;
+    position: relative;
+    padding-inline: 0;
+    
+    padding-top: var(--_padding-top);
+}
+
+@media (max-width: 992px) {
+    .singleItem-page-container{
+       
+        padding-inline: 1rem;
+        --_padding-top: calc(58px + 3rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .singleItem-page-container{
+       
+        padding-inline: 0.75rem;
+        --_padding-top: calc(64px + 1rem);
+    }
+    .singleItem-info-container{
+    
+        min-height: 0 !important;
+        
+    }
+}
+
+@media (max-width: 1200px) {
+    .singleItem-imgs-container{
+    
+        aspect-ratio: 1/1.5;
+    }
+
+    .single-item-img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+.singleItem-info-container{
+    
+    min-height: calc(100svh - var(--_padding-top) - 75.4px);
+    
+}
+
+
+
+.singleItem-info-description{
+    position: relative;
+    margin-top: calc(12px + 0.25rem);
+}
+
+.singleItem-info-description > p{
+    text-align: start;
+    font-size: var(--fs-sm);
+    margin-bottom: 0.125rem;
+}
+
+.singleItem-info-description p:nth-of-type(1){
+    margin-bottom: calc(12px + 0.125rem);
+    font-size: var(--fs-md);
+    font-weight: 500;
+}
+
+.singleItem-info-description p:nth-of-type(3){
+    
+    margin-bottom: calc(12px + 0.25rem);
+}
+
+.color-txt-field{
+    text-align: start;
+    font-size: var(--fs-sm);
+    color: var(--dark-clr-faded);
+    margin: 0;
+    margin-bottom: calc(3px + 0.125rem);
+}
+
+.single-item-info-accordion{
+    border-radius: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    min-height: 64px;
+    background-color: var(--light-clr) !important;
+}
+
+#size-accordion{
+    border: 1px solid var(--dark-clr) !important;
+    min-height: 32px;
+    font-weight: 700;
+}
+
+#size-accordion::before{
+    visibility: collapse !important;
+}
+.MuiAccordion-root{
+  
+}
+.MuiAccordion-root::before{
+    position: absolute !important;
+    background-color: var(--primary-clr-light-faded) !important;
+    top:initial !important;
+    bottom: 0 !important;
+    height: 2px !important;
+}
+
+.MuiAccordionDetails-root{
+    padding-inline: 16px !important;
+    padding-top: 0 !important;
+    text-align: start;
+}
+.MuiAccordionSummary-root:nth-of-type(1){
+    min-height: 32px !important;
+}
+.MuiAccordionSummary-root{
+    min-height: 64px !important;
+    
+}
+
+.singleItem-fav-btn{
+    position: absolute !important;
+    right: 0;
+    top: 4px;
+    color: transparent !important;
+    transition: color 0.3s ease-in-out !important;
+    padding: 0 !important;
+}
+
+.singleItem-fav-btn:hover{
+    
+    color: var(--primary-clr) !important;
+}
+
+.singleItem-fav-btn svg{
+    
+    stroke: var(--primary-clr);
+}
+
+.singleItem-fav-icon-active{
+    color: var(--primary-clr);
+}
+
+
+.single-item-info-select fieldset{
+    border-color: var(--primary-clr-light-faded) ;
+    
+}
+
+.MuiMenuItem-root{
+    width: 100% !important;
+    padding-inline: 8px !important;
+    
+}
+
+
+
+.add-to-cart-btn{
+    background-color: var(--primary-clr-light-faded) !important;
+    color: var(--dark-clr) !important;
+    border-radius: 0 !important;
+    transition: color 0.3s ease-in-out !important;
+    min-height: 64px;
+    margin-block: calc(12px + 0.25rem) !important;
+}
+
+.add-to-cart-btn:hover{
+   
+    color: var(--primary-clr) !important;
+}
+.carousel{
+    background-color: #f1f1f1 !important;
+}
+.carousel-inner{
+    height: 100%;
+    
+}
+
+.carousel-item{
+    height: 100%;
+    position: relative;
+    
+    
+}
+
+.carousel-indicators{
+    height: 100%;
+    width: 15%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+    margin-inline: 12px;
+    margin-bottom: 6px;
+    row-gap: calc(3px + 0.125rem);
+    right: 0;
+    left: auto;
+}
+
+.carousel-indicators button{
+    height: auto !important;
+    width: 100% !important;
+    aspect-ratio: 1/1.5 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent !important;
+}
+
+.single-item-img{
+    object-fit: cover;
+    object-position: center;
+   
+    cursor: zoom-in;
+}
+
+.MuiDialog-paper{
+    margin: 0 !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    border-radius: 6px !important;
+    overflow: visible !important;
+}
+
+.dialog-content{
+    height: 95svh !important;
+    aspect-ratio: 1/1.5 !important;
+    position: relative;
+    border-radius: 6px !important;
+    overflow: visible !important;
+}
+
+.dialog-close-btn{
+    position: absolute !important;
+    top: -1.5%;
+    right: -1.5%;
+    background-color: var(--light-clr) !important;
+}
+
+.preview-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 6px !important;
+}
+
+.preview-img-skeleton{
+    height: 95svh !important;
+    aspect-ratio: 1/1.5 !important;
+}
+
+.carousel-skeleton{
+    
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    border-radius: 0 !important;
+    transform-origin: 0 !important;
+    max-width: none !important;
+    position: absolute !important;
+}
+

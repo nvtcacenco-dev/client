@@ -7,11 +7,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './view/navigation/NavBar';
 import Clothing from './view/clothing/Clothing';
 import ScrollToTop from './view/misc/ScrollToTop';
+import SingleItem from './view/items/singleItem/SingleItem';
+
+
 function App() {
 
   
-
-
+ 
   return (
     <div className="App">
       <NavBar/>
@@ -21,6 +23,7 @@ function App() {
           <Route index element={<HeroPage/>}/>
           <Route path='/catalog' element={<Clothing/>}/>
           <Route path='/catalog/:category' element={<Clothing/>}/>
+          <Route path='/catalog/:category/:item' element={<SingleItem/>}/>
         </Routes>
       </main>
       

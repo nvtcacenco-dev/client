@@ -17,7 +17,11 @@ import item4Img2 from '../../resources/imgs/items/bubbleroom-rayne-short-trench-
 import { Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import HeartIcon from '../../resources/icons/HeartIcon';
-import { Product, fetchNewProducts } from '../../network/networkConfig';
+import { fetchNewProducts } from '../../network/networkConfig';
+import { Product } from '../../types/types';
+import { addFav, setProduct } from '../../network/redux/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../network/redux/store/store';
 
 
 
@@ -27,7 +31,8 @@ import { Product, fetchNewProducts } from '../../network/networkConfig';
 export default function ItemList() {
     const [hoveredImgUrls, setHoveredImgUrls] = useState<string[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-
+    const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
+    const dispatch = useDispatch();
     useEffect(() => {
         async function fetchData() {
             try {
@@ -44,27 +49,6 @@ export default function ItemList() {
         fetchData();
     }, []);
 
-
-    const handleMouseEnter = (index: number) => {
-        console.log('Mouse enter:', index);
-        setHoveredImgUrls(prevState => {
-            const newState = [...prevState];
-            newState[index] = `${products[index].imageURL}/2.webp`; // Change the URL to the alt image URL
-            console.log('New state:', newState);
-            return newState;
-        });
-    };
-
-    const handleMouseLeave = (index: number) => {
-        console.log('Mouse leave:', index);
-        setHoveredImgUrls(prevState => {
-            const newState = [...prevState];
-            newState[index] = `${products[index].imageURL}/1.webp`; // Change back to the original image URL
-            console.log('New state:', newState);
-            return newState;
-        });
-    };
-
     function handleHyphens(name: string): string {
 
         return name.replace(/ /g, "-").toLowerCase();
@@ -72,30 +56,39 @@ export default function ItemList() {
 
 
     const productListMap = products.map((product, index) => (
-        <li key={index} className='item col-12 col-sm-4  col-lg-4 col-xxl-2 flex-grow-1 d-flex'>
-            <Link className='item-link h-100 w-100' to={`/clothing/${handleHyphens(product.Name)}`}>
-
+        <li key={index} className='item col-12 col-sm-4  col-lg-4 col-xxl-2 flex-grow-1 d-flex' >
+            <Link className='item-link h-100 w-100' to={`/catalog/${product.Categories[0].toLowerCase()}/${handleHyphens(product.Name)}`} onClick={() => dispatch(setProduct(product))}>
 
                 <img
                     className='item-img'
                     id='img-2'
-                    src={`${product.imageURL}/2.webp`} // Use hovered image URL if available
+                    src={`${product.imageURL}/2.webp?tr=w-1080`}
 
-
+                    srcSet={`
+                        ${product.imageURL}/2.webp?tr=w-1080 1080w,
+                        ${product.imageURL}/2.webp?tr=w-920 720w,
+                        ${product.imageURL}/2.webp?tr=w-720 480w,
+                        ${product.imageURL}/2.webp?tr=w-640 320w
+                        `}
                 />
                 <img
                     className='item-img'
                     id='img-1'
-                    src={`${product.imageURL}/1.webp`} // Use hovered image URL if available
+                    src={`${product.imageURL}/1.webp?tr=w-1080`}
 
-
+                    srcSet={`
+                        ${product.imageURL}/1.webp?tr=w-1080 1080w,
+                        ${product.imageURL}/1.webp?tr=w-920 720w,
+                        ${product.imageURL}/1.webp?tr=w-720 480w,
+                        ${product.imageURL}/1.webp?tr=w-640 320w
+                        `}
                 />
 
 
             </Link>
             <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
-                <IconButton className='item-fav-btn'>
-                    <FavoriteIcon />
+                <IconButton className='item-fav-btn' onClick={() => { dispatch(addFav(product)) }}>
+                    <FavoriteIcon className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
                 </IconButton>
             </div>
             <div className='d-flex item-description col-12 flex-column align-items-start row-gap-2'>

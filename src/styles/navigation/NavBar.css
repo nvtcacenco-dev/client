@@ -7,30 +7,57 @@
     box-shadow: none;
     transform: translateY(0%);
     
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     z-index: 3 !important;
     
 }
 
-.nav-box-shadow{
-    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
-}
-
-.nav-position{
-    position: fixed;
-}
-
-.navbar-changed{
-    
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
+.nav-mobile{
+    background-color: transparent;
     
 }
+
+@media (max-width: 992px) {
+    .top-nav{
+        height: fit-content;
+        background-color: transparent;
+    }
+    .nav-box-shadow{
+        box-shadow:none;
+    }
+
+    
+}
+
+@media (min-width: 993px) {
+    .nav-box-shadow{
+        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+        
+    }
+    .nav-position{
+        position: fixed;
+    }
+
+    .navbar-changed{
+        background-color: var(--light-clr);
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        
+    }
+
+    
+    
+}
+
+
+
+
+
 
 .top-nav section{
     z-index: 1;
    
-    
+    margin-top: 12px;
 }
 
 
@@ -68,14 +95,14 @@
     --_expander-height: 130%;
     position: absolute;
     height: var(--_expander-height);
-    background-color: var(--light-clr);
+    background-color: var(--primary-clr-light);
     bottom: calc(var(--_expander-height) - 2 * var(--_expander-height));
     left: -100%;
-    transition: left 0.3s 0.125s ease-in-out;
+    transition: left 0.3s 0.25s ease-in-out;
     
     z-index: -1 !important;
-
-    
+    display: flex;
+    justify-content: center;
     
 }
 
@@ -88,15 +115,50 @@
     list-style: none;
     
     padding-block: calc(12px + 0.5rem);
-    display: grid;
+    display: flex;
+    background-color: var(--light-clr);
     
-    grid-template-columns: repeat(2, 200px);
-    justify-items: start;
-   width: fit-content;
-    height: fit-content;
+    height: 100%;
+   
+}
+
+.categories-list-container{
+    background-color: var(--light-clr);
+}
+
+.categories-list-promo{
+    background-color: var(--primary-clr-light);
+    position: relative;
+}
+
+.categories-list-promo img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.categories-list-promo button{
+    border: 1px solid var(--primary-clr-light);
+    background-color: var(--primary-clr-light);
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    color: var(--light-clr);
+}
+
+.categories-list-promo button:hover{
+    
+    background-color: var(--primary-clr-light);
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    
 }
 
 .categories-brands-list li > a{
+    height: fit-content;
     
     text-align: start;
     text-decoration: none;
@@ -112,7 +174,7 @@
     left: 0;
     width: 0%;
     background-color: var(--primary-clr);
-    height: 1.5px;
+    height: 2px;
     transition: width 0.3s ease-in-out;
 }
 
@@ -134,12 +196,19 @@
     
 }
 
+.nav-icon-link{
+    position: relative;
+    margin-right: calc(6px + 0.25rem);
+}
+
 .nav-icon{
     color: var(--dark-clr);
     transition: color 0.3s ease-in-out !important;
     width: calc(24px + 0.5rem) !important;
     height: calc(24px + 0.5rem) !important;
-    margin-right: 0.5rem;
+    
+    
+    
 }
 
 .nav-icon:hover{
@@ -152,6 +221,20 @@
     transition: height 0.3s ease-in-out;
 }
 
+@media (max-width: 576px) {
+    .nav-bar-banner{
+    
+        height: 7.4px;
+        
+    }
+
+    .nav-bar-banner ul > li{
+    
+        transform: scale(0);
+        
+    }
+}
+
 .banner-changed {
     height: 7.4px;
 }
@@ -160,5 +243,28 @@
     transform: scale(0);
 }
 
+.icon-product-counter{
+    background-color: var(--primary-clr-light-faded);
+    position: absolute;
+    top: -25%;
+    right: -25%;
+    width: 66.66%;
+    aspect-ratio: 1/1;
+    border-radius: 66%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--light-clr);
+    font-size: var(--fs-sm);
+    font-weight: 300;
+}
 
 
+.hamburger-container{
+    background-color: var(--primary-clr-light-faded);
+    padding: calc(0.25rem + 6px);
+}
+
+.hamburger-react{
+    color: var(--dark-clr-faded);
+}
