@@ -16,14 +16,14 @@
     padding: 0;
     z-index: 1;
     list-style: none;
-    height: 75px;
+    height: 60px;
 }
 
 .promotion-banner-alt li{
     color: var(--tertiary-clr);
     background-color: var(--tertiary-clr-light);
     width: 100%;
-    height: 50px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;

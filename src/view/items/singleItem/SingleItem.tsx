@@ -114,8 +114,7 @@ export default function SingleItem() {
         };
 
         clearPersistedState();
-    },[])   */
-
+    },[])  */ 
 
     const carouselMap = validImages.map((imageUrl, index) => (
 

@@ -34,7 +34,7 @@ export default function HeroPage() {
     
     return (
         <div className='hero-page-content'>
-            <PromotionBannerAlt/>
+            
             {/* <Paper elevation={4}></Paper> */}
             <section aria-labelledby='section-title-1 z-1'>
                 

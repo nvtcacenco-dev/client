@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store"; // Adjust the path as needed
 import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions"; // Import the action creator
-import { Cart, Product } from "../../../types/types";
+import {Product } from "../../../types/types";
 
 interface CartState {
     cart: {product: Product, quantity: number, size: string}[];
@@ -13,6 +13,14 @@ const initialState: CartState = {
     total: 0
 };
 
+const calculateTotal = (cart: CartState['cart']): number => {
+  const total = cart.reduce((total, item) => {
+    const price = parseFloat(item.product.Price);
+    return total + price * item.quantity;
+  }, 0);
+  return parseFloat(total.toFixed(2)); // Round to two decimal places
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -21,32 +29,24 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addToCart, (state, action) => {
-      const { payload } = action;
-      if(state.cart.length > 0){
-        const existingIndex = state.cart.findIndex(
-            (product) => product.product._id === payload.product._id
-          );
-          if (existingIndex !== -1) {
-            // Product exists, increment quantity
-            if(state.cart[existingIndex].size === payload.size){
-                state.cart[existingIndex].quantity++;
-            }else{
-                state.cart.push({ product: payload.product, quantity: 1, size: payload.size})
-            }
-            
-            
-          } else {
-            // Product does not exist, add it to cart
-            state.cart.push({ product: payload.product, quantity: 1, size: payload.size});
-          }
-      } else{
-        state.cart.push({ product: payload.product, quantity: 1, size: payload.size});
-      }
-      
-    });
+        const { payload } = action;
+        const existingProduct = state.cart.find(
+          (product) => product.product._id === payload.product._id && product.size === payload.size
+        );
+        if (existingProduct) {
+          // Product exists, increment quantity
+          existingProduct.quantity++;
+        } else {
+          // Product does not exist with the same size, add it to cart
+          state.cart.push({ product: payload.product, quantity: 1, size: payload.size });
+        }
+
+        state.total = calculateTotal(state.cart)
+      });
     builder.addCase(incrementCartProduct, (state, action) => {
       const { payload } = action;
       state.cart[payload].quantity++;
+      state.total = calculateTotal(state.cart)
     });
     builder.addCase(decrementCartProduct, (state, action) => {
       const { payload } = action;
@@ -61,6 +61,7 @@ const cartSlice = createSlice({
       } else {
         console.error("Invalid index provided for decrementing cart product quantity.");
       }
+      state.total = calculateTotal(state.cart)
     });
   },
   

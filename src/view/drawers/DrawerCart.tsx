@@ -2,6 +2,8 @@ import { Drawer } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { DrawerProps } from "./DrawerHandler";
 import '../../styles/filters/Drawer.css'
+import { useSelector } from "react-redux";
+import { RootState } from "../../network/redux/store/store";
 
 interface FilterValue{
    name: string,
@@ -16,7 +18,9 @@ export default function DrawerCart({onClose, open}:DrawerProps){
 
     const [listMap, setListMap] = useState<any>();
     const [list, setList] = useState<FilterValue[]>([])
-
+    
+    const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
+    const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
    useEffect(()=>{
         setList([value1, value2, value3]);
         setListMap(list.map((listItem, index)=>{
@@ -33,7 +37,7 @@ export default function DrawerCart({onClose, open}:DrawerProps){
     return(
         <Drawer anchor="right" className="custom-drawer" open={open} onClose={onClose}>
             <ul className="drawer-list">
-                {listMap}
+                {total}
             </ul>
             
         </Drawer>

@@ -2,7 +2,7 @@
     --_padding-top: 148px;
     --_padding-inline: calc(6px + 0.25rem + 5vw);
     min-height: 20svh;
-    padding-top: var(--_padding-top);
+    
    
     
 }

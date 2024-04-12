@@ -40,14 +40,6 @@ export interface Product {
     imgsNr: number;
 }
 
-export interface CartItem {
-    product: Product;
-    quantity: number;
-}
-
-export interface Cart {
-    cartItems: CartItem[];
-}
 
 export interface Categories {
     _id: string;

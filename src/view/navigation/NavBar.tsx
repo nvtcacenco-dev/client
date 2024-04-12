@@ -16,6 +16,7 @@ import { RootState } from '../../network/redux/store/store';
 
 import { Turn as Hamburger } from 'hamburger-react'
 import DrawerCart from '../drawers/DrawerCart';
+import PromotionBannerAlt from '../banner/PromotionBannerAlt';
 
 const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
     createTheme({
@@ -203,7 +204,7 @@ export default function NavBar() {
 
     const bannerName = bannerClass === true ? "banner-changed" : "";
     return (
-        <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center  ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}>
+        <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}>
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
                 <PromotionBanner />
             </div>
@@ -281,8 +282,7 @@ export default function NavBar() {
                 </ul>
                 <DrawerCart onClose={toggleDrawer(false)} open={state}/>        
 
-
-
+                
             </section>) : (
                 <div className='hamburger-container col-12'>
                     <Hamburger />
@@ -290,7 +290,7 @@ export default function NavBar() {
 
 
             )}
-
+            <PromotionBannerAlt/>
             <CategoriesBrandsExpander isExpanded={isExpanded} handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} isCategories={isCategories} />
         </nav>
     );
