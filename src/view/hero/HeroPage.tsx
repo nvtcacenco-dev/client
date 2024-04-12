@@ -20,13 +20,11 @@ import { RootState } from '../../network/redux/store/store';
 
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
+import PromotionBannerAlt from '../banner/PromotionBannerAlt';
 
 export default function HeroPage() {
-    
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const dispatch = useDispatch();
-
-
     useEffect(()=>{
         if(categoryID){
             dispatch(setCategoryID(null));
@@ -36,6 +34,7 @@ export default function HeroPage() {
     
     return (
         <div className='hero-page-content'>
+            <PromotionBannerAlt/>
             {/* <Paper elevation={4}></Paper> */}
             <section aria-labelledby='section-title-1 z-1'>
                 
@@ -118,12 +117,9 @@ export default function HeroPage() {
                             <li className='botw-item col-12'><Link  to={'/catalog/brand-of-the-week'} onClick={()=> dispatch(setCategoryID("65f479d6d7cb797decefeea3"))}><Button >Get it here</Button></Link></li>
                         </ul>
                         <img src={img4} className='col-5'/>
-
-                        
-                        
                 </div>
             </section>
-            <Footer/>
+            
         </div>
     );
 }

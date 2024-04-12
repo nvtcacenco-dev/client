@@ -237,7 +237,7 @@
 
 .dialog-content{
     height: 95svh !important;
-    aspect-ratio: 1/1.5 !important;
+    aspect-ratio: 1/1.4 !important;
     position: relative;
     border-radius: 6px !important;
     overflow: visible !important;
@@ -270,5 +270,18 @@
     transform-origin: 0 !important;
     max-width: none !important;
     position: absolute !important;
+}
+
+.error-alert{
+    margin-top: calc(12px + 0.25rem) !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    
+}
+
+.success-alert{
+    margin-bottom: calc(12px + 0.25rem) !important;
+    margin-top: 0 !important;
+    border-radius: 0 !important;
 }
 

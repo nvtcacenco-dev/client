@@ -9,7 +9,7 @@ interface FilterValue{
 }
 
 
-export default function DrawerCustom({onClose, open}:DrawerProps){
+export default function DrawerCart({onClose, open}:DrawerProps){
     const value1: FilterValue = {name: 'Color', state: false}
     const value2: FilterValue = {name: 'Sizes', state: false}
     const value3: FilterValue = {name: 'Category', state: false}

@@ -33,11 +33,20 @@ export interface Product {
     Categories: string[];
     Color: string;
     Name: string;
-    Price: number;
+    Price: string;
     Size: string[];
     imageURL: string;
     newStatus: boolean;
     imgsNr: number;
+}
+
+export interface CartItem {
+    product: Product;
+    quantity: number;
+}
+
+export interface Cart {
+    cartItems: CartItem[];
 }
 
 export interface Categories {

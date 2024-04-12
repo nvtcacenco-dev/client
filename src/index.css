@@ -2,14 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 :root {
-  --light-clr: #fbfbfb;
+  --light-clr: #fff;
   --light-accent: #f4f4f1bd;
   --light-bg-clr: #f1f1f1;
-  --primary-clr: #BB3E54;
+  --primary-clr: #c05065;
   --primary-clr-light: #b86776;
   --primary-clr-light-faded: #e8d7d8;
-  --secondary-clr: #2f315a;
+  --secondary-clr: #434566;
   --secondary-clr-light: #4b4c5e;
+  --tertiary-clr-light:#fcf9f0;
+  --tertiary-clr:#295036;
   --dark-clr: #222222;
   --dark-clr-faded: #494949;
 
@@ -40,9 +42,9 @@
   }
 }
 html {
-  -ms-overflow-style: none !important;
+  /* -ms-overflow-style: none !important;
 
-  scrollbar-width: none !important;
+  scrollbar-width: none !important; */
   
 
 

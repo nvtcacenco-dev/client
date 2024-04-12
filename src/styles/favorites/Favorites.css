@@ -1,0 +1,25 @@
+.favorites-container{
+    --_padding-top: 148px;
+    --_padding-inline: calc(6px + 0.25rem + 5vw);
+    min-height: 20svh;
+    padding-top: var(--_padding-top);
+   
+    
+}
+
+.favorites-container h1{
+    width: fit-content;
+    font-size: var(--fs-lg);
+    font-weight: 700;
+    color: var(--dark-clr);
+}
+
+
+
+@media (max-width: 1400px) {
+    .favorites-container div{
+        padding-inline: 10px;
+    }
+
+    
+}

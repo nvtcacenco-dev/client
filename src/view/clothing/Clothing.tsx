@@ -5,7 +5,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import '../../styles/clothing/ClothingMainPage.css'
 import { Button} from '@mui/material';
 
-import DrawerCustom from '../filters/DrawerCustom';
+import DrawerFilters from '../drawers/DrawerFilters';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { fetchAllProducts, fetchCategory, getCategoryIDByName } from '../../network/networkConfig';
 import { Categories, MetaData, Product, ResponseDataProducts } from '../../types/types';
@@ -15,6 +15,7 @@ import { RootState } from '../../network/redux/store/store';
 import Catalog from './Catalog';
 import { Category } from './Category';
 import CustomBreadCrumbs from '../misc/CustomBreadCrumbs';
+import PromotionBannerAlt from '../banner/PromotionBannerAlt';
 
 
 function replaceHyphensWithSpace(url: string | undefined) {
@@ -60,8 +61,8 @@ const Clothing: React.FC = () => {
     console.log(categoryID)
     return (
         <div className='col-12 d-flex justify-content-center'>
-            <div className='clothing-page-container d-flex flex-column justify-content-center align-items-center col-12 col-lg-11'>
-
+            <PromotionBannerAlt/>
+            <div className='clothing-page-container d-flex flex-column justify-content-center align-items-center col-12 col-lg-11 col-xxl-10'>
                 <CustomBreadCrumbs/>
                 <h1>{replaceHyphensWithSpace(categoryName || 'Our Catalog')} </h1>
 
@@ -70,11 +71,10 @@ const Clothing: React.FC = () => {
                     <Button className='filter-drawer-btn' onClick={toggleDrawer(true)} endIcon={<FilterAltIcon />}>Filter & sort</Button>
                 </div>
 
-                <DrawerCustom onClose={toggleDrawer(false)} open={state} />
+                <DrawerFilters onClose={toggleDrawer(false)} open={state} />
 
-                {categoryID ? <Category /> : <Catalog />}
+                {categoryID ? <Category/> : <Catalog/>}
             </div>
-
         </div>
 
     );

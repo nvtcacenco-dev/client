@@ -15,7 +15,7 @@ import { incrPageNumber, resetPageNumber } from "../../network/redux/reducers/pa
 
 export default function Catalog() {
     const [metaData, setMetaData] = useState<MetaData>();
-    const [limit, setLimit] = useState<number>(10);
+    const [limit, setLimit] = useState<number>(8);
     const [hoveredImgUrls, setHoveredImgUrls] = useState<string[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     
@@ -91,7 +91,7 @@ export default function Catalog() {
 
     return (
         <div className="col-12 d-flex justify-content-center align-items-center flex-column">
-            <ItemBrowser products={products} imgURLs={hoveredImgUrls} />
+            <ItemBrowser products={products} />
             <p className='mb-1 item-count'>{products.length} out of {metaData?.totalCount}</p>
             <style>
                 {`

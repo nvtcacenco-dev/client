@@ -3,20 +3,22 @@
     
     min-height: 50svh;
     position: relative;
-    padding-inline: var(--_padding-inline);
     
-    padding-top: calc(86px + 3rem);
+    
+    padding-top: calc(124px + 75px);
 }
 
 @media (max-width: 992px) {
     .clothing-page-container{
-        padding-top: calc(75.4px + 0.25rem);
+        
+        padding-inline: 10px;
     }
 }
 
 @media (max-width: 575px) {
     .clothing-page-container{
-        padding-inline: 5px;
+        padding-inline: 10px;
+        padding-top: calc(75.4px + 75px);
     }
 }
 
@@ -68,7 +70,8 @@
 
 .clothing-page-container h1{
     color: var(--dark-clr);
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg);
+    font-weight: 700;
 }
 
 .clothing-page-container div{
