@@ -12,6 +12,7 @@ import { Product } from '../../types/types';
 import { addFav, setProduct } from '../../network/redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../network/redux/store/store';
+import ItemBrowser from './ItemBrowser';
 
 
 
@@ -43,7 +44,7 @@ export default function ItemList() {
 
 
     const productListMap = products.map((product, index) => (
-        <li key={index} className='item col-12 col-md-5 col-lg-2 col-xxl-1 flex-grow-1 d-flex'>
+        <li key={index} className='item col-12 col-sm-6 col-lg-3 flex-grow-0 d-flex'>
             <Link 
                 className='item-link h-100 w-100' 
                 to={`/catalog/${product.Categories[0].toLowerCase()}/${handleHyphens(product.Name)}`}
@@ -89,8 +90,10 @@ export default function ItemList() {
         </li>
     ));
     return (
-        <ul className='item-list d-flex justify-content-center align-items-center col-12 col-xxl-10 flex-wrap gap-3'>
+        <div className='d-flex col-12 col-xxl-10 flex-wrap' >
             {productListMap}
-        </ul>
+        </div>
+        
+        
     );
 }

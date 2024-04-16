@@ -26,7 +26,7 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
 
         <AnimatePresence mode="wait" >
             <motion.li
-                key={index}
+                key={product._id}
                 className={`browsing-item flex-grow-0 d-flex`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

@@ -1,5 +1,5 @@
 export enum BOTW{
-    name = "Ida Sjostedt"
+    name = "Brand of the Week"
 }
 
 

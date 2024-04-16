@@ -61,7 +61,7 @@ const Clothing: React.FC = () => {
     console.log(categoryID)
     return (
         <div className='col-12 d-flex justify-content-center'>
-            <PromotionBannerAlt/>
+            
             <div className='clothing-page-container d-flex flex-column justify-content-center align-items-center col-12 col-lg-11 col-xxl-10'>
                 <CustomBreadCrumbs/>
                 <h1>{replaceHyphensWithSpace(categoryName || 'Our Catalog')} </h1>

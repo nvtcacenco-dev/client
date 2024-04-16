@@ -8,7 +8,11 @@
     aspect-ratio: 1/1.5;
     position: relative;
     padding: 0;
-   
+    
+}
+.item a{
+    padding-inline: 6px;
+    overflow: hidden;
 }
 
 .browsing-item-list{
@@ -19,6 +23,7 @@
     display: grid;
     grid-gap: calc(6px + 0.5rem);
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+   
 
 }
 
@@ -76,7 +81,7 @@ col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3
     bottom: 0;
     left: 0;
     height: fit-content;
-    max-height: 12svh;
+    
     overflow: hidden;
     padding: calc(6px + 0.1rem); 
 }
@@ -97,9 +102,10 @@ col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3
     position: absolute !important;
     top: 0;
     right: 0;
+    padding: 2px;
     background-color: transparent;
     z-index: 2 !important;
-    width: 15%;
+    width: fit-content;
     aspect-ratio: 1/1;
 }
 
@@ -170,9 +176,14 @@ col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3
     .browsing-item{
         padding-inline: 0px;
         /* width: calc(50% - 12px); */
+        aspect-ratio: 1/1.5;
+        justify-self: center;
+        width: 100%;
+        
     }
+    
 
-    .item-list{
+    .browsing-item-list{
         padding-inline: 10px !important;
     }
     
@@ -181,7 +192,8 @@ col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3
 @media (max-width: 576px) {
     .browsing-item{
         padding-inline: 0px;
-        /* width: calc(100% - 12px); */
+        max-height: 80svh;
+        
     }
 
     .browsing-item-list{

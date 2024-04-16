@@ -51,19 +51,25 @@ const cartSlice = createSlice({
     builder.addCase(decrementCartProduct, (state, action) => {
       const { payload } = action;
       if (payload >= 0 && payload < state.cart.length) {
-        if (state.cart[payload].quantity === 1) {
-          // If quantity is 1, remove the item from the cart
-          state.cart.splice(payload, 1);
-        } else {
-          // Otherwise, decrement the quantity
-          state.cart[payload].quantity--;
-        }
+        state.cart[payload].quantity--;
+        
+      } else {
+        console.error("Invalid index provided for decrementing cart product quantity.");
+      }
+      state.total = calculateTotal(state.cart)
+    });
+    builder.addCase(removeFromCart, (state, action) => {
+      const { payload } = action;
+      if (payload >= 0 && payload < state.cart.length) {
+        state.cart.splice(payload, 1);
       } else {
         console.error("Invalid index provided for decrementing cart product quantity.");
       }
       state.total = calculateTotal(state.cart)
     });
   },
+
+  
   
 });
 

@@ -5,7 +5,7 @@ export default function PromotionBanner(){
         <ul className='promotion-banner col-12 d-flex justify-content-center align-items-center '>
                     
                     <li className='col-4 col-xl-3'>Use code SPRING24</li>
-                    <li className='col-4 col-xl-3'>Free shipping over $60</li>
+                    <li className='col-4 col-xl-3'>Free shipping over $120</li>
         </ul>
     )
 }

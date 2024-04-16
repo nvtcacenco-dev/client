@@ -18,4 +18,4 @@ export const incrementCartProduct = createAction<number>(INCREMENT_CART_PRODUCT)
 
 export const decrementCartProduct = createAction<number>(DECREMENT_CART_PRODUCT);
 
-export const removeFromCart = createAction<Product>(REMOVE_FROM_CART);
+export const removeFromCart = createAction<number>(REMOVE_FROM_CART);

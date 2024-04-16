@@ -1,16 +1,296 @@
-
-
-.custom-drawer{
-    --drawer-width: 25%;
-    width: var(--drawer-width);
+.custom-drawer {
+    --_drawer-width: 500px;
+    min-width: 33%;
+    width: var(--_drawer-width);
     position: relative;
+    overflow: hidden !important;
 }
 
-.custom-drawer div:nth-of-type(3){
-    width: var(--drawer-width);
+.custom-drawer div:nth-of-type(3) {
+    width: var(--_drawer-width);
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
 }
 
-.drawer-list{
+.drawer-title {
+    padding-inline: 12px;
+    min-height: 50px;
+    height: 5%;
+    text-transform: uppercase;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    letter-spacing: .03em;
+}
+
+.custom-drawer hr {
+    margin: 0;
+
+}
+.ScrollbarsCustom{
+    max-height: 72%;
+    
+}
+
+.ScrollbarsCustom-TrackY{
+    top:0 !important;
+    width: 8px !important;
+    border-radius: 0 !important;
+    height: 100% !important;
+    background-color: var(--primary-clr-light-faded) !important;
+}
+.ScrollbarsCustom-ThumbY{
+    cursor: default !important;
+    border-radius: 0 !important;
+    background-color: var(--primary-clr-light) !important;
+}
+
+.ScrollbarsCustom-Content{
+    padding: 0 !important;
+    padding-inline: 12px !important;
+}
+.drawer-list {
     list-style: none;
     margin: 0;
+    max-height: 70%;
+    width: 100%;
+    padding: 0;
+   
+    z-index: 0;
+  
 }
+
+.drawer-list-item {
+    margin-block: 16px;
+}
+.drawer-list-item:last-child{
+    margin-bottom: 0;
+} 
+
+
+.drawer-list-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    bottom: -16px;
+    left: 0;
+    height: 1px;
+    background-color: #d3d0d0;
+}
+
+.drawer-list-item p {
+    height: fit-content;
+    margin-bottom: 0;
+}
+
+
+
+.drawer-list-item img {
+    width: 17.5%;
+    aspect-ratio: 1/1.5;
+    object-fit: cover;
+    object-position: center;
+}
+
+.drawer-list-item-description p {
+    color: var(--dark-clr);
+    font-size: var(--fs-sm);
+}
+
+.drawer-list-item-description p:nth-of-type(1) {
+    
+    font-weight: 600;
+}
+
+.drawer-list-item-description p:nth-of-type(2){
+    
+    font-weight: 500;
+}
+
+
+.drawer-list-item-description p:nth-of-type(3) {
+   
+    font-weight: 400;
+    color: #727272;
+}
+
+.drawer-list-item-description p:nth-of-type(4) {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    
+    font-weight: 600;
+}
+
+.quantity-container {
+    margin-top: auto;
+}
+
+.quantity-container div {
+    height: 100%;
+    aspect-ratio: 1/1;
+    font-size: var(--fs-sm);
+}
+
+.quantity-btn {
+    min-width: 0 !important;
+    min-height: 36px;
+    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 2px !important;
+    border: 1px solid var(--primary-clr-light-faded)!important;
+    color: var(--dark-clr) !important;
+    font-size: var(--fs-base) !important;
+    font-family: 'Poppins' !important;
+    font-weight: 300 !important;
+    transition: background-color 0.3s ease-in-out !important;
+}
+
+.quantity-btn:hover{
+    background-color: var(--primary-clr-light-faded) !important;
+    
+}
+
+.remove-item-btn {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    width: 16px;
+    aspect-ratio: 1/1;
+}
+
+.remove-item-btn svg {
+    width: 16px;
+    aspect-ratio: 1/1;
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root.Mui-disabled{
+    color: #d3d0d0 !important;
+    border-color: #d3d0d0!important;
+}
+
+.drawer-total-description {
+   
+    list-style: none;
+    padding-inline: 12px;
+    padding-top: 6px;
+    
+    margin-bottom: 12px;
+    margin-top: auto;
+    background-color: #fff;
+    z-index: 3 !important;
+}
+
+.drawer-total-description li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drawer-total-description li p {
+    margin-bottom: 0;
+    font-size: var(--fs-sm);
+}
+
+.drawer-total-description li:nth-of-type(2) {
+    margin-bottom: 12px;
+}
+
+.drawer-total-description li:nth-of-type(2) {
+    display: flex;
+
+}
+
+.drawer-total-description li:nth-of-type(2) p:nth-of-type(1) {
+    display: flex;
+    align-items: center;
+}
+
+.drawer-total-description li:nth-of-type(2) p div {
+    color: var(--light-clr);
+    background-color: #d3d0d0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--fs-sm);
+    height: var(--fs-sm);
+
+    border-radius: 100%;
+    margin-left: 6px;
+    font-size: var(--fs-sm) !important;
+    font-weight: 600;
+    user-select: none;
+}
+
+.base-Popper-root div {
+    font-size: var(--fs-sm) !important;
+    font-family: 'Poppins';
+    font-weight: 300;
+    margin-left: 6px !important;
+}
+
+.drawer-total-description li:nth-of-type(3) p {
+    font-size: var(--fs-base);
+    font-weight: 600;
+}
+
+.drawer-total-description li:nth-of-type(4) {
+    margin-top: 24px;
+}
+.drawer-total-description li:last-child {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.drawer-total-description ul {
+    list-style: none;
+    padding-left: 0;
+    
+}
+
+.drawer-total-description li ul li {
+    min-height: 12px;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.drawer-total-description li ul li:nth-of-type(1){
+    background-image: url('../../resources/icons/Logo_PayPal.svg'); 
+}
+
+.drawer-total-description li ul li:nth-of-type(2){
+    background-image: url('../../resources/icons/Logo_Visa_Inc.svg'); 
+}
+
+.drawer-total-description li ul li:nth-of-type(3){
+    background-image: url('../../resources/icons/Logo_Mastercard.svg'); 
+}
+
+.drawer-total-description li ul li:nth-of-type(4){
+    background-image: url('../../resources/icons/Logo_Mobile_Pay.svg'); 
+}
+
+.checkout-btn {
+    min-height: 64px;
+    color: var(--light-clr) !important;
+    font-family: 'Poppins' !important;
+    font-size: var(--fs-base) !important;
+    border-radius: 2px !important;
+    letter-spacing: .03em !important;
+    background-color: var(--dark-clr) !important;
+}
+
+@media (max-width: 1400px) {}
+
+
+@media (max-width: 992px) {}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 576px) {}

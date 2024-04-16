@@ -14,7 +14,7 @@
     top: 124px;
     background-color: var(--light-clr);
     padding: 0;
-    z-index: 1;
+    z-index: 0;
     list-style: none;
     height: 60px;
 }
@@ -50,17 +50,22 @@
     }
 }
 
+@media (max-width: 992px) {
+
+    .promotion-banner-alt{
+        
+        top: 97.6px;
+        
+    }
+    
+}
 
 @media (max-width: 575px) {
 
     .promotion-banner-alt{
-        position: absolute;
+        
         top: 75.4px;
-        background-color: var(--light-clr);
-        padding: 0;
-        z-index: 1;
-        list-style: none;
-        height: 75px;
+        
     }
     
 }

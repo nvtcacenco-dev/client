@@ -82,7 +82,11 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
         },
     });
 
-export default function NavBar() {
+interface NavBarProps {
+    scrollValue: number;
+}
+
+export default function NavBar({scrollValue}:NavBarProps) {
 
     const outerTheme = useTheme();
     const [navClass, setNavClass] = useState<boolean>(false);
@@ -103,24 +107,28 @@ export default function NavBar() {
     const dispatch = useDispatch();
     const isHome = location.pathname === '/';
 
-    const handleMouseEnter = () => {
-        setIsExpanded(true);
+    const handleCategoryExpand = () => {
+
+        if (isExpanded) {
+            setIsExpanded(false);
+        } else {
+            setIsExpanded(true);
+        }
+
     };
 
-    const handleMouseLeave = () => {
-        setIsExpanded(false);
-    };
 
-    function calcCartSize():number{
+
+    function calcCartSize(): number {
         let count = 0;
-        
-        cart.forEach(function(item){
+
+        cart.forEach(function (item) {
             count += item.quantity;
         })
 
-        
-        return count; 
-    } 
+
+        return count;
+    }
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -135,7 +143,7 @@ export default function NavBar() {
             open
         ));
     };
-    
+
 
     useEffect(() => {
         if (isHome) {
@@ -144,12 +152,7 @@ export default function NavBar() {
 
     }, [isHome])
 
-    const mediaQuery = '(max-width: 992px)';
-    const mediaQueryList = window.matchMedia(mediaQuery);
-
-    mediaQueryList.addEventListener('resize', event => {
-
-    })
+    
 
     const changeNavBarClr = () => {
         if (window.scrollY < 120 || window.scrollY < prevScrollPos) {
@@ -180,6 +183,7 @@ export default function NavBar() {
     const handleScroll = () => {
         setPrevScrollPos(window.scrollY);
         changeNavBarClr();
+        setIsExpanded(false);
     };
 
     useEffect(() => {
@@ -195,14 +199,13 @@ export default function NavBar() {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
-
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     const navName = navClass === true ? "navbar-changed" : "";
     const navName2 = navClass2 === true ? "nav-box-shadow" : "";
     const navName3 = navClass3 === true ? "nav-position" : "";
 
     const bannerName = bannerClass === true ? "banner-changed" : "";
+    
     return (
         <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}>
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
@@ -210,21 +213,19 @@ export default function NavBar() {
             </div>
 
 
-            {windowWidth >= 992 ? (<section className='d-flex col-12 justify-content-center  align-items-center flex-grow-1 '>
+            {windowWidth >= 992 ? (<section className='nav-main-section d-flex col-12 justify-content-center  align-items-center flex-grow-1 '>
 
-                <ul className='d-flex col-3 justify-content-center align-items-center h-100'>
+                <ul className='nav-link-list d-flex col-3 justify-content-center align-items-center h-100'>
                     <li id='catalog-link' className='h-100'>
                         <Link className='nav-link' to={'/catalog'} onClick={(() => dispatch(setCategoryID(null)))}>Catalog</Link>
                     </li>
-                    <li id='categories-link' className='expander-item'
-                        onMouseEnter={() => {
-                            handleMouseEnter();
+                    <li id='categories-link' className='expander-item'>
+                        <button className='nav-link' onClick={() => {
+                            handleCategoryExpand();
                             setIsCategories(true);
-                        }}
-                        onMouseLeave={() => {
-                            handleMouseLeave();
                         }}>
-                        <Link className='nav-link' to={'/catalog/categories'} onClick={(() => dispatch(setCategoryID(null)))}>Categories</Link>
+                            Categories
+                        </button>
                     </li>
                 </ul>
 
@@ -253,7 +254,17 @@ export default function NavBar() {
 
 
 
-                <ul className='d-flex col-3 justify-content-center align-items-center'>
+                <ul className='nav-icon-list d-flex col-3 justify-content-center align-items-center'>
+                    <li>
+                        <button id='cart-btn' className='nav-icon-link' onClick={toggleDrawer(true)}>
+                            <ShoppingCartIcon className='nav-icon' />
+                            <div className='icon-product-counter'>
+                                {calcCartSize()}
+                            </div>
+                        </button>
+
+                    </li>
+
                     <li>
                         <Link className='nav-icon-link' to={'/favorites'}>
                             <FavoriteIcon className='nav-icon' />
@@ -264,25 +275,16 @@ export default function NavBar() {
 
                     </li>
                     <li>
-                        <button id='cart-btn' className='nav-icon-link'onClick={toggleDrawer(true)}>
-                            <ShoppingCartIcon className='nav-icon' />
-                            <div className='icon-product-counter'>
-                                {calcCartSize()}
-                            </div>
-                        </button>
-
-                    </li>
-
-                    <li>
-                        <Link to={'/Account'}>
+                        <Link className='nav-icon-link' to={'/Account'}>
                             <AccountCircleIcon className='nav-icon' />
                         </Link>
 
                     </li>
-                </ul>
-                <DrawerCart onClose={toggleDrawer(false)} open={state}/>        
 
-                
+                </ul>
+                <DrawerCart onClose={toggleDrawer(false)} open={state} />
+                <CategoriesBrandsExpander isExpanded={isExpanded} isCategories={isCategories} />
+
             </section>) : (
                 <div className='hamburger-container col-12'>
                     <Hamburger />
@@ -290,8 +292,8 @@ export default function NavBar() {
 
 
             )}
-            <PromotionBannerAlt/>
-            <CategoriesBrandsExpander isExpanded={isExpanded} handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} isCategories={isCategories} />
+
+
         </nav>
     );
 }

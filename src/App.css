@@ -1,13 +1,70 @@
 .App {
-  --_padding-top: calc(124px + 60px);
+ 
   text-align: center;
   background-color: var(--light-clr);
-  width: 100%;
   
+  width: 100%;
 }
 
 main{
-  padding-top: var(--padding-top);
+
+  width: 100%;
+}
+
+.app-scrollbar{
+  min-height: 100svh !important;
+  height: fit-content !important;
+  max-height: none !important;
+}
+
+.app-scrollbar .ScrollbarsCustom-Wrapper .ScrollbarsCustom-Scroller .ScrollbarsCustom-Content{
+  padding: 0 !important;
+}
+
+.ScrollbarsCustom-TrackY{
+  z-index: 3 !important;
+}
+
+.app-scrollbar .ScrollbarsCustom-TrackY{
+  top:0 !important;
+  width: 12px !important;
+  border-radius: 0 !important;
+  height: 100% !important;
+  background-color: #ffdee4 !important;
+}
+.app-scrollbar .ScrollbarsCustom-ThumbY{
+  cursor: default !important;
+  
+  border-radius: 0 0 6px 6px  !important;
+  background-color: var(--primary-clr-light) !important;
+  width: 12px !important;
+
+  transition: border-radius 0.1s ease-in-out !important;
+}
+
+.scroll-changed-top .ScrollbarsCustom-ThumbY{
+  cursor: default !important;
+  border-radius: 6px !important;
+  background-color: var(--primary-clr-light) !important;
+  width: 12px !important;
+}
+
+@media (min-width: 992px) {
+  main{
+    padding-top: calc(124px + 60px);
+  }
+}
+
+@media (max-width: 992px) {
+  main{
+    padding-top: calc(97.6px + 60px);
+  }
+}
+
+@media (max-width: 576px) {
+  main{
+    padding-top: calc(75.5px + 60px);
+  }
 }
 
 
