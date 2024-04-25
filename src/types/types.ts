@@ -1,3 +1,5 @@
+import { CartState } from "../network/redux/reducers/cartSlice";
+
 export enum BOTW{
     name = "Brand of the Week"
 }
@@ -45,4 +47,12 @@ export interface Categories {
     _id: string;
     Name: string;
     products: Products
+}
+
+export interface User{
+    firstName: string;
+    lastName: string;
+    email: string;
+    cart: CartState;
+    favourites: Product[];
 }

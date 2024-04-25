@@ -3,7 +3,7 @@ import { RootState } from "../store/store"; // Adjust the path as needed
 import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions"; // Import the action creator
 import {Product } from "../../../types/types";
 
-interface CartState {
+export interface CartState {
     cart: {product: Product, quantity: number, size: string}[];
     total: number;
   }

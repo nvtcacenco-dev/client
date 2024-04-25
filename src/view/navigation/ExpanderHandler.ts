@@ -1,7 +1,9 @@
+import { Categories } from "../../types/types";
+
 export interface ExpanderProps{
-    isExpanded: boolean;
-    isCategories: boolean;
     
+    categories: Categories[] | undefined;
+    urlEndpoint: string;
    
     
 }

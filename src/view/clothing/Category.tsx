@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { MetaData, Product } from "../../types/types";
 import ItemBrowser from "../items/ItemBrowser";
 import AddIcon from '@mui/icons-material/Add';
-import { fetchCategory } from "../../network/networkConfig";
+import { fetchCategory, getCategoryIDByName } from "../../network/networkConfig";
 import '../../styles/clothing/ClothingMainPage.css'
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../network/redux/store/store";
@@ -12,6 +12,8 @@ import { incrPageNumber, resetPageNumber } from "../../network/redux/reducers/pa
 import { setCategoryName } from "../../network/redux/actions/actions";
 import { setProductCount } from "../../network/redux/reducers/productCountSlice";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
+import { url } from "inspector";
 
 
 export function Category() {
@@ -24,9 +26,10 @@ export function Category() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
-    
-    const dispatch = useDispatch();
 
+   
+    const dispatch = useDispatch();
+    
     const calculateProgress = () => {
         if (metaData && metaData.totalCount) {
             const totalCount = metaData.totalCount;
@@ -42,9 +45,11 @@ export function Category() {
     function handleLoadingMoreProducts() {
         dispatch(incrPageNumber());
     }
-
     
     
+    
+    
+  
     const noMorePages = products.length === metaData?.totalCount ? true : false;
 
     useEffect(()=>{
@@ -62,7 +67,13 @@ export function Category() {
 
                     dispatch(resetPageNumber());
                     dispatch(setProductCount(data.products.metadata.totalCount))
-                    dispatch(setCategoryName(data.Name))
+
+                    if (data.Name.toLocaleLowerCase() === 'botw') {
+                        dispatch(setCategoryName('Brand of the Week'))
+                    }else{
+                        dispatch(setCategoryName(data.Name))
+                    }
+                    
                     setProducts(data.products.data);
                     setPrevCategoryID(categoryID);
 
@@ -87,7 +98,7 @@ export function Category() {
         <motion.div layout layoutRoot className="col-12 d-flex justify-content-center align-items-center flex-column">
             <ItemBrowser products={products} />
             
-            <p className='mb-1 item-count'>{products.length} out of {metaData?.totalCount}</p>
+            <p className='mb-1 mt-5 item-count'>{products.length} out of {metaData?.totalCount}</p>
             <style>
                 {`
                 .progress-bar::before {

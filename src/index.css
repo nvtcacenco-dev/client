@@ -7,7 +7,8 @@
   --light-bg-clr: #f1f1f1;
   --primary-clr: #c05065;
   --primary-clr-light: #b86776;
-  --primary-clr-light-faded: #e8d7d8;
+  --primary-clr-light-2: #fdf6f7;
+  --primary-clr-light-faded: #ffdce0;
   --secondary-clr: #434566;
   --secondary-clr-light: #4b4c5e;
   --tertiary-clr-light: #fcf9f0;
@@ -52,11 +53,11 @@
 }
 
 html {
-  /* -ms-overflow-style: none !important;
+  /* -ms-overflow-style: none !important;*/
 
-  scrollbar-width: none !important; */
-
-
+  scrollbar-width: auto !important; 
+  scrollbar-color: var(--primary-clr-light-faded) var(--primary-clr-light-2) !important;
+  --scrollbar-width-legacy: 17px !important;
 
 }
 

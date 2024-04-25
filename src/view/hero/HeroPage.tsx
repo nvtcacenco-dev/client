@@ -20,7 +20,7 @@ import { RootState } from '../../network/redux/store/store';
 
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import PromotionBannerAlt from '../banner/PromotionBannerAlt';
+
 
 export default function HeroPage() {
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
@@ -35,9 +35,15 @@ export default function HeroPage() {
     return (
         <div className='hero-page-content'>
 
-            {/* <Paper elevation={4}></Paper> */}
+           
             <section aria-labelledby='section-title-1'>
-
+                <img className='hero-img' 
+                    src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-1200'
+                    srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-2000 1080w,
+                            https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-1200 720w,
+                            https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-800 480w,
+                            https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-700 320w'
+                />
                 <div className="masked-text-wrapper">
                     <h1 id='section-title-1' className="text-default">Trend <br/> Thread</h1>
                     <p className="text-underneath ">Trend <br/> Thread</p>
@@ -63,39 +69,39 @@ export default function HeroPage() {
                 <ul className='col-12 col-xl-12 d-flex justify-content-center align-items-center flex-wrap'>
 
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/spring'} onClick={(() => dispatch(setCategoryID('65f479b3d7cb797decefeea0')))} />
+                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/spring'} />
                         <div>New <br/> Arrivals</div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-1200 1080w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-900 720w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-700 480w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-500 320w'
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-900 720w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-700 480w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-500 320w'
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/jackets'} onClick={(() => dispatch(setCategoryID('65f479cdd7cb797decefeea2')))} />
+                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/jackets'} />
                         <div>Spring <br/> Jackets</div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-1200 1080w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-900 720w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-700 480w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-500 320w'
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-900 720w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-700 480w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-500 320w'
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/dresses'} onClick={(() => dispatch(setCategoryID('65f479a2d7cb797decefee9e')))} />
+                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/dresses'} />
                         <div>Dresses</div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-1200 1080w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-900 720w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-700 480w,
-                                        https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-500 320w'
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-900 720w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-700 480w,
+                                    https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-500 320w'
                         />
                     </li>
-                    <Button onClick={(() => dispatch(setCategoryID('65f479b3d7cb797decefeea0')))}>
+                    <Button>
                         <Link className='w-100 h-100 position-absolute' to={'/catalog/spring'} />
                         <h2 id='section-title-2'>Our Spring Collection</h2>
                     </Button>
@@ -116,7 +122,7 @@ export default function HeroPage() {
                         <li className='botw-item col-9'>
                             <img className='botw-brand-title' src={img5} /></li>
                         <li className='botw-item col-12'>
-                            <Link className='botw-promo-link' to={'/catalog/brand-of-the-week'} onClick={() => dispatch(setCategoryID("65f479d6d7cb797decefeea3"))}>
+                            <Link className='botw-promo-link' to={'/catalog/brand-of-the-week'}>
                                 <Button >Get it here</Button>
                             </Link>
                         </li>

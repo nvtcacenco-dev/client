@@ -12,6 +12,7 @@
     font-size: var(--fs-lg);
     font-weight: 700;
     color: var(--dark-clr);
+    margin: calc(12px + 0.5rem) 0 calc(22px + 0.5rem) 0;
 }
 
 

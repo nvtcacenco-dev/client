@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import HeroPage from './view/hero/HeroPage';
@@ -13,6 +13,10 @@ import Favorites from './view/favorites/Favorites';
 import PromotionBannerAlt from './view/banner/PromotionBannerAlt';
 import { Scrollbar } from 'react-scrollbars-custom';
 
+import Authentication from './view/authentication/Authentication';
+import { UserContext } from './view/user/UserContext';
+import UserDashboard from './view/user/UserDashboard';
+
 
 function App() {const scrollContent = document.querySelector('.ScrollbarsCustom-Content');;
   const [scroll, setScroll] = useState<number>(0)
@@ -21,11 +25,13 @@ function App() {const scrollContent = document.querySelector('.ScrollbarsCustom-
   const scrollNameChangeTop = scroll > 0 ? "scroll-changed-top" : ""
   const scrollNameChangeBottom = scroll > 0 ? "scroll-changed-bottom" : ""
 
- 
+  const location = useLocation();
+  const { user } = useContext<any>(UserContext);
+  const isLogin = location.pathname === '/login';
   return (
     
         <div className="App" id='App'>
-        <NavBar scrollValue={scroll}/>
+        <NavBar />
         
         <main>
           
@@ -34,14 +40,16 @@ function App() {const scrollContent = document.querySelector('.ScrollbarsCustom-
           <Routes>
             <Route index element={<HeroPage />} />
             <Route path='/favorites' element={<Favorites />} />
+            <Route path='/login' element={<Authentication />} />
+            {user ? (<Route path={`/user/${user._id}`} element={<UserDashboard />} />) : (<></>)}
             <Route path='/catalog' element={<Clothing />} />
             <Route path='/catalog/:category' element={<Clothing />} />
             <Route path='/catalog/:category/:item' element={<SingleItem />} />
           </Routes>
         
       </main>
-
-      <Footer />
+      {isLogin ? (<></>) : (<Footer/>)}
+      
 
       </div>
     

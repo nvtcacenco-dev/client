@@ -1,7 +1,8 @@
 footer{
     --_padding-inline: calc(6px + 0.25rem + 5vw);
-    margin-block: calc(36px + 1rem);
-    
+    margin-top: calc(36px + 1rem);
+    padding-bottom: calc(36px + 1rem);
+    background-color: var(--primary-clr-light-2);
 }
 
 

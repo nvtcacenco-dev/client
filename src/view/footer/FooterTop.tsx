@@ -7,7 +7,7 @@ import CheckIcon from '@mui/icons-material/Check';
 export default function FooterTop(){
     return(
         <div className='footer-top-container1 d-flex justify-content-center align-items-center flex-column'>
-            <div className='col-12 col-xxl-10'>
+            <div className='col-12 col-xxl-12'>
                 <ul className='sign-up-promotion-container d-flex flex-column justify-content-center align-items-center'>
                     <li><LoyaltyIcon fontSize='large'/></li>
                     <li>15% off your first purchase!</li>

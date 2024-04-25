@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../styles/navigation/NavBar.css';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation } from 'react-router-dom';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, outlinedInputClasses } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
+import { Backdrop, Drawer, IconButton, InputAdornment, TextField, } from '@mui/material';
+
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
 import CategoriesBrandsExpander from './CategoriesBrandsExpander';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryID } from '../../network/redux/actions/actions';
+import { setCategoryID, setFavs } from '../../network/redux/actions/actions';
 import { RootState } from '../../network/redux/store/store';
-
 import { Turn as Hamburger } from 'hamburger-react'
 import DrawerCart from '../drawers/DrawerCart';
-import PromotionBannerAlt from '../banner/PromotionBannerAlt';
+import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
+import { UserContext } from '../user/UserContext';
+import { fetchAllCategories, fetchUserFavorites, getCategoryIDByName } from '../../network/networkConfig';
+import { Categories } from '../../types/types';
+
 
 const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
     createTheme({
@@ -38,8 +41,8 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
                     root: {
 
                         '--TextField-brandBorderColor': 'var(--primary-clr-light-faded)',
-                        '--TextField-brandBorderHoverColor': 'var(--primary-clr)',
-                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr)',
+                        '--TextField-brandBorderHoverColor': 'transparent',
+                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-light-faded)',
                         '& label.Mui-focused': {
                             color: '#6F7E8C',
                         },
@@ -50,8 +53,8 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
             MuiFilledInput: {
                 styleOverrides: {
                     root: {
-                        borderRadius: '6px',
-
+                        borderRadius: '36px',
+                        transition: 'border-radius 0.3s 0.3s ease-in-out, background-color 0.3s ease-in-out',
                         overflow: 'hidden',
                         paddingLeft: '12px',
                         fontSize: 'var(--fs-base)',
@@ -61,18 +64,21 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
                             backgroundColor: 'var(--primary-clr-light-faded)',
                         },
                         '&.Mui-focused': {
-                            backgroundColor: 'var(--primary-clr-light-faded)',
+                            backgroundColor: 'var(--light-clr)',
+                            border: '2px solid var(--primary-clr-light-faded)',
+                            borderRadius: '0px',
+                            transition: 'border-radius 0.3s 0s ease-in-out, background-color 0.3s ease-in-out'
                         },
                         '&::before, &::after': {
-                            borderBottom: '2px solid var(--TextField-brandBorderColor)',
+                            borderBottom: '0px solid var(--TextField-brandBorderColor)',
                         },
                         '&:hover:not(.Mui-disabled, .Mui-error):before': {
-                            borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
+                            borderBottom: '0px solid var(--TextField-brandBorderHoverColor)',
 
                         },
                         '&.Mui-focused:after': {
 
-                            borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',
+                            borderBottom: '0px solid var(--TextField-brandBorderFocusedColor)',
 
                         },
                     },
@@ -82,11 +88,9 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
         },
     });
 
-interface NavBarProps {
-    scrollValue: number;
-}
 
-export default function NavBar({scrollValue}:NavBarProps) {
+
+export default function NavBar() {
 
     const outerTheme = useTheme();
     const [navClass, setNavClass] = useState<boolean>(false);
@@ -94,32 +98,110 @@ export default function NavBar({scrollValue}:NavBarProps) {
     const [navClass3, setNavClass3] = useState<boolean>(false);
     const [bannerClass, setBannerClass] = useState<boolean>(false);
     const [state, setState] = useState<boolean>(false);
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
-    const [cartSize, setCartSize] = useState<number>(0);
-    const [isCategories, setIsCategories] = useState<boolean>(false);
+    
+    const [searchFocus, setSearchFocus] = useState<boolean>(false);
+    const [categories, setCategories] = useState<Categories[]>();
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
+    const { user} = useContext<any>(UserContext);
+    const [urlEndpoint, setUrlEndpoint] = useState<string>('');
     const location = useLocation();
-    const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
+    const pathname = location.pathname;
+
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
+    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+
     const dispatch = useDispatch();
     const isHome = location.pathname === '/';
 
-    const handleCategoryExpand = () => {
+  
+    const accountButtonPath =  user ? `/user/${user._id}`  : '/login';
 
-        if (isExpanded) {
-            setIsExpanded(false);
-        } else {
-            setIsExpanded(true);
+
+    useEffect(() => {
+        function getLastPartOfUrl(url: string) {
+            try {
+                const urlObj = new URL(url, window.location.origin);
+                const parts = urlObj.pathname.split('/');
+                return parts[parts.length - 1];
+            } catch (error) {
+                console.error('Error parsing URL:', error);
+                return '';
+            }
+        }
+    
+        const lastPart = getLastPartOfUrl(pathname);
+
+         if (lastPart === 'brand-of-the-week') {
+            setUrlEndpoint('botw');
+         }else{
+            setUrlEndpoint(lastPart);
+         }
+        
+    }, [pathname]); 
+ 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await fetchAllCategories();
+                setCategories(data);
+
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+
+            }
         }
 
-    };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+       
+        function findCategoryID() {
+           
+            if (categories && categories.length > 0) {
+                
+                const category = categories.find(category => category.Name.toLowerCase() === urlEndpoint);
+                
+               
+                if (category) {
+                    console.log('Category found:', category._id);
+                    
+                    dispatch(setCategoryID(category._id));
+                   
+                } else {
+                    console.log('Category not found');
+                   
+                }
+            }
+        }
+
+        
+        findCategoryID();
+    }, [categories, urlEndpoint]);
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (user) {
+                try {
+                    const response = await fetchUserFavorites(user._id);
+                    dispatch(setFavs(response))
+                } catch (error) {
+                    console.error("Error fetching user favorites:", error);
+                }
+            }
+        };
+    
+        fetchFavorites();
+    }, [user]);
+    
 
 
-
+    
     function calcCartSize(): number {
+        
         let count = 0;
 
         cart.forEach(function (item) {
@@ -139,6 +221,12 @@ export default function NavBar({scrollValue}:NavBarProps) {
             return;
         }
 
+        if (open) {
+            (dispatch(setDrawerStatus(true)))
+        } else {
+            (dispatch(setDrawerStatus(false)))
+        }
+
         setState((
             open
         ));
@@ -152,8 +240,6 @@ export default function NavBar({scrollValue}:NavBarProps) {
 
     }, [isHome])
 
-    
-
     const changeNavBarClr = () => {
         if (window.scrollY < 120 || window.scrollY < prevScrollPos) {
             setNavClass(false);
@@ -162,6 +248,7 @@ export default function NavBar({scrollValue}:NavBarProps) {
                 setNavClass2(true);
                 setNavClass3(true);
                 setBannerClass(true);
+
             }
 
             if (window.scrollY <= 0) {
@@ -181,10 +268,30 @@ export default function NavBar({scrollValue}:NavBarProps) {
     };
 
     const handleScroll = () => {
+
         setPrevScrollPos(window.scrollY);
+        setSearchFocus(false);
         changeNavBarClr();
-        setIsExpanded(false);
+        
+
     };
+
+    function handleFocus(overflow: string, padding: string) {
+        document.body.style.overflowY = overflow
+        document.body.style.paddingRight = padding
+        const navElement = document.querySelector('nav');
+        const promoElement = document.getElementById('promo-banner');
+        if (navElement) {
+            navElement.style.width = `calc(100% - ${padding})`;
+        }
+
+        if (promoElement) {
+            promoElement.style.width = `calc(100% - ${padding})`;
+        }
+
+    }
+
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -199,6 +306,20 @@ export default function NavBar({scrollValue}:NavBarProps) {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    useEffect(() => {
+        console.log(drawerState)
+        if (drawerState) {
+            handleFocus('hidden', '17px');
+        }
+        else {
+            handleFocus('', '0px');
+        }
+    }, [drawerState])
+
+
+
+
     window.addEventListener('scroll', handleScroll);
     const navName = navClass === true ? "navbar-changed" : "";
     const navName2 = navClass2 === true ? "nav-box-shadow" : "";
@@ -206,6 +327,10 @@ export default function NavBar({scrollValue}:NavBarProps) {
 
     const bannerName = bannerClass === true ? "banner-changed" : "";
     
+
+    const searchSuggestionName = searchFocus === true ? "search-suggestions-focused" : "";
+    const searchBarName = searchFocus === true ? "search-bar-focused" : "";
+
     return (
         <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}>
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
@@ -213,51 +338,49 @@ export default function NavBar({scrollValue}:NavBarProps) {
             </div>
 
 
-            {windowWidth >= 992 ? (<section className='nav-main-section d-flex col-12 justify-content-center  align-items-center flex-grow-1 '>
-
-                <ul className='nav-link-list d-flex col-3 justify-content-center align-items-center h-100'>
-                    <li id='catalog-link' className='h-100'>
-                        <Link className='nav-link' to={'/catalog'} onClick={(() => dispatch(setCategoryID(null)))}>Catalog</Link>
-                    </li>
-                    <li id='categories-link' className='expander-item'>
-                        <button className='nav-link' onClick={() => {
-                            handleCategoryExpand();
-                            setIsCategories(true);
-                        }}>
-                            Categories
-                        </button>
-                    </li>
-                </ul>
+            {windowWidth >= 992 ? (<section className='nav-main-section d-flex col-12 justify-content-center  align-items-center flex-grow-1 flex-wrap '>
+                <Link className='logo-link col-4' to={'/'}>TREND THREAD</Link>
 
 
-
-
-                <div className=' col-10 col-sm-5 col-lg-3 '>
+                <div className={`${searchBarName} search-bar col-10 col-sm-5 col-lg-3`}>
 
                     <ThemeProvider theme={customTheme(outerTheme)}>
 
-                        <TextField label="Search" variant="filled" InputProps={{
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            )
+                        <TextField label="Search"
+                            onInput={() => (setSearchFocus(true))}
+                            onClick={() => (setSearchFocus(true))}
+                            onFocus={() => { (setSearchFocus(true)); (dispatch(setDrawerStatus(true))) }}
+                            onBlur={() => { (setSearchFocus(false)); (dispatch(setDrawerStatus(false))) }} variant="filled" InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
 
-                        }} />
+                            }} />
 
                     </ThemeProvider>
+
+                    <div className={`search-suggestions ${searchSuggestionName}`}>
+
+                    </div>
+
+
 
 
                 </div>
 
 
 
-                <ul className='nav-icon-list d-flex col-3 justify-content-center align-items-center'>
+                <ul className='nav-icon-list d-flex col-4 justify-content-center align-items-center'>
                     <li>
-                        <button id='cart-btn' className='nav-icon-link' onClick={toggleDrawer(true)}>
+                        <button id='cart-btn' className='nav-icon-link' onClick={() => { (setState(true)); (dispatch(setDrawerStatus(true))); }}>
+
                             <ShoppingCartIcon className='nav-icon' />
+
+
                             <div className='icon-product-counter'>
                                 {calcCartSize()}
                             </div>
@@ -275,25 +398,25 @@ export default function NavBar({scrollValue}:NavBarProps) {
 
                     </li>
                     <li>
-                        <Link className='nav-icon-link' to={'/Account'}>
+                        <Link className='nav-icon-link' to={accountButtonPath}>
                             <AccountCircleIcon className='nav-icon' />
                         </Link>
 
                     </li>
-
                 </ul>
+                
                 <DrawerCart onClose={toggleDrawer(false)} open={state} />
-                <CategoriesBrandsExpander isExpanded={isExpanded} isCategories={isCategories} />
+                <CategoriesBrandsExpander urlEndpoint={urlEndpoint} categories={categories} />
 
             </section>) : (
-                <div className='hamburger-container col-12'>
+                <div className='hamburger-container col-12 d-flex align-items-center'>
                     <Hamburger />
+                    <Link className='logo-link col-12' to={'/'}>TREND THREAD</Link>
                 </div>
 
 
             )}
-
-
+           
         </nav>
     );
 }

@@ -1,10 +1,10 @@
-// store.ts
 
 import { UnknownAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import categoryReducer from '../reducers/categorySlice';
 import productCountReducer from '../reducers/productCountSlice';
 import productReducer from '../reducers/productSlice';
 import pageNumberReducer from '../reducers/pageNumberSlice';
+import drawerStatusReducer from '../reducers/drawerStatusSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import favReducer from '../reducers/favSlice';
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const rootReducerWithClear = (state: any, action: any) => {
   if (action.type === CLEAR_PERSISTED_STATE) {
-    // Clear the persisted state by returning undefined
+    
     state = undefined;
   }
   return persistedReducer(state, action);
@@ -36,9 +36,22 @@ export const store = configureStore({
     persistedReducer: rootReducerWithClear,
     productCount: productCountReducer,
     pageNumber: pageNumberReducer,
+    drawerStatus: drawerStatusReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Disable serializable check for Redux Persist
+    }),
 });
 
+export const clearPersistedStateAndRestart = () => {
+  persistor.pause();
+  persistor.flush().then(() => {
+    return persistor.purge();
+  }).then(() => {
+    persistor.persist();
+  });
+};
 
 export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store/store'; // Adjust the path as needed
-import { setCategoryID, setCategoryName } from '../actions/actions'; // Import the action creator
+import { resetCategoryState, setCategoryID, setCategoryName } from '../actions/actions'; // Import the action creator
 
 interface CategoryState {
   categoryID: string | null;
@@ -24,7 +24,12 @@ const categorySlice = createSlice({
     });
     builder.addCase(setCategoryName, (state, action)=>{
       state.categoryName = action.payload;
-    })
+    });
+
+    builder.addCase(resetCategoryState, (state, action)=>{
+      state.categoryName = null;
+      state.categoryID = null;
+    });
   },
 });
 

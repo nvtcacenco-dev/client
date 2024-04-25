@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
-import { Alert, Button, Collapse, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Skeleton } from '@mui/material';
+import { Alert, Button, Collapse, IconButton, MenuItem, SelectChangeEvent} from '@mui/material';
 
 import Accordion from '@mui/material/Accordion';
 
@@ -22,7 +22,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { addFav, addToCart } from '../../../network/redux/actions/actions';
-import { CLEAR_PERSISTED_STATE } from '../../../network/redux/actions/actionTypes';
+import { setDrawerStatus2 } from '../../../network/redux/reducers/drawerStatusSlice';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -41,26 +41,68 @@ export default function SingleItem() {
     const [openFeedbackError, setOpenFeedbackError] = useState<boolean>(false);
     const [openFeedbackSuccess, setOpenFeedbackSuccess] = useState<boolean>(false);
     const [successTimer, setSuccessTimer] = useState<NodeJS.Timeout | null>(null);
+    const [drawerStatusTimer, setDrawerStatusTimer] = useState<NodeJS.Timeout | null>(null);
     const [expandedImgURL, setExpandedImgURL] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [size, setSize] = useState<string>('Size');
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
+    const drawerState2 = useSelector((state: RootState) => state.drawerStatus.state2nd);
     const dispatch = useDispatch();
+/* 
+    function handleFocusDrawer (padding: string){
+        
+        const navElement = document.querySelector('nav');
+        const promoElement = document.getElementById('promo-banner');
+        if(navElement){
+            navElement.style.width = `calc(100% - ${padding})`;
+        }
+
+        if(promoElement){
+            promoElement.style.width = `calc(100% - ${padding})`;
+        }
+        
+    }
+    useEffect(()=>{
+        console.log(drawerState2)
+        if(drawerState2){
+            handleFocusDrawer('17px');
+        }
+        else{
+            handleFocusDrawer('0px');
+        }
+    },[drawerState2]) */
+    
+
     const handleChange = (event: SelectChangeEvent) => {
         setSize(event.target.value);
     };
     const handleClickOpen = (url: string) => {
+       
+        dispatch(setDrawerStatus2(true));
         setOpen(true);
         setExpandedImgURL(url);
-
+       
     };
 
     const handleClose = () => {
+        
+        
+        dispatch(setDrawerStatus2(false));
         setOpen(false);
-        setExpandedImgURL('')
+       
+        setExpandedImgURL('');
+
+        
+        
     };
+
+    /* useEffect(()=>{
+        if (drawerStatusTimer && !drawerState2) {
+            clearTimeout(drawerStatusTimer);
+        }
+    },[drawerState2]) */
 
     const handleSizesExpand = () => {
         if(expanded){
@@ -97,7 +139,7 @@ export default function SingleItem() {
     }
     const lgMap = validImages.map((imageUrl, index) => (
         <img key={index} src={`${imageUrl}`} className='single-item-img col-6 pe-2 pb-2' loading='lazy'
-            onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`) })}
+            onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`));})}
             srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
                     ${imageUrl}?tr=w-600 480w,
@@ -106,21 +148,11 @@ export default function SingleItem() {
         />
     ));
 
-   
-
-    /* useEffect(()=>{
-        const clearPersistedState = () => {
-            dispatch({ type: CLEAR_PERSISTED_STATE });
-        };
-
-        clearPersistedState();
-    },[])  */ 
-
     const carouselMap = validImages.map((imageUrl, index) => (
 
         <Carousel.Item key={index}>
             <img src={`${imageUrl}`} className='single-item-img' loading='lazy'
-                onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`) })}
+                onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`);})}
                 srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
                     ${imageUrl}?tr=w-600 480w,
@@ -324,7 +356,7 @@ export default function SingleItem() {
                 >
                     <DialogContent className='dialog-content p-0 m-0'>
                         <img className='preview-img' loading='lazy' src={expandedImgURL} />
-                        <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={handleClose}>
+                        <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => {(handleClose());}}>
                             <CloseIcon fontSize='small' />
                         </IconButton>
                     </DialogContent>

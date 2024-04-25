@@ -2,9 +2,14 @@ export const SET_CATEGORY_ID = 'category/setCategoryID';
 
 export const SET_CATEGORY_NAME = 'category/setCategoryName';
 
+
+export const RESET_CATEGORY_STATE = 'category/resetCategoryState';
+
 export const SET_PRODUCT = 'product/setProduct';
 
 export const ADD_FAV = 'favs/addFav';
+
+export const SET_FAVS = 'favs/setFavs';
 
 export const ADD_TO_CART = 'cart/addToCart';
 

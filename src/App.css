@@ -51,7 +51,7 @@ main{
 
 @media (min-width: 992px) {
   main{
-    padding-top: calc(124px + 60px);
+    padding-top: calc(184px + 60px);
   }
 }
 

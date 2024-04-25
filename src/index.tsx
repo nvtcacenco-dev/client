@@ -8,24 +8,28 @@ import ScrollToTop from './view/misc/ScrollToTop';
 import { Provider } from 'react-redux';
 import { persistor, store } from './network/redux/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { UserContextProvider } from './view/user/UserContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  
+  /* <React.StrictMode> */
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+      <UserContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+      </UserContextProvider>
       </PersistGate>
-
     </Provider>
+ /*  </React.StrictMode> */
 
 
 
 
-  
+
+
 );
 reportWebVitals();

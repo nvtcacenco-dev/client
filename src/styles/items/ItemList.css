@@ -19,12 +19,11 @@
    
     list-style: none;
     padding: 0;
-    padding-block: calc(12px + 0.5rem);
+    
     display: grid;
     grid-gap: calc(6px + 0.5rem);
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-   
-
+    margin-bottom: 0;
 }
 
 .browsing-item{
@@ -32,24 +31,6 @@
     max-height: 70svh;
     aspect-ratio: 1/1.75;
 }
-
-
-
-
-
-/*
-col-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3
-
---bs-breakpoint-xs: 0;
---bs-breakpoint-sm: 576px;
---bs-breakpoint-md: 768px;
---bs-breakpoint-lg: 992px;
---bs-breakpoint-xl: 1200px;
---bs-breakpoint-xxl: 1400px; 
-
-*/
-
-
 
 
 .item-img{

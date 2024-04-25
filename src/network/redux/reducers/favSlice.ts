@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store"; // Adjust the path as needed
-import { addFav } from "../actions/actions"; // Import the action creator
+import { addFav, setFavs } from "../actions/actions"; // Import the action creator
 import { Product } from "../../../types/types";
+
 
 interface FavState {
   favs: Product[];
@@ -32,10 +33,13 @@ const favSlice = createSlice({
         state.favs.push(payload);
       }
     });
+    builder.addCase(setFavs, (state, action) => {
+      const { payload } = action;
+      state.favs = payload;
+    });
   },
 });
 
-export const selectFavs = (state: RootState) =>
-  state.persistedReducer.favs.favs; // Access the 'product' property directly
+export const selectFavs = (state: RootState) => state.persistedReducer.favs.favs; 
 
 export default favSlice.reducer;

@@ -58,7 +58,7 @@ const Clothing: React.FC = () => {
     };
 
 
-    console.log(categoryID)
+    
     return (
         <div className='col-12 d-flex justify-content-center'>
             
@@ -66,7 +66,7 @@ const Clothing: React.FC = () => {
                 <CustomBreadCrumbs/>
                 <h1>{replaceHyphensWithSpace(categoryName || 'Our Catalog')} </h1>
 
-                <div className='d-flex  col-12 align-items-center justify-content-between'>
+                <div className='d-flex  col-12 align-items-center justify-content-between my-2'>
                     <p className='m-0'>{productCount} products</p>
                     <Button className='filter-drawer-btn' onClick={toggleDrawer(true)} endIcon={<FilterAltIcon />}>Filter & sort</Button>
                 </div>

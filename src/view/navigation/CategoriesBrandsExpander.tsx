@@ -11,18 +11,18 @@ import { resetPageNumber } from "../../network/redux/reducers/pageNumberSlice";
 import { Button } from "@mui/material";
 
 
-export default function CategoriesBrandsExpander({ isExpanded}: ExpanderProps) {
-    const [categories, setCategories] = useState<Categories[]>()
-    const [brands, setbrands] = useState<any[]>(['1', '2', '3'])
+export default function CategoriesBrandsExpander({ urlEndpoint, categories}: ExpanderProps) {
+    
+    
    
-    const [limit, setLimit] = useState<number>(5);
+ 
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const dispatch = useDispatch();
 
     function handleClick(id: string){
         dispatch(resetPageNumber())
-        dispatch(setCategoryID(id));
+        
     }
 
     const listMap = 
@@ -33,37 +33,28 @@ export default function CategoriesBrandsExpander({ isExpanded}: ExpanderProps) {
                     {item.Name === 'BotW' ? 'Brand of the Week' : item.Name}
                 </Link>
             </li>
-        ))
+        ));
 
+
+    console.log(categoryID)
 
     
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const data = await fetchAllCategories();
-                setCategories(data);
-
-
-            } catch (error) {
-                console.error("Error fetching data:", error);
-
-            }
-        }
-
-        fetchData();
-    }, []);
     return (
 
         <div
-            className={`col-12 categories-brands-expander ${isExpanded ? 'expanded' : ''
-                }`}
+            className={`col-12 categories-brands-expander `}
             
         >   
             
             
             
                 <ul className="categories-brands-list d-flex justify-content-center column-gap-4 ">
+                    <li  className="d-flex">
+                    <Link to={`/catalog`} onClick={(() => dispatch(setCategoryID(null)))}>
+                        Catalog
+                        
+                    </Link>
+                    </li>
                     {listMap}
                 </ul>
                 

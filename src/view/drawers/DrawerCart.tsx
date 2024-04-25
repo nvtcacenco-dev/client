@@ -8,10 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Scrollbar } from 'react-scrollbars-custom';
 import Zoom from '@mui/material/Zoom';
 import { decrementCartProduct, incrementCartProduct, removeFromCart } from "../../network/redux/actions/actions";
-interface FilterValue {
-    name: string,
-    state: boolean,
-}
+
 
 
 export default function DrawerCart({ onClose, open }: DrawerProps) {
@@ -67,7 +64,12 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
 
     return (
         <Drawer anchor="right" className="custom-drawer" open={open} onClose={onClose}>
-            <div className="drawer-title d-flex align-items-center">Your cart {`(${calcCartSize()})`}</div>
+            <div className="drawer-title d-flex align-items-center">
+                Your cart {`(${calcCartSize()})`}
+                <IconButton className=" position-absolute end-0" onClick={onClose}>
+                    <CloseIcon/>
+                </IconButton>
+            </div>
             <hr />
             <Scrollbar >
                 <ul className="drawer-list d-flex flex-column">
@@ -85,12 +87,12 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                     </p>
                 </li>
                 <li>
-                    <p>
+                    <span>
                         Delivery Fees 
                         <Tooltip className="cart-drawer-tooltip" title={`$${120 - total < 0 ? 0 : (120 - total).toFixed(2)} left for free delivery`} placement="right" TransitionComponent={Zoom}>
                             <div>?</div>
                         </Tooltip>
-                    </p>
+                    </span>
                     <p>
                         {`$${deliveryFees}`}
                     </p>

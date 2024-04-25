@@ -1,0 +1,12 @@
+.user-section{
+    --_padding-top: calc(184px + 60px);
+    --_padding-inline: calc(24px + 1rem);
+    
+    min-height: calc(100svh - var(--_padding-top));
+    
+}
+
+#account-label{
+    font-weight: 700;
+    
+}

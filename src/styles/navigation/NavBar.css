@@ -1,7 +1,7 @@
 .top-nav{
     background-color: var(--light-clr);
     width: 100%;
-    height: 124px;
+    height: 184px;
     position: fixed;
    
     box-shadow: none;
@@ -62,14 +62,14 @@
 
 .categories-brands-expander{
     --_expander-height: 200%;
-    position: fixed;
+   
     
     background-color: var(--light-clr);
-    /* bottom: calc(var(--_expander-height) - 2 * var(--_expander-height)); */
+    
     top: 100%;
-    transition: transform 0.3s ease-in-out;
+    
     height: 60px;
-    transform: translateX(-100%);
+    
    
     display: flex;
     justify-content: center;
@@ -77,10 +77,7 @@
     
 }
 
-.categories-brands-expander.expanded {
-    transform: translateX(0%);
-    
-}
+
 
 .categories-brands-list{
     list-style: none;
@@ -211,8 +208,8 @@
 .icon-product-counter{
     background-color: var(--primary-clr-light-faded);
     position: absolute;
-    top: -25%;
-    right: -25%;
+    top: -33.33%;
+    right: -33.33%;
     width: 66.66%;
     aspect-ratio: 1/1;
     border-radius: 66%;
@@ -228,9 +225,11 @@
 .hamburger-container{
     background-color: var(--primary-clr-light-faded);
     padding: calc(0.25rem + 6px);
+    position: relative;
 }
 
 .hamburger-react{
+    position: absolute !important;
     color: var(--dark-clr-faded);
 }
 
@@ -240,7 +239,49 @@
     padding: 0;
 }
 
+.search-bar{
+    position: relative;
+}
 
+.search-bar-focused{
+    z-index: 9999;
+}
+
+.search-suggestions{
+    position: absolute;
+    bottom: -200px;
+    left: 0;
+    width: calc(100% - 0.75px);
+    min-height: 200px;
+    transform-origin: 100% 0;
+    transform: scaleY(0);
+    background-color: var(--light-clr);
+    transition: transform  0.1s  ease-in-out;
+}
+
+.search-suggestions-focused{
+    position: absolute;
+    bottom: -200px;
+    left: 0;
+    border: 2px solid var(--primary-clr-light-faded);
+    border-top: 0;
+   
+    transform: scaleY(1);
+    transform-origin: 100% 0;
+    transition: transform  0.3s 0.3s ease-in-out;
+} 
+
+.search-bar-backdrop{
+   
+    z-index: 9998 !important;
+}
+
+.logo-link{
+    text-decoration: none;
+    color: black;
+    font-size: var(--fs-lg);
+    font-weight: 700;
+}
 @media (max-width: 992px) {
     .top-nav{
         height: fit-content;
@@ -255,7 +296,7 @@
 
 @media (min-width: 993px) {
     .nav-box-shadow{
-        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+        /* box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12); */
         
     }
     .nav-position{

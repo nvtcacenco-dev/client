@@ -21,15 +21,16 @@
     font-size: var(--fs-sm);
     font-weight: 600;
     letter-spacing: .03em;
+    position: relative;
 }
 
 .custom-drawer hr {
     margin: 0;
-
+    margin-block: 12px;
 }
 .ScrollbarsCustom{
     max-height: 72%;
-    
+    margin-bottom: 12px;
 }
 
 .ScrollbarsCustom-TrackY{
@@ -37,12 +38,12 @@
     width: 8px !important;
     border-radius: 0 !important;
     height: 100% !important;
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-light-2) !important;
 }
 .ScrollbarsCustom-ThumbY{
     cursor: default !important;
     border-radius: 0 !important;
-    background-color: var(--primary-clr-light) !important;
+    background-color: var(--primary-clr-light-faded) !important;
 }
 
 .ScrollbarsCustom-Content{
@@ -203,12 +204,12 @@
 
 }
 
-.drawer-total-description li:nth-of-type(2) p:nth-of-type(1) {
+.drawer-total-description li:nth-of-type(2) span:nth-of-type(1) {
     display: flex;
     align-items: center;
 }
 
-.drawer-total-description li:nth-of-type(2) p div {
+.drawer-total-description li:nth-of-type(2) span div {
     color: var(--light-clr);
     background-color: #d3d0d0;
     display: flex;
@@ -238,6 +239,7 @@
 
 .drawer-total-description li:nth-of-type(4) {
     margin-top: 24px;
+    margin-bottom: 12px;
 }
 .drawer-total-description li:last-child {
     margin-top: 12px;

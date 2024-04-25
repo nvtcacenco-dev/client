@@ -10,6 +10,10 @@ import '../../styles/items/ItemList.css';
 import { ItemBrowserProps } from "./ItemBrowserHandler";
 import { addFav, setProduct } from "../../network/redux/actions/actions";
 import { AnimatePresence, motion } from "framer-motion";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../user/UserContext";
+import { Product } from "../../types/types";
+import { manageFavourites } from "../../network/networkConfig";
 
 export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
 
@@ -17,21 +21,31 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const dispatch = useDispatch();
 
+    const { user, setUser } = useContext<any>(UserContext);
 
+    function handleAddRemoveFromFavs(product: Product, userID: string) {
+        dispatch(addFav(product));
+    
+        if (user) {
+            // Make API call to manage favorites
+            manageFavourites(userID, product._id);
+        }
+    }
     function handleHyphens(name: string): string {
         return name.replace(/ /g, "-").toLowerCase();
-    }
+    } 
+    
 
     const map = products.map((product, index) => (
 
-        <AnimatePresence mode="wait" >
+        
             <motion.li
                 key={product._id}
                 className={`browsing-item flex-grow-0 d-flex`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 0.7 }}
             >
                 <Link
                     className='browsing-item-link h-100 w-100 position-relative'
@@ -77,22 +91,22 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
                     </div>
                 </Link>
                 <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
-                        <IconButton className='item-fav-btn' onClick={() => { dispatch(addFav(product)) }}>
+                        <IconButton className='item-fav-btn' onClick={() => {user ? handleAddRemoveFromFavs(product, user._id) : dispatch(addFav(product))}}>
                             <FavoriteIcon className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
                         </IconButton>
                 </div>
 
             </motion.li>
-        </AnimatePresence>
+        
     ))
     return (
-        
-        <motion.ul className="browsing-item-list justify-content-center flex-wrap col-12 ">
+        <AnimatePresence mode="wait" >
+            <motion.ul className="browsing-item-list justify-content-center flex-wrap col-12 ">
 
-            {map}
+                {map}
 
-        </motion.ul>
+            </motion.ul>
 
-
+        </AnimatePresence>
     );
 }
