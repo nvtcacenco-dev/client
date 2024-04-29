@@ -35,7 +35,7 @@ export interface Product {
     Categories: string[];
     Color: string;
     Name: string;
-    Price: string;
+    Price: number;
     Size: string[];
     imageURL: string;
     newStatus: boolean;
@@ -55,4 +55,10 @@ export interface User{
     email: string;
     cart: CartState;
     favourites: Product[];
+}
+
+
+export interface Sort{
+    state: boolean;
+    order: string;
 }

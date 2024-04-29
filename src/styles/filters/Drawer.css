@@ -207,6 +207,7 @@
 .drawer-total-description li:nth-of-type(2) span:nth-of-type(1) {
     display: flex;
     align-items: center;
+    font-size: var(--fs-sm);
 }
 
 .drawer-total-description li:nth-of-type(2) span div {

@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 
 import { fetchNewProducts } from '../../network/networkConfig';
-import { Product } from '../../types/types';
+import { Product } from '../../utils/types';
 import { addFav, setProduct } from '../../network/redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../network/redux/store/store';
-import ItemBrowser from './ItemBrowser';
+
 
 
 
@@ -20,10 +20,10 @@ import ItemBrowser from './ItemBrowser';
 
 
 export default function ItemList() {
-    
     const [products, setProducts] = useState<Product[]>([]);
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const dispatch = useDispatch();
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -54,25 +54,25 @@ export default function ItemList() {
                     className='item-img'
                     id='img-2'
                     src={`${product.imageURL}/2.webp?tr=w-1080`}
-
                     srcSet={`
                         ${product.imageURL}/2.webp?tr=w-1080 1080w,
                         ${product.imageURL}/2.webp?tr=w-920 720w,
                         ${product.imageURL}/2.webp?tr=w-720 480w,
                         ${product.imageURL}/2.webp?tr=w-640 320w
                         `}
+                    alt={`${product.Name} 2`}
                 />
                 <img
                     className='item-img'
                     id='img-1'
                     src={`${product.imageURL}/1.webp?tr=w-1080`}
-
                     srcSet={`
                         ${product.imageURL}/1.webp?tr=w-1080 1080w,
                         ${product.imageURL}/1.webp?tr=w-920 720w,
                         ${product.imageURL}/1.webp?tr=w-720 480w,
                         ${product.imageURL}/1.webp?tr=w-640 320w
                         `}
+                    alt={`${product.Name} 1`}
                 />
 
 
@@ -90,7 +90,7 @@ export default function ItemList() {
         </li>
     ));
     return (
-        <div className='d-flex col-12 col-xxl-10 flex-wrap' >
+        <div className='item-container d-flex col-12 col-xxl-10 flex-wrap' >
             {productListMap}
         </div>
         

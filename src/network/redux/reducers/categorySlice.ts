@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store/store'; // Adjust the path as needed
+import { createSlice} from '@reduxjs/toolkit';
+import { RootState } from '../store/store'; 
 import { resetCategoryState, setCategoryID, setCategoryName } from '../actions/actions'; // Import the action creator
 
 interface CategoryState {

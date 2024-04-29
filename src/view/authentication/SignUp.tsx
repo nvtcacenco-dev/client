@@ -32,7 +32,7 @@ export default function SignUp({ theme }: LoginSignUpProps) {
     const { user, setUser } = useContext<any>(UserContext);
 
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
-    const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
+    
     
     const emailErrorMsg = emailEmpty ?  fieldEmptyMsg : userExistsMsg;
 

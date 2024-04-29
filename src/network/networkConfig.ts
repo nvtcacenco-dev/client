@@ -4,14 +4,17 @@
 
 
 import axios from 'axios';
-import { Product, Categories, ResponseDataProducts } from '../types/types';
-import { CartState } from './redux/reducers/cartSlice';
+import { Product, Categories, ResponseDataProducts } from '../utils/types';
 
 
-export async function fetchAllProducts(page: number, limit: number): Promise<ResponseDataProducts> {
+export async function fetchAllProducts(page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<ResponseDataProducts> {
     try {
-        const response = await axios.get<ResponseDataProducts>(`http://localhost:8080/api/v1/products?page=${page}&pageSize=${limit}`);
-        
+        let url = `http://localhost:8080/api/v1/products?page=${page}&pageSize=${limit}`;
+        if (sortBy && sortOrder) {
+            url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+        }
+        const response = await axios.get<ResponseDataProducts>(url);
+        console.log(response);
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -94,8 +97,7 @@ export async function registerUser(firstName: string, lastName:string, email:str
           }
         });
     
-        const data = response.data;
-        console.error(response);
+       
         return response;
       } catch (error) {
         

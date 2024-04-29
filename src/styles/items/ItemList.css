@@ -1,15 +1,19 @@
 .item-list {
-   
+    
     list-style: none;
 }
 
 .item {
+    
     min-height: 60svh;
     aspect-ratio: 1/1.5;
     position: relative;
     padding: 0;
     
+    
 }
+
+
 .item a{
     padding-inline: 6px;
     overflow: hidden;
@@ -186,3 +190,5 @@
     }
     
 }
+
+

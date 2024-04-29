@@ -1,5 +1,5 @@
 import { Carousel } from 'react-bootstrap';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import '../../../styles/clothing/SingleItemPage.css';
 import CustomBreadCrumbs from '../../misc/CustomBreadCrumbs';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,45 +41,17 @@ export default function SingleItem() {
     const [openFeedbackError, setOpenFeedbackError] = useState<boolean>(false);
     const [openFeedbackSuccess, setOpenFeedbackSuccess] = useState<boolean>(false);
     const [successTimer, setSuccessTimer] = useState<NodeJS.Timeout | null>(null);
-    const [drawerStatusTimer, setDrawerStatusTimer] = useState<NodeJS.Timeout | null>(null);
+
     const [expandedImgURL, setExpandedImgURL] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(true);
+
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [size, setSize] = useState<string>('Size');
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
-    const drawerState2 = useSelector((state: RootState) => state.drawerStatus.state2nd);
+
     const dispatch = useDispatch();
-/* 
-    function handleFocusDrawer (padding: string){
-        
-        const navElement = document.querySelector('nav');
-        const promoElement = document.getElementById('promo-banner');
-        if(navElement){
-            navElement.style.width = `calc(100% - ${padding})`;
-        }
 
-        if(promoElement){
-            promoElement.style.width = `calc(100% - ${padding})`;
-        }
-        
-    }
-    useEffect(()=>{
-        console.log(drawerState2)
-        if(drawerState2){
-            handleFocusDrawer('17px');
-        }
-        else{
-            handleFocusDrawer('0px');
-        }
-    },[drawerState2]) */
-    
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setSize(event.target.value);
-    };
     const handleClickOpen = (url: string) => {
-       
         dispatch(setDrawerStatus2(true));
         setOpen(true);
         setExpandedImgURL(url);
@@ -87,22 +59,12 @@ export default function SingleItem() {
     };
 
     const handleClose = () => {
-        
-        
         dispatch(setDrawerStatus2(false));
         setOpen(false);
-       
         setExpandedImgURL('');
-
-        
-        
     };
 
-    /* useEffect(()=>{
-        if (drawerStatusTimer && !drawerState2) {
-            clearTimeout(drawerStatusTimer);
-        }
-    },[drawerState2]) */
+    
 
     const handleSizesExpand = () => {
         if(expanded){
@@ -138,7 +100,7 @@ export default function SingleItem() {
         }
     }
     const lgMap = validImages.map((imageUrl, index) => (
-        <img key={index} src={`${imageUrl}`} className='single-item-img col-6 pe-2 pb-2' loading='lazy'
+        <img key={index} src={`${imageUrl}`} alt={`${index}`} className='single-item-img col-6 pe-2 pb-2' loading='lazy'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`));})}
             srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
@@ -151,7 +113,7 @@ export default function SingleItem() {
     const carouselMap = validImages.map((imageUrl, index) => (
 
         <Carousel.Item key={index}>
-            <img src={`${imageUrl}`} className='single-item-img' loading='lazy'
+            <img src={`${imageUrl}`} alt={`${index}`} className='single-item-img' loading='lazy'
                 onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`);})}
                 srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
@@ -355,7 +317,7 @@ export default function SingleItem() {
                     className='m-0'
                 >
                     <DialogContent className='dialog-content p-0 m-0'>
-                        <img className='preview-img' loading='lazy' src={expandedImgURL} />
+                        <img className='preview-img' loading='lazy' alt='' src={expandedImgURL} />
                         <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => {(handleClose());}}>
                             <CloseIcon fontSize='small' />
                         </IconButton>

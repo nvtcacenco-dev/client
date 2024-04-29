@@ -20,3 +20,11 @@ export const DECREMENT_CART_PRODUCT = 'cart/decrementCartProduct'
 export const REMOVE_FROM_CART = 'cart/removeFromCart';
 
 export const CLEAR_PERSISTED_STATE = 'CLEAR_PERSISTED_STATE';
+
+export const SET_SORTING_PRICE = 'sorting/setSortingPrice'
+
+export const SET_SORTING_NAME = 'sorting/setSortingName'
+
+export const SET_SORTING_DATE = 'sorting/setSortingDate'
+
+export const SET_SORTING_POPULARITY = 'sorting/setSortingPopularity'

@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation } from 'react-router-dom';
-import { Backdrop, Drawer, IconButton, InputAdornment, TextField, } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
@@ -17,8 +17,8 @@ import { Turn as Hamburger } from 'hamburger-react'
 import DrawerCart from '../drawers/DrawerCart';
 import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
 import { UserContext } from '../user/UserContext';
-import { fetchAllCategories, fetchUserFavorites, getCategoryIDByName } from '../../network/networkConfig';
-import { Categories } from '../../types/types';
+import { fetchAllCategories, fetchUserFavorites } from '../../network/networkConfig';
+import { Categories } from '../../utils/types';
 
 
 const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
@@ -58,14 +58,14 @@ const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
                         overflow: 'hidden',
                         paddingLeft: '12px',
                         fontSize: 'var(--fs-base)',
-                        backgroundColor: 'var(--primary-clr-light-faded)',
-
+                        backgroundColor: '#fdf6f7',
+                        border: '1px solid var(--primary-clr-light-faded)',
                         '&:hover': {
                             backgroundColor: 'var(--primary-clr-light-faded)',
                         },
                         '&.Mui-focused': {
                             backgroundColor: 'var(--light-clr)',
-                            border: '2px solid var(--primary-clr-light-faded)',
+                            border: '1px solid var(--primary-clr-light-faded)',
                             borderRadius: '0px',
                             transition: 'border-radius 0.3s 0s ease-in-out, background-color 0.3s ease-in-out'
                         },
@@ -105,6 +105,10 @@ export default function NavBar() {
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const { user} = useContext<any>(UserContext);
     const [urlEndpoint, setUrlEndpoint] = useState<string>('');
+
+ 
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
     const location = useLocation();
     const pathname = location.pathname;
 
@@ -167,12 +171,12 @@ export default function NavBar() {
                 
                
                 if (category) {
-                    console.log('Category found:', category._id);
+                    
                     
                     dispatch(setCategoryID(category._id));
                    
                 } else {
-                    console.log('Category not found');
+                    //console.log('Category not found');
                    
                 }
             }
@@ -231,6 +235,11 @@ export default function NavBar() {
             open
         ));
     };
+
+
+    useEffect(()=>{
+
+    })
 
 
     useEffect(() => {
@@ -308,7 +317,7 @@ export default function NavBar() {
     }, []);
 
     useEffect(() => {
-        console.log(drawerState)
+        
         if (drawerState) {
             handleFocus('hidden', '17px');
         }
@@ -318,7 +327,7 @@ export default function NavBar() {
     }, [drawerState])
 
 
-
+    //console.log(searchQuery);
 
     window.addEventListener('scroll', handleScroll);
     const navName = navClass === true ? "navbar-changed" : "";
@@ -347,6 +356,7 @@ export default function NavBar() {
                     <ThemeProvider theme={customTheme(outerTheme)}>
 
                         <TextField label="Search"
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             onInput={() => (setSearchFocus(true))}
                             onClick={() => (setSearchFocus(true))}
                             onFocus={() => { (setSearchFocus(true)); (dispatch(setDrawerStatus(true))) }}

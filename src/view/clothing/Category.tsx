@@ -1,10 +1,10 @@
 import { LinearProgress} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { MetaData, Product } from "../../types/types";
+import { MetaData, Product } from "../../utils/types";
 import ItemBrowser from "../items/ItemBrowser";
 import AddIcon from '@mui/icons-material/Add';
-import { fetchCategory, getCategoryIDByName } from "../../network/networkConfig";
+import { fetchCategory} from "../../network/networkConfig";
 import '../../styles/clothing/ClothingMainPage.css'
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../network/redux/store/store";
@@ -12,18 +12,16 @@ import { incrPageNumber, resetPageNumber } from "../../network/redux/reducers/pa
 import { setCategoryName } from "../../network/redux/actions/actions";
 import { setProductCount } from "../../network/redux/reducers/productCountSlice";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
-import { url } from "inspector";
 
 
 export function Category() {
     const [metaData, setMetaData] = useState<MetaData>();
     
-    const [limit, setLimit] = useState<number>(8);
+
     const [prevCategoryID, setPrevCategoryID] = useState<string | null>(null);
-    const [hoveredImgUrls, setHoveredImgUrls] = useState<string[]>([]);
+   
     const [products, setProducts] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+   
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
 
@@ -56,7 +54,7 @@ export function Category() {
         
         async function fetchData() {
             try {
-                const data = await fetchCategory(categoryID, page, limit);
+                const data = await fetchCategory(categoryID, page, 8);
                 if (categoryID === prevCategoryID) {
 
                     const uniqueProductIds = new Set(products.map(product => product._id));
@@ -80,12 +78,12 @@ export function Category() {
                 }
 
                 setMetaData(data.products.metadata);
-                setHoveredImgUrls(Array(data.products.data.length).fill(''));
+                
 
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-            setIsLoading(false);
+          
         }
 
         fetchData();

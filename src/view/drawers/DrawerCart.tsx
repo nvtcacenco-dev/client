@@ -88,8 +88,8 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                 </li>
                 <li>
                     <span>
-                        Delivery Fees 
-                        <Tooltip className="cart-drawer-tooltip" title={`$${120 - total < 0 ? 0 : (120 - total).toFixed(2)} left for free delivery`} placement="right" TransitionComponent={Zoom}>
+                        Shipping Fees 
+                        <Tooltip className="cart-drawer-tooltip" title={`$${120 - total < 0 ? 0 : (120 - total).toFixed(2)} left for free shipping`} placement="right" TransitionComponent={Zoom}>
                             <div>?</div>
                         </Tooltip>
                     </span>

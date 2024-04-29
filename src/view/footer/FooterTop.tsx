@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import '../../styles/footer/Footer.css'
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import { Link } from 'react-router-dom';
-import CheckIcon from '@mui/icons-material/Check';
+
 
 export default function FooterTop(){
     return(

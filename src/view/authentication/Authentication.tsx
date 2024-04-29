@@ -1,11 +1,11 @@
-import { Button, Paper } from '@mui/material';
+import { Button } from '@mui/material';
 import '../../styles/authentication/Authentication.css'
 import { useState } from 'react';
 import Login from './Login';
 import SignUp from './SignUp';
-import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles';
+import { createTheme, Theme} from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import { easeInOut, motion } from 'framer-motion';
+
 
 const customInputTheme = (outerTheme: Theme) =>
     createTheme({
@@ -76,7 +76,7 @@ export default function Authentication() {
 
     const signUpName = switchStatus ? 'authentication-btn-active' : 'authentication-btn-inactive';
     const loginName = switchStatus ? 'authentication-btn-inactive' : 'authentication-btn-active';
-    const pageTitle = switchStatus ? 'Welcome Back' : 'Sign Up For Free';
+    
 
     return (
         <section className='authentication-container d-flex justify-content-center align-items-center '>

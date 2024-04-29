@@ -133,3 +133,8 @@
     max-width: none !important;
     min-height: 80svh;
 }
+
+.filters-container{
+    min-height: 100px;
+}
+

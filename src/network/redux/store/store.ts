@@ -1,8 +1,9 @@
 
-import { UnknownAction, combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import categoryReducer from '../reducers/categorySlice';
 import productCountReducer from '../reducers/productCountSlice';
 import productReducer from '../reducers/productSlice';
+import sortReducer from '../reducers/sortSlice';
 import pageNumberReducer from '../reducers/pageNumberSlice';
 import drawerStatusReducer from '../reducers/drawerStatusSlice';
 import storage from 'redux-persist/lib/storage';
@@ -37,6 +38,7 @@ export const store = configureStore({
     productCount: productCountReducer,
     pageNumber: pageNumberReducer,
     drawerStatus: drawerStatusReducer,
+    sortState: sortReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

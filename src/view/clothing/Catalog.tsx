@@ -2,7 +2,7 @@
 import { LinearProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { MetaData, Product } from "../../types/types";
+import { MetaData, Product } from "../../utils/types";
 import ItemBrowser from "../items/ItemBrowser";
 import AddIcon from '@mui/icons-material/Add';
 import { fetchAllProducts } from "../../network/networkConfig";
@@ -10,19 +10,24 @@ import '../../styles/clothing/ClothingMainPage.css';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../network/redux/store/store";
 import { setProductCount } from "../../network/redux/reducers/productCountSlice";
-import { setCategoryName } from "../../network/redux/actions/actions";
+import { setCategoryName} from "../../network/redux/actions/actions";
 import { incrPageNumber, resetPageNumber } from "../../network/redux/reducers/pageNumberSlice";
+import { findSortTrue } from "../../utils/sortUtils";
+
+
+
 
 export default function Catalog() {
     const [metaData, setMetaData] = useState<MetaData>();
-    const [limit, setLimit] = useState<number>(8);
-    const [hoveredImgUrls, setHoveredImgUrls] = useState<string[]>([]);
+    
+
     const [products, setProducts] = useState<Product[]>([]);
     
     const dispatch = useDispatch();
-    const productCount = useSelector((state: RootState) => state.productCount.count);
+   
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
-    
+    const sortState = useSelector((state: RootState) => state.sortState);
+
     const calculateProgress = () => {
         if (metaData && metaData.totalCount) {
             const totalCount = metaData.totalCount;
@@ -40,11 +45,13 @@ export default function Catalog() {
     }
 
     const noMorePages = products.length === metaData?.totalCount ? true : false;
+    console.log(sortState)
 
     useEffect(() => {
         async function fetchData() {
+            const sorting = findSortTrue(sortState);
             try {
-                const data = await fetchAllProducts(page, limit);
+                const data = await fetchAllProducts(page, 8, sorting?.option, sorting?.order);
                 if (page !== 1) {
                     // Create a set to store unique product IDs
                     const uniqueProductIds = new Set(products.map(product => product._id));
@@ -56,30 +63,31 @@ export default function Catalog() {
                     setProducts(prevProducts => [...prevProducts, ...newProducts]);
                 } else {
                     dispatch(resetPageNumber());
-                    // Set products directly without checking for duplicates for a new category
+                    
                     dispatch(setProductCount(data.products.metadata.totalCount))
                     dispatch(setCategoryName('Our Catalog'))
                     setProducts(data.products.data);
                 }
                 setMetaData(data.products.metadata);
-                setHoveredImgUrls(Array(data.products.data.length).fill(''));
+                
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
 
         fetchData();
-    }, [page]);
+    }, [page, sortState]);
 
     useEffect(() => {
         async function fetchData() {
+            const sorting = findSortTrue(sortState);
             try {
-                const data = await fetchAllProducts(page, limit);
+                const data = await fetchAllProducts(page, 8, sorting?.option, sorting?.order);
                 setProducts(data.products.data);
                 setMetaData(data.products.metadata)
                 dispatch(setCategoryName('Our Catalog'))
                 dispatch(setProductCount(data.products.metadata.totalCount));
-                setHoveredImgUrls(Array(data.products.data.length).fill(''));
+                
             } catch (error) {
                 console.error("Error fetching data:", error);
                 // Handle error if needed
@@ -87,7 +95,9 @@ export default function Catalog() {
         }
 
         fetchData();
-    }, []);
+    }, [sortState]);
+
+    
 
     return (
         <div className="col-12 d-flex justify-content-center align-items-center flex-column">

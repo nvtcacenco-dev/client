@@ -2,6 +2,9 @@ import { Drawer } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { DrawerProps } from "./DrawerHandler";
 import '../../styles/filters/Drawer.css'
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../network/redux/store/store";
+import { setSortingPrice } from "../../network/redux/actions/actions";
 
 interface FilterValue{
    name: string,
@@ -16,6 +19,9 @@ export default function DrawerFilters({onClose, open}:DrawerProps){
 
     const [listMap, setListMap] = useState<any>();
     const [list, setList] = useState<FilterValue[]>([])
+    const dispatch = useDispatch();
+  
+    const sortState = useSelector((state: RootState) => state.sortState);
 
    useEffect(()=>{
         setList([value1, value2, value3]);
@@ -27,13 +33,18 @@ export default function DrawerFilters({onClose, open}:DrawerProps){
         )
    },[])
    
-        
-    
+    const handleSort = (value: boolean) =>{
+        return !value;
+    }
+   
 
     return(
         <Drawer anchor="right" className="custom-drawer" open={open} onClose={onClose}>
             <ul className="drawer-list">
-                {listMap}
+                <li>    
+                       Price: {`${sortState.Price.state}`}
+                       <button onClick={()=> dispatch(setSortingPrice({state: handleSort(sortState.Price.state), order: 'desc'}))}>Sort By Price</button>
+                </li>
             </ul>
             
         </Drawer>

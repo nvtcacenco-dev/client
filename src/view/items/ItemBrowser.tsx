@@ -10,18 +10,18 @@ import '../../styles/items/ItemList.css';
 import { ItemBrowserProps } from "./ItemBrowserHandler";
 import { addFav, setProduct } from "../../network/redux/actions/actions";
 import { AnimatePresence, motion } from "framer-motion";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 import { UserContext } from "../user/UserContext";
-import { Product } from "../../types/types";
+import { Product } from "../../utils/types";
 import { manageFavourites } from "../../network/networkConfig";
 
-export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
+export default function ItemBrowser({ products}: ItemBrowserProps) {
 
-    const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
+ 
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const dispatch = useDispatch();
 
-    const { user, setUser } = useContext<any>(UserContext);
+    const { user} = useContext<any>(UserContext);
 
     function handleAddRemoveFromFavs(product: Product, userID: string) {
         dispatch(addFav(product));
@@ -34,6 +34,7 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
     function handleHyphens(name: string): string {
         return name.replace(/ /g, "-").toLowerCase();
     } 
+    
     
 
     const map = products.map((product, index) => (
@@ -65,6 +66,7 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
                                     ${product.imageURL}/2.webp?tr=w-600 480w,
                                     ${product.imageURL}/2.webp?tr=w-500 320w
                             `}
+                        alt={`${product.Name} 2`}
                     />
 
                     <img
@@ -78,7 +80,8 @@ export default function ItemBrowser({ products, favStatus }: ItemBrowserProps) {
                                 ${product.imageURL}/1.webp?tr=w-700 720w,
                                 ${product.imageURL}/1.webp?tr=w-600 480w,
                                 ${product.imageURL}/1.webp?tr=w-500 320w
-                `}
+                                `}
+                        alt={`${product.Name} 1`}
                     />
 
 

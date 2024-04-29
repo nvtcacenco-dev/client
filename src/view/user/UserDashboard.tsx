@@ -5,11 +5,10 @@ import BasicTabs from "./CustomTabPanel";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { clearPersistedState, resetCategoryState } from "../../network/redux/actions/actions";
-import { logoutUser } from "../../network/networkConfig";
+import { clearPersistedState} from "../../network/redux/actions/actions";
 import { clearPersistedStateAndRestart} from "../../network/redux/store/store";
 export default function UserDashboard() {
-    const { user, setUser, setToken } = useContext<any>(UserContext);
+    const { user, setUser} = useContext<any>(UserContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSignOut = async () => {

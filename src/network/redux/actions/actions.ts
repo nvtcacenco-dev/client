@@ -11,8 +11,12 @@ import {
   SET_FAVS,
   CLEAR_PERSISTED_STATE,
   RESET_CATEGORY_STATE,
+  SET_SORTING_PRICE,
+  SET_SORTING_DATE,
+  SET_SORTING_NAME,
+  SET_SORTING_POPULARITY,
 } from "./actionTypes";
-import { Product } from "../../../types/types";
+import { Product, Sort } from "../../../utils/types";
 
 export const setCategoryID = createAction<string | null>(SET_CATEGORY_ID);
 
@@ -43,3 +47,11 @@ export const decrementCartProduct = createAction<number>(
 export const removeFromCart = createAction<number>(REMOVE_FROM_CART);
 
 export const clearPersistedState = createAction(CLEAR_PERSISTED_STATE);
+
+export const setSortingPrice = createAction<Sort>(SET_SORTING_PRICE);
+
+export const setSortingName = createAction<Sort>(SET_SORTING_NAME);
+
+export const setSortingDate = createAction<Sort>(SET_SORTING_DATE);
+
+export const setSortingPopularity = createAction<Sort>(SET_SORTING_POPULARITY);

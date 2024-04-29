@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import logo from './logo.svg';
+import  { useContext, useState } from 'react';
+
 import './App.css';
 import HeroPage from './view/hero/HeroPage';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -11,19 +11,17 @@ import SingleItem from './view/items/singleItem/SingleItem';
 import Footer from './view/footer/Footer';
 import Favorites from './view/favorites/Favorites';
 import PromotionBannerAlt from './view/banner/PromotionBannerAlt';
-import { Scrollbar } from 'react-scrollbars-custom';
+
 
 import Authentication from './view/authentication/Authentication';
 import { UserContext } from './view/user/UserContext';
 import UserDashboard from './view/user/UserDashboard';
 
 
-function App() {const scrollContent = document.querySelector('.ScrollbarsCustom-Content');;
-  const [scroll, setScroll] = useState<number>(0)
-  const [maxScroll, setMaxScroll] = useState<number>(0)
+function App() {
 
-  const scrollNameChangeTop = scroll > 0 ? "scroll-changed-top" : ""
-  const scrollNameChangeBottom = scroll > 0 ? "scroll-changed-bottom" : ""
+
+
 
   const location = useLocation();
   const { user } = useContext<any>(UserContext);

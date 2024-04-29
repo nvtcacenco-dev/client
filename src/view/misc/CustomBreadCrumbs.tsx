@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../../network/redux/store/store";
+
 import { setCategoryID } from '../../network/redux/actions/actions';
 import { Breadcrumbs } from "@mui/material";
 function replaceHyphensWithSpace(url: string | undefined) {
@@ -11,7 +11,7 @@ function replaceHyphensWithSpace(url: string | undefined) {
 }
 
 export default function CustomBreadCrumbs(){
-    const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
+    
     const dispatch = useDispatch();
     const location = useLocation();
     const pathSegments = location.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments

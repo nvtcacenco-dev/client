@@ -1,6 +1,6 @@
 .promotion-banner{
     
-    background-color: var(--primary-clr-light);
+    background-color: var(--primary-clr-light-faded);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -38,7 +38,7 @@
 
 .promotion-banner > li {
     padding: 0;
-    color: var(--light-clr); 
+    color: var(--dark-clr); 
     font-size: var(--fs-sm);
     transition: transform 0.3s ease-in-out;
 }

@@ -1,4 +1,4 @@
-import { Categories } from "../../types/types";
+import { Categories } from "../../utils/types";
 
 export interface ExpanderProps{
     

@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice} from "@reduxjs/toolkit";
 import { RootState } from "../store/store"; // Adjust the path as needed
 import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions"; // Import the action creator
-import {Product } from "../../../types/types";
+import {Product } from "../../../utils/types";
 
 export interface CartState {
     cart: {product: Product, quantity: number, size: string}[];
@@ -15,7 +15,7 @@ const initialState: CartState = {
 
 const calculateTotal = (cart: CartState['cart']): number => {
   const total = cart.reduce((total, item) => {
-    const price = parseFloat(item.product.Price);
+    const price = item.product.Price;
     return total + price * item.quantity;
   }, 0);
   return parseFloat(total.toFixed(2)); // Round to two decimal places

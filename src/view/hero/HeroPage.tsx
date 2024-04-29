@@ -10,7 +10,7 @@ import img4 from '../../resources/imgs/brand_otw.jpg'
 import img5 from '../../resources/imgs/brand_otw_logo.jpg'
 
 import ItemList from '../items/ItemList';
-import Footer from '../footer/Footer';
+
 import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ import { RootState } from '../../network/redux/store/store';
 
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { motion } from 'framer-motion';
 
 
 export default function HeroPage() {
@@ -43,6 +44,7 @@ export default function HeroPage() {
                             https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-1200 720w,
                             https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-800 480w,
                             https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/hero_bg.webp?tr=w-700 320w'
+                    alt=''
                 />
                 <div className="masked-text-wrapper">
                     <h1 id='section-title-1' className="text-default">Trend <br/> Thread</h1>
@@ -54,12 +56,35 @@ export default function HeroPage() {
                 </Button>
                 <div className='cta-box position-absolute col-12 col-xl-10 col-xxl-9 d-flex justify-content-center align-items-center'>
                     <div className='col-6'>
-                        <h2 className='cta-title'>Spring <br/> Sale</h2>
-                        <LoyaltyIcon className='cta-icon' />
+                        <motion.h2 
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                            viewport={{ once: true }} 
+                            className='cta-title'>
+                                Spring <br/> Sale</motion.h2>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                            viewport={{ once: true }} 
+                            className=' bg-transparent'>
+                            <LoyaltyIcon className='cta-icon' />
+                        </motion.div>
+                        
                     </div>
                     <div className='col-6'>
-                        <h2 className='cta-title'>Trending <br/> Now</h2>
-                        <WhatshotIcon className='cta-icon' />
+                    <motion.h2 
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                            viewport={{ once: true }} 
+                            className='cta-title'>
+                                Trending <br/> Now</motion.h2>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                            viewport={{ once: true }} 
+                            className=' bg-transparent'>
+                            <WhatshotIcon className='cta-icon' />
+                        </motion.div>
                     </div>
                 </div>
 
@@ -70,41 +95,63 @@ export default function HeroPage() {
 
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/spring'} />
-                        <div>New <br/> Arrivals</div>
+                        <motion.div
+                            initial={{ translateX: -400 }}
+                            whileInView={{ translateX: 0, transition: { duration: 0.6} }}
+                            viewport={{ once: true }}>
+                            New <br/> Arrivals
+                        </motion.div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-1200 1080w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-900 720w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-700 480w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-500 320w'
+                            alt='New Arrivals'
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/jackets'} />
-                        <div>Spring <br/> Jackets</div>
+                        <motion.div
+                            initial={{ translateX: -400 }}
+                            whileInView={{ translateX: 0, transition: { duration: 0.6} }}
+                            viewport={{ once: true }}>
+                            Spring <br/> Jackets
+                        </motion.div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-1200 1080w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-900 720w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-700 480w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-500 320w'
+                            alt='Spring Jackets'
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/dresses'} />
-                        <div>Dresses</div>
+                        <motion.div
+                            initial={{ translateX: -400 }}
+                            whileInView={{ translateX: 0, transition: { duration: 0.6} }}
+                            viewport={{ once: true }}>
+                            Dresses
+                        </motion.div>
                         <img
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-1200'
                             srcSet='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-1200 1080w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-900 720w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-700 480w,
                                     https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-500 320w'
+                            alt='Dresses'
                         />
                     </li>
-                    <Button>
-                        <Link className='w-100 h-100 position-absolute' to={'/catalog/spring'} />
-                        <h2 id='section-title-2'>Our Spring Collection</h2>
-                    </Button>
+                    <Link to={'/catalog/spring'} className='spring-btn from-left'>
+                        <div className='col-12' >
+                            <h2 id='section-title-2'>
+                                Our Spring Collection
+                            </h2>
+                            
+                        </div>
+                    </Link>
 
 
                 </ul>
@@ -120,14 +167,14 @@ export default function HeroPage() {
                     <ul className='botw d-flex justify-content-center align-items-center flex-column col-7 col-xxl-5'>
                         <li className='botw-item'><h2 id='section-title-4'>Brand of the week</h2></li>
                         <li className='botw-item col-9'>
-                            <img className='botw-brand-title' src={img5} /></li>
+                            <img className='botw-brand-title' src={img5} alt='brand of the week' /></li>
                         <li className='botw-item col-12'>
                             <Link className='botw-promo-link' to={'/catalog/brand-of-the-week'}>
                                 <Button >Get it here</Button>
                             </Link>
                         </li>
                     </ul>
-                    <img src={img4} className='botw-promo-img col-5' />
+                    <img src={img4} className='botw-promo-img col-5' alt='brand of the week' />
                 </div>
             </section>
 
