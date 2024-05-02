@@ -82,6 +82,7 @@ export default function ItemList() {
                     <FavoriteIcon className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
                 </IconButton>
             </div>
+            
             <div className='d-flex item-description col-12 flex-column align-items-start row-gap-2'>
                 <p>{`$${product.Price}`}</p>
                 <p>{product.Brand}</p>

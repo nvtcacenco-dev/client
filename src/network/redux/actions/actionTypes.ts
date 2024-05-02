@@ -25,6 +25,6 @@ export const SET_SORTING_PRICE = 'sorting/setSortingPrice'
 
 export const SET_SORTING_NAME = 'sorting/setSortingName'
 
-export const SET_SORTING_DATE = 'sorting/setSortingDate'
+export const SET_SORTING_CREATEDAT = 'sorting/setSortingCreatedAt'
 
 export const SET_SORTING_POPULARITY = 'sorting/setSortingPopularity'

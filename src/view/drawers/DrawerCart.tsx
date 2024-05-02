@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Scrollbar } from 'react-scrollbars-custom';
 import Zoom from '@mui/material/Zoom';
 import { decrementCartProduct, incrementCartProduct, removeFromCart } from "../../network/redux/actions/actions";
+import { calculateDiscountedPrice } from "../../utils/utils";
 
 
 
@@ -52,7 +53,16 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                     <div className="d-flex justify-content-center align-items-center ">{item.quantity}</div>
                     <Button className="quantity-btn " onClick={()=> (dispatch(incrementCartProduct(index)))}>+</Button>
                 </div>
-                <p className="">{`$${item.product.Price}`}</p>
+                <p className="">{item.product.Discount > 0 ? 
+                    (<span>
+                        <span className="discount-former">
+                            {`$${item.product.Price}`}
+                        </span>
+                        <span className="discount-current ms-2">
+                            {`$${calculateDiscountedPrice(item.product.Price, item.product.Discount).toFixed(2)}`}
+                        </span>
+                    </span> ) 
+                    : (`$${item.product.Price} `)}</p>
                 <IconButton className="remove-item-btn" onClick={()=> (dispatch(removeFromCart(index)))}>
                     <CloseIcon />
                 </IconButton>

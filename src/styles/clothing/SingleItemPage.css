@@ -110,9 +110,7 @@
 #size-accordion::before{
     visibility: collapse !important;
 }
-.MuiAccordion-root{
-  
-}
+
 .MuiAccordion-root::before{
     position: absolute !important;
     background-color: var(--primary-clr-light-faded) !important;
@@ -126,12 +124,8 @@
     padding-top: 0 !important;
     text-align: start;
 }
-.MuiAccordionSummary-root:nth-of-type(1){
+.single-item-info-accordion .MuiAccordionSummary-root:nth-of-type(1){
     min-height: 32px !important;
-}
-.MuiAccordionSummary-root{
-    min-height: 64px !important;
-    
 }
 
 .singleItem-fav-btn{

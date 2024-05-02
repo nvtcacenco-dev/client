@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
-import { Alert, Button, Collapse, IconButton, MenuItem, SelectChangeEvent} from '@mui/material';
+import { Alert, Button, Collapse, IconButton, MenuItem } from '@mui/material';
 
 import Accordion from '@mui/material/Accordion';
 
@@ -23,6 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { addFav, addToCart } from '../../../network/redux/actions/actions';
 import { setDrawerStatus2 } from '../../../network/redux/reducers/drawerStatusSlice';
+import { calculateDiscountedPrice } from '../../../utils/utils';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -55,7 +56,7 @@ export default function SingleItem() {
         dispatch(setDrawerStatus2(true));
         setOpen(true);
         setExpandedImgURL(url);
-       
+
     };
 
     const handleClose = () => {
@@ -64,19 +65,19 @@ export default function SingleItem() {
         setExpandedImgURL('');
     };
 
-    
+
 
     const handleSizesExpand = () => {
-        if(expanded){
+        if (expanded) {
             setExpanded(false)
-        } else{
+        } else {
             setExpanded(true)
         }
     }
     console.log(cart)
     const handleAddToCart = () => {
-        if (product ) {
-            if(size !== "Size"){
+        if (product) {
+            if (size !== "Size") {
                 dispatch(addToCart({ product: product, size: size }))
                 setOpenFeedbackError(false);
                 setExpanded(false);
@@ -86,11 +87,11 @@ export default function SingleItem() {
                     setOpenFeedbackSuccess(false);
                 }, 2000);
                 setSuccessTimer(timer);
-            } else{
+            } else {
                 setOpenFeedbackError(true)
                 setOpenFeedbackSuccess(false);
             }
-            
+
         }
     }
     const handleCloseSuccessAlert = () => {
@@ -99,9 +100,26 @@ export default function SingleItem() {
             clearTimeout(successTimer);
         }
     }
+
+
+    const priceMap = () => {
+        if (product) {
+           const map =  product.Discount > 0 ?
+                (<span>
+                    <span className="discount-former">
+                        {`$${product.Price}`}
+                    </span>
+                    <span className="discount-current ms-2">
+                        {`$${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)}`}
+                    </span>
+                </span>)
+                : (`$${product.Price} `)
+            return map
+        }
+    }
     const lgMap = validImages.map((imageUrl, index) => (
         <img key={index} src={`${imageUrl}`} alt={`${index}`} className='single-item-img col-6 pe-2 pb-2' loading='lazy'
-            onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`));})}
+            onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
             srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
                     ${imageUrl}?tr=w-600 480w,
@@ -114,7 +132,7 @@ export default function SingleItem() {
 
         <Carousel.Item key={index}>
             <img src={`${imageUrl}`} alt={`${index}`} className='single-item-img' loading='lazy'
-                onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`);})}
+                onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`); })}
                 srcSet={`${imageUrl}?tr=w-1000 1080w,
                     ${imageUrl}?tr=w-700 720w,
                     ${imageUrl}?tr=w-600 480w,
@@ -201,7 +219,7 @@ export default function SingleItem() {
                     <div className="singleItem-info-container col-12 col-md-5 col-lg-6 col-xl-5 px-0 px-md-3 px-xxl-0 d-flex align-items-center flex-column ">
                         <div className='col-12 col-lg-12 col-xxl-8'>
                             <div className='singleItem-info-description d-flex flex-column col-12 '>
-                                <p className='col-12 '>{`$${product?.Price}`}</p>
+                                <p className='col-12 '>{priceMap()}</p>
                                 <p className='col-12 '>{product?.Name}</p>
                                 <p className='col-12 '>{product?.Brand.toUpperCase()}</p>
                                 <IconButton className='singleItem-fav-btn' onClick={() => { if (product) { dispatch(addFav(product)) } }}>
@@ -212,7 +230,7 @@ export default function SingleItem() {
                             <Accordion id='size-accordion' className='single-item-info-accordion col-12 ' expanded={expanded} onClick={handleSizesExpand}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
-                                    
+
                                     aria-controls="panel1-content"
                                     id="panel1-header"
                                 >
@@ -224,7 +242,7 @@ export default function SingleItem() {
                                 </AccordionDetails>
                             </Accordion>
                             <Collapse in={openFeedbackError}>
-                                <Alert 
+                                <Alert
                                     className='error-alert'
                                     severity="error"
                                     action={
@@ -246,7 +264,7 @@ export default function SingleItem() {
                             </Collapse>
                             <Button className='add-to-cart-btn col-12 ' onClick={handleAddToCart} endIcon={<AddShoppingCartIcon />}>Add to cart</Button>
                             <Collapse in={openFeedbackSuccess}>
-                                <Alert 
+                                <Alert
                                     className='success-alert'
                                     severity="success"
                                     action={
@@ -303,7 +321,7 @@ export default function SingleItem() {
                                     malesuada lacus ex, sit amet blandit leo lobortis eget.
                                 </AccordionDetails>
                             </Accordion>
-                            
+
                         </div>
 
                     </div>
@@ -318,7 +336,7 @@ export default function SingleItem() {
                 >
                     <DialogContent className='dialog-content p-0 m-0'>
                         <img className='preview-img' loading='lazy' alt='' src={expandedImgURL} />
-                        <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => {(handleClose());}}>
+                        <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => { (handleClose()); }}>
                             <CloseIcon fontSize='small' />
                         </IconButton>
                     </DialogContent>

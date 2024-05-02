@@ -12,7 +12,7 @@ import {
   CLEAR_PERSISTED_STATE,
   RESET_CATEGORY_STATE,
   SET_SORTING_PRICE,
-  SET_SORTING_DATE,
+  SET_SORTING_CREATEDAT,
   SET_SORTING_NAME,
   SET_SORTING_POPULARITY,
 } from "./actionTypes";
@@ -52,6 +52,6 @@ export const setSortingPrice = createAction<Sort>(SET_SORTING_PRICE);
 
 export const setSortingName = createAction<Sort>(SET_SORTING_NAME);
 
-export const setSortingDate = createAction<Sort>(SET_SORTING_DATE);
+export const setSortingCreatedAt = createAction<Sort>(SET_SORTING_CREATEDAT);
 
 export const setSortingPopularity = createAction<Sort>(SET_SORTING_POPULARITY);

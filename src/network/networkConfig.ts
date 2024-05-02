@@ -30,7 +30,30 @@ export async function fetchNewProducts(): Promise<Product[]> {
         throw error; // Re-throw the error to handle it in the caller if needed
     }
 }
+export async function fetchAllFilterOptions(field: string): Promise<string[]> {
+    try {
+        const response = await axios.get<string[]>(`http://localhost:8080/api/v1/products/filteropt/${field}`);
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching filter options for ${field}:`, error);
+        throw error;
+    }
+}
 
+export async function fetchPopularProducts(page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<ResponseDataProducts> {
+    try {
+        let url = `http://localhost:8080/api/v1/products/popular?page=${page}&pageSize=${limit}`;
+        if (sortBy && sortOrder) {
+            url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+        }
+        const response = await axios.get<ResponseDataProducts>(url);
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+}
 
 export async function fetchProductByID(id: string): Promise<Product> {
     try {
@@ -54,9 +77,14 @@ export async function fetchAllCategories(): Promise<Categories[]> {
 }
 
 
-export async function fetchCategory(id: string | null, page: number, limit: number): Promise<Categories> {
+export async function fetchCategory(id: string | null, page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<Categories> {
     try {
-        const response = await axios.get<Categories>(`http://localhost:8080/api/v1/categories/${id}?page=${page}&pageSize=${limit}`);
+        let url = `http://localhost:8080/api/v1/categories/${id}?page=${page}&pageSize=${limit}`
+
+        if (sortBy && sortOrder) {
+            url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+        }
+        const response = await axios.get<Categories>(url);
         
         return response.data;
     } catch (error) {
@@ -64,6 +92,7 @@ export async function fetchCategory(id: string | null, page: number, limit: numb
         throw error; // Re-throw the error to handle it in the caller if needed
     }
 }
+
 
 
 export const getCategoryIDByName = async (name: string): Promise<string | null> => {
@@ -164,3 +193,4 @@ export async function logoutUser() {
         throw error;
     }
 }
+

@@ -40,6 +40,8 @@ export interface Product {
     imageURL: string;
     newStatus: boolean;
     imgsNr: number;
+    Popularity: number;
+    Discount: number;
 }
 
 

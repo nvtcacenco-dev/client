@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { MetaData, Product } from "../../utils/types";
 import ItemBrowser from "../items/ItemBrowser";
 import AddIcon from '@mui/icons-material/Add';
-import { fetchAllProducts } from "../../network/networkConfig";
+import { fetchAllProducts, fetchPopularProducts } from "../../network/networkConfig";
 import '../../styles/clothing/ClothingMainPage.css';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../network/redux/store/store";
@@ -13,18 +13,22 @@ import { setProductCount } from "../../network/redux/reducers/productCountSlice"
 import { setCategoryName} from "../../network/redux/actions/actions";
 import { incrPageNumber, resetPageNumber, setPageNumber } from "../../network/redux/reducers/pageNumberSlice";
 import { findSortTrue } from "../../utils/sortUtils";
+import { getLastPartOfUrl, handleHyphens } from "../../utils/utils";
+import { useLocation } from "react-router-dom";
 
 
 
 
-export default function Catalog() {
+export default function CategoryFilter() {
     const [metaData, setMetaData] = useState<MetaData>();
     
 
     const [products, setProducts] = useState<Product[]>([]);
     
     const dispatch = useDispatch();
-   
+    const location = useLocation();
+    const pathname = location.pathname;
+
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
     const sortState = useSelector((state: RootState) => state.sortState);
 
@@ -51,7 +55,7 @@ export default function Catalog() {
         async function fetchData() {
             const sorting = findSortTrue(sortState);
             try {
-                const data = await fetchAllProducts(page, 8, sorting?.option, sorting?.order);
+                const data = await fetchPopularProducts(page, 8, sorting?.option, sorting?.order);
                 if (page !== 1) {
                     
                     setProducts(prevProducts => [...prevProducts, ...data.products.data]);
@@ -78,11 +82,13 @@ export default function Catalog() {
             const sorting = findSortTrue(sortState);
             
             try {
-                const data = await fetchAllProducts(1, 8, sorting?.option, sorting?.order);
+                const data = await fetchPopularProducts(1, 8, sorting?.option, sorting?.order);
                 console.log(data.products.data);
                 setProducts(data.products.data);
-                setMetaData(data.products.metadata)
-                dispatch(setCategoryName('Our Catalog'))
+                setMetaData(data.products.metadata);
+
+                const lastPart = getLastPartOfUrl(pathname);
+                dispatch(setCategoryName(handleHyphens(lastPart)))
                 dispatch(setProductCount(data.products.metadata.totalCount));
                 
             } catch (error) {

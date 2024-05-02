@@ -19,12 +19,25 @@ export default function CategoriesBrandsExpander({ urlEndpoint, categories }: Ex
 
     }
 
+    const categoryName = (str: string) =>{
+        switch (str) {
+            case 'BotW':
+                return 'Brand of the Week';
+
+            case 'Spring':
+                return 'Spring Collection';
+
+            default:
+               return str;
+        }
+    }
+
     const listMap =
         categories?.sort((a, b) => a.Name.localeCompare(b.Name)).map((item, index) => (
             <li key={index} className="d-flex">
                 <Link to={`/catalog/${item.Name === 'BotW' ? 'brand-of-the-week' : item.Name.toLowerCase()}`} onClick={(() => { handleClick(item._id); })}>
 
-                    {item.Name === 'BotW' ? 'Brand of the Week' : item.Name}
+                    {categoryName(item.Name)}
                 </Link>
             </li>
         ));
@@ -37,7 +50,11 @@ export default function CategoriesBrandsExpander({ urlEndpoint, categories }: Ex
                 <li className="d-flex">
                     <Link to={`/catalog`} onClick={(() => dispatch(setCategoryID(null)))}>
                         Catalog
-
+                    </Link>
+                </li>
+                <li className="d-flex">
+                    <Link to={`/catalog/best-sellers`} onClick={(() => dispatch(setCategoryID(null)))}>
+                        Best Sellers
                     </Link>
                 </li>
                 {listMap}

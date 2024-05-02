@@ -12,6 +12,7 @@ import { incrPageNumber, resetPageNumber } from "../../network/redux/reducers/pa
 import { setCategoryName } from "../../network/redux/actions/actions";
 import { setProductCount } from "../../network/redux/reducers/productCountSlice";
 import { motion } from "framer-motion";
+import { findSortTrue } from "../../utils/sortUtils";
 
 
 export function Category() {
@@ -24,7 +25,7 @@ export function Category() {
    
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const page = useSelector((state: RootState) => state.pageNumber.pageNumber);
-
+    const sortState = useSelector((state: RootState) => state.sortState);
    
     const dispatch = useDispatch();
     
@@ -53,13 +54,13 @@ export function Category() {
     useEffect(()=>{
         
         async function fetchData() {
+            const sorting = findSortTrue(sortState);
             try {
-                const data = await fetchCategory(categoryID, page, 8);
+                
+                const data = await fetchCategory(categoryID, page, 8, sorting?.option, sorting?.order);
                 if (categoryID === prevCategoryID) {
 
-                    const uniqueProductIds = new Set(products.map(product => product._id));
-                    const newProducts = data.products.data.filter(product => !uniqueProductIds.has(product._id));
-                    setProducts(prevProducts => [...prevProducts, ...newProducts]);
+                    setProducts(prevProducts => [...prevProducts, ...data.products.data]);
 
                 } else {
 
@@ -88,8 +89,33 @@ export function Category() {
 
         fetchData();
         
-    },[categoryID, page])
+    },[categoryID, page,])
 
+
+    useEffect(() => {
+        
+        async function fetchData() {
+            const sorting = findSortTrue(sortState);
+            
+            try {
+                const data = await fetchCategory(categoryID, 1, 8, sorting?.option, sorting?.order);
+                console.log(data.products.data);
+                setProducts(data.products.data);
+                setMetaData(data.products.metadata)
+                if (data.Name.toLocaleLowerCase() === 'botw') {
+                    dispatch(setCategoryName('Brand of the Week'))
+                }else{
+                    dispatch(setCategoryName(data.Name))
+                }
+                dispatch(setProductCount(data.products.metadata.totalCount));
+                
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+       
+        fetchData();
+    }, [sortState, categoryID]);
     
     
     return (

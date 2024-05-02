@@ -3,7 +3,7 @@ import { useLocation} from 'react-router-dom';
 
 
 import '../../styles/clothing/ClothingMainPage.css'
-import { Button, Collapse} from '@mui/material';
+import { Button, Chip, Collapse} from '@mui/material';
 
 import DrawerFilters from '../drawers/DrawerFilters';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -17,6 +17,9 @@ import { Category } from './Category';
 import CustomBreadCrumbs from '../misc/CustomBreadCrumbs';
 
 import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
+import { findSortTrue, findSortTrueBool } from '../../utils/sortUtils';
+import { getLastPartOfUrl } from '../../utils/utils';
+import CategoryFilter from './CategoryFilter';
 
 
 function replaceHyphensWithSpace(url: string | undefined) {
@@ -31,17 +34,34 @@ const Clothing: React.FC = () => {
     const [state, setState] = useState<boolean>(false);
     
 
-
     
     const dispatch = useDispatch();
-    
+    const location = useLocation();
+    const pathname = location.pathname;
+
     const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
     const categoryName = useSelector((state: RootState) => state.persistedReducer.category.categoryName);
     const productCount = useSelector((state: RootState) => state.productCount.count);
     const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
-    
+    const sortState = useSelector((state: RootState) => state.sortState);
 
-    const filterContainerName = state ? 'filters-open' : '';
+
+    const componentSwitch = () => {
+        const lastPart = getLastPartOfUrl(pathname)
+        switch (lastPart) {
+            case 'catalog':
+                
+                return <Catalog/>
+            case 'best-sellers':
+                
+                return <CategoryFilter/>
+        
+            default:
+                return <Category/>
+        }
+    }
+  
+    
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
             event.type === 'keydown' &&
@@ -100,10 +120,8 @@ const Clothing: React.FC = () => {
                 </div>
 
                 <DrawerFilters onClose={toggleDrawer(false) } open={state} /> 
-                <Collapse>
-                    HELLO
-                </Collapse>
-                {categoryID ? <Category/> : <Catalog />}
+                
+                {componentSwitch()}
             </div>
         </div>
 

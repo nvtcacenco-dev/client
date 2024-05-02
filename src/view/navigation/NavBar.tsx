@@ -19,6 +19,7 @@ import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice'
 import { UserContext } from '../user/UserContext';
 import { fetchAllCategories, fetchUserFavorites } from '../../network/networkConfig';
 import { Categories } from '../../utils/types';
+import { getLastPartOfUrl } from '../../utils/utils';
 
 
 const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
@@ -122,18 +123,8 @@ export default function NavBar() {
   
     const accountButtonPath =  user ? `/user/${user._id}`  : '/login';
 
-
     useEffect(() => {
-        function getLastPartOfUrl(url: string) {
-            try {
-                const urlObj = new URL(url, window.location.origin);
-                const parts = urlObj.pathname.split('/');
-                return parts[parts.length - 1];
-            } catch (error) {
-                console.error('Error parsing URL:', error);
-                return '';
-            }
-        }
+        
     
         const lastPart = getLastPartOfUrl(pathname);
 
@@ -150,39 +141,23 @@ export default function NavBar() {
             try {
                 const data = await fetchAllCategories();
                 setCategories(data);
-
-
             } catch (error) {
                 console.error("Error fetching data:", error);
-
             }
         }
-
         fetchData();
     }, []);
 
     useEffect(() => {
-       
         function findCategoryID() {
-           
             if (categories && categories.length > 0) {
-                
                 const category = categories.find(category => category.Name.toLowerCase() === urlEndpoint);
-                
-               
                 if (category) {
-                    
-                    
                     dispatch(setCategoryID(category._id));
-                   
-                } else {
-                    //console.log('Category not found');
-                   
-                }
+                } 
             }
         }
-
-        
+ 
         findCategoryID();
     }, [categories, urlEndpoint]);
 
@@ -200,10 +175,7 @@ export default function NavBar() {
     
         fetchFavorites();
     }, [user]);
-    
 
-
-    
     function calcCartSize(): number {
         
         let count = 0;
@@ -235,12 +207,6 @@ export default function NavBar() {
             open
         ));
     };
-
-
-    useEffect(()=>{
-
-    })
-
 
     useEffect(() => {
         if (isHome) {
@@ -277,12 +243,9 @@ export default function NavBar() {
     };
 
     const handleScroll = () => {
-
         setPrevScrollPos(window.scrollY);
         setSearchFocus(false);
         changeNavBarClr();
-        
-
     };
 
     function handleFocus(overflow: string, padding: string) {
@@ -297,7 +260,6 @@ export default function NavBar() {
         if (promoElement) {
             promoElement.style.width = `calc(100% - ${padding})`;
         }
-
     }
 
 
@@ -307,9 +269,7 @@ export default function NavBar() {
             setWindowWidth(window.innerWidth);
         };
 
-
         window.addEventListener('resize', handleResize);
-
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -326,8 +286,6 @@ export default function NavBar() {
         }
     }, [drawerState])
 
-
-    //console.log(searchQuery);
 
     window.addEventListener('scroll', handleScroll);
     const navName = navClass === true ? "navbar-changed" : "";

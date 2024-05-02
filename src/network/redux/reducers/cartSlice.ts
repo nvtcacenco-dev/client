@@ -2,6 +2,7 @@ import { createSlice} from "@reduxjs/toolkit";
 import { RootState } from "../store/store"; // Adjust the path as needed
 import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions"; // Import the action creator
 import {Product } from "../../../utils/types";
+import { calculateDiscountedPrice } from "../../../utils/utils";
 
 export interface CartState {
     cart: {product: Product, quantity: number, size: string}[];
@@ -15,8 +16,18 @@ const initialState: CartState = {
 
 const calculateTotal = (cart: CartState['cart']): number => {
   const total = cart.reduce((total, item) => {
-    const price = item.product.Price;
-    return total + price * item.quantity;
+   
+
+    if(item.product.Discount > 0){
+      const price = item.product.Price;
+      const discount = item.product.Discount;
+      const discountedPrice = calculateDiscountedPrice(price, discount);
+      return total + discountedPrice * item.quantity;
+    } else{
+      const price = item.product.Price;
+      return total + price * item.quantity;
+    }
+    
   }, 0);
   return parseFloat(total.toFixed(2)); // Round to two decimal places
 };
