@@ -21,9 +21,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { addFav, addToCart } from '../../../network/redux/actions/actions';
+import { addFav, addToCart, setProduct } from '../../../network/redux/actions/actions';
 import { setDrawerStatus2 } from '../../../network/redux/reducers/drawerStatusSlice';
-import { calculateDiscountedPrice } from '../../../utils/utils';
+import { calculateDiscountedPrice, getStringAfterAmpersand} from '../../../utils/utils';
+import { useLocation } from 'react-router-dom';
+import { fetchProductByID} from '../../../network/networkConfig';
+import OptimizedImage from '../../loading/OptimizedImage';
+import { valuta } from '../../../utils/types';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -43,29 +47,46 @@ export default function SingleItem() {
     const [openFeedbackSuccess, setOpenFeedbackSuccess] = useState<boolean>(false);
     const [successTimer, setSuccessTimer] = useState<NodeJS.Timeout | null>(null);
 
-    const [expandedImgURL, setExpandedImgURL] = useState<string>('');
+    
 
+    const [expandedImgURL, setExpandedImgURL] = useState<string>('');
+    
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [size, setSize] = useState<string>('Size');
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
-    const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
+    
+
+    const location = useLocation();
+    const pathname = location.pathname;
 
     const dispatch = useDispatch();
 
     const handleClickOpen = (url: string) => {
-        dispatch(setDrawerStatus2(true));
-        setOpen(true);
+        if (windowWidth > 576) {
+            setOpen(true);
         setExpandedImgURL(url);
+        }
+        
+        
 
     };
 
     const handleClose = () => {
-        dispatch(setDrawerStatus2(false));
+        
+        
         setOpen(false);
         setExpandedImgURL('');
+        
     };
 
-
+    useEffect(() => {
+        async function getProduct() {
+            const productID = getStringAfterAmpersand(pathname);
+            const product = await fetchProductByID(productID)
+            dispatch(setProduct(product))
+        }
+        getProduct()
+    }, [pathname])
 
     const handleSizesExpand = () => {
         if (expanded) {
@@ -74,7 +95,7 @@ export default function SingleItem() {
             setExpanded(true)
         }
     }
-    console.log(cart)
+    
     const handleAddToCart = () => {
         if (product) {
             if (size !== "Size") {
@@ -104,41 +125,54 @@ export default function SingleItem() {
 
     const priceMap = () => {
         if (product) {
-           const map =  product.Discount > 0 ?
+            const map = product.Discount > 0 ?
                 (<span>
                     <span className="discount-former">
-                        {`$${product.Price}`}
+                        {`${product.Price} ${valuta}`}
                     </span>
                     <span className="discount-current ms-2">
-                        {`$${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)}`}
+                        {`${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)} ${valuta}`}
                     </span>
                 </span>)
-                : (`$${product.Price} `)
+                : (`${product.Price} ${valuta}`)
             return map
         }
     }
+   
     const lgMap = validImages.map((imageUrl, index) => (
-        <img key={index} src={`${imageUrl}`} alt={`${index}`} className='single-item-img col-6 pe-2 pb-2' loading='lazy'
+        
+        
+        <OptimizedImage 
+            uImage={{
+                src:`${imageUrl}`, 
+                srcSet: `${imageUrl}?tr=w-1000 1080w,
+                ${imageUrl}?tr=w-700 720w,
+                ${imageUrl}?tr=w-600 480w,
+                ${imageUrl}?tr=w-500 320w`
+            }}
+            id={`img-${index+1}`}
+            containerClassName='col-6 pe-2 pb-2 position-relative'
+            imgClassName='single-item-img col-12'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
-            srcSet={`${imageUrl}?tr=w-1000 1080w,
-                    ${imageUrl}?tr=w-700 720w,
-                    ${imageUrl}?tr=w-600 480w,
-                    ${imageUrl}?tr=w-500 320w
-            `}
         />
     ));
 
     const carouselMap = validImages.map((imageUrl, index) => (
 
         <Carousel.Item key={index}>
-            <img src={`${imageUrl}`} alt={`${index}`} className='single-item-img' loading='lazy'
-                onClick={(() => { handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`); })}
-                srcSet={`${imageUrl}?tr=w-1000 1080w,
-                    ${imageUrl}?tr=w-700 720w,
-                    ${imageUrl}?tr=w-600 480w,
-                    ${imageUrl}?tr=w-500 320w
-                `}
-            />
+            <OptimizedImage 
+            uImage={{
+                src:`${imageUrl}`, 
+                srcSet: `${imageUrl}?tr=w-1000 1080w,
+                ${imageUrl}?tr=w-700 720w,
+                ${imageUrl}?tr=w-600 480w,
+                ${imageUrl}?tr=w-500 320w`
+            }}
+            id={`img-${index+1}`}
+            containerClassName='col-12 position-relative h-100'
+            imgClassName='single-item-img col-12'
+            onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
+        />
         </Carousel.Item>
     ));
 
@@ -148,14 +182,21 @@ export default function SingleItem() {
 
 
     useEffect(() => {
-        let backgroundImageSet = false; // Track if the background images have been set
-
+        let backgroundImageSet = false; 
         function setBackgroundImage() {
             if (!backgroundImageSet && windowWidth <= 1200) {
                 const carouselIndicators = document.querySelectorAll<HTMLButtonElement>('.carousel-indicators button');
+                
+
                 if (carouselIndicators.length > 0 && validImages.length > 0) {
                     carouselIndicators.forEach((button, index: number) => {
-                        button.style.backgroundImage = `url(${validImages[index]}?tr=w-100)`;
+                       
+                        var bgImg = new Image();
+                        bgImg.src = `${validImages[index]}?tr=w-50`
+                        bgImg.onload = () =>{
+                            button.style.backgroundImage = `url(${bgImg.src})`;
+                        }
+                        
                     });
                     backgroundImageSet = true; // Mark as background images set
                 }
@@ -200,7 +241,7 @@ export default function SingleItem() {
     }, []);
 
     return (
-        <div className="singleItem-page-container col-12 d-flex flex-column align-items-center">
+        <div className="singleItem-page-container col-12 d-flex flex-column align-items-center ">
             <div className='col-12 col-lg-10'>
                 <CustomBreadCrumbs />
                 <div className="singleItem-container d-flex justify-content-center align-items-start col-12 flex-wrap">
@@ -209,7 +250,7 @@ export default function SingleItem() {
                             (<Carousel
                                 interval={null}
                                 data-bs-theme="dark"
-                                className="h-100"
+                                className="h-100 col-12"
                                 controls={false}
                             >
                                 {carouselMap}
@@ -326,21 +367,29 @@ export default function SingleItem() {
 
                     </div>
                 </div>
-                <Dialog
-                    open={open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleClose}
-                    aria-describedby="alert-dialog-slide-description"
-                    className='m-0'
-                >
-                    <DialogContent className='dialog-content p-0 m-0'>
-                        <img className='preview-img' loading='lazy' alt='' src={expandedImgURL} />
-                        <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => { (handleClose()); }}>
-                            <CloseIcon fontSize='small' />
-                        </IconButton>
-                    </DialogContent>
-                </Dialog>
+
+                {windowWidth < 577 ?
+                    (<></>)
+                    :
+                    (<Dialog
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-describedby="alert-dialog-slide-description"
+                        className='m-0'
+                        disableScrollLock={true}
+                    >
+                        <DialogContent className='dialog-content p-0 m-0'>
+                            <OptimizedImage imgClassName='preview-img' uImage={{src: expandedImgURL}}/>
+                            
+                            <IconButton className='dialog-close-btn' aria-label='close-preview' onClick={() => { (handleClose()); }}>
+                                <CloseIcon fontSize='small' />
+                            </IconButton>
+                        </DialogContent>
+                    </Dialog>)
+                }
+
             </div>
 
         </div>

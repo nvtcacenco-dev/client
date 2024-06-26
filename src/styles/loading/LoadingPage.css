@@ -1,0 +1,17 @@
+.loading-page{
+    height: 100svh !important;
+}
+
+.loading-icon{
+    height: 15%;
+    background-image: url('../../resources/icons/icon_loading.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.loading-txt{
+    font-size: 3rem;
+    color: var(--light-clr);
+    text-transform:uppercase;
+}

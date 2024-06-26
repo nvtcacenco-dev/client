@@ -1,0 +1,341 @@
+.checkout-section {
+  --_padding-top: calc(184px + 60px);
+  --_padding-inline: calc(24px + 1rem);
+
+  min-height: calc(100svh - var(--_padding-top));
+  padding-inline: var(--_padding-inline);
+
+ 
+  column-gap: calc(1rem + 64px);
+  row-gap: calc(1rem + 36px);
+}
+
+
+
+#payment-element{
+ 
+}
+
+#shipping-element{
+  margin-top: calc(12px + 1rem)
+}
+
+#payment-form {
+  border: #F6F9FC solid 1px;
+  border-radius: var(--radius);
+  padding: calc(12px + 1rem);
+
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;  
+  border: 2px solid var(--primary-clr-light-faded);
+}
+
+.p-Input{
+  font-size: var(--fs-xs) !important;
+}
+
+#payment-form-title{
+  font-size: var(--fs-md);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: calc(24px + 1rem);
+}
+#messages {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Poppins', 'Courier New';
+  display: none;
+  /* hide initially, then show once the first message arrives */
+  background-color: #0A253C;
+  color: #00D924;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: var(--radius);
+  font-size: 0.7em;
+}
+
+
+#submit {
+
+  margin-block: 1rem;
+  border: none;
+  color: var(--light-clr);
+  
+  min-height: 64px;
+  max-height: 20%;
+  background-color: var(--dark-clr);
+  align-self: flex-end;
+  transition: background-color 0.3s ease-in-out;
+  font-size: var(--fs-md);
+
+}
+
+#submit:hover{
+  background-color: #186506;
+}
+
+#checkout-cart-title{
+  margin-top: calc(14px + 1rem);
+  text-align: start;
+  font-size: var(--fs-md);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.checkout-list {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  padding-bottom: calc(12px + 1rem);
+}
+
+
+
+.checkout-list-item {
+  margin-block: 16px;
+}
+
+.checkout-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.checkout-list-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  bottom: -16px;
+  left: 0;
+  height: 1px;
+  background-color: #d3d0d0;
+}
+
+.checkout-list-item p {
+  height: fit-content;
+  margin-bottom: 0;
+}
+
+.checkout-list-item-link{
+  width: 17.5%;
+  aspect-ratio: 1/1.5;
+}
+
+
+
+.checkout-list-item img {
+  width: 100%;
+  aspect-ratio: 1/1.5;
+  object-fit: cover;
+  object-position: center;
+}
+
+.checkout-list-item-description p {
+  color: var(--dark-clr);
+  font-size: var(--fs-sm);
+  width: fit-content;
+}
+
+.checkout-list-item-description p:nth-of-type(1) {
+  
+  font-weight: 600;
+}
+
+.checkout-list-item-description p:nth-of-type(2){
+  
+  font-weight: 500;
+}
+
+
+.checkout-list-item-description p:nth-of-type(3) {
+ 
+  font-weight: 400;
+  color: #727272;
+}
+
+.checkout-list-item-description p:nth-of-type(4) {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  
+  font-weight: 600;
+}
+
+
+.checkout-total-description {
+   
+  list-style: none;
+  padding-inline: 0px;
+  
+  
+  margin-bottom: 0;
+  margin-top: auto;
+  background-color: #fff;
+  z-index: 3 !important;
+}
+
+.checkout-total-description li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-total-description li p {
+  margin-bottom: 0;
+  font-size: var(--fs-xs);
+}
+
+.checkout-total-description li:nth-of-type(2) {
+  margin-bottom: 12px;
+}
+
+.checkout-total-description li:nth-of-type(2) {
+  display: flex;
+
+}
+
+.checkout-total-description li:nth-of-type(2) span:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-xs);
+}
+
+.checkout-total-description li:nth-of-type(2) span div {
+  color: var(--light-clr);
+  background-color: #d3d0d0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--fs-sm);
+  height: var(--fs-sm);
+
+  border-radius: 100%;
+  margin-left: 6px;
+  font-size: var(--fs-xs) !important;
+  font-weight: 600;
+  user-select: none;
+}
+
+
+
+.checkout-total-description li:nth-of-type(3) p {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.checkout-total-description li:nth-of-type(4) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.checkout-total-description li:last-child {
+  
+  display: flex;
+  justify-content: center;
+}
+
+.checkout-total-description ul {
+  list-style: none;
+  padding-left: 0;
+  
+}
+
+.checkout-total-description li ul li {
+  min-height: 12px;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.checkout-total-description li ul li:nth-of-type(1){
+  background-image: url('../../resources/icons/Logo_PayPal.svg'); 
+}
+
+.checkout-total-description li ul li:nth-of-type(2){
+  background-image: url('../../resources/icons/Logo_Visa_Inc.svg'); 
+}
+
+.checkout-total-description li ul li:nth-of-type(3){
+  background-image: url('../../resources/icons/Logo_Mastercard.svg'); 
+}
+
+.checkout-total-description li ul li:nth-of-type(4){
+  background-image: url('../../resources/icons/Logo_Mobile_Pay.svg'); 
+}
+
+.checkout-accordion{
+  box-shadow: none !important;
+  border: 0 !important;
+  
+}
+
+
+.checkout-accordion::before{
+  content: '';
+  visibility: collapse;
+}
+
+.checkout-accordion-details{
+  padding-inline: 0 !important;
+}
+
+
+.checkout-accordion-header{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+  
+}
+
+
+.checkout-shipping-input{
+  width: 49%;
+  box-shadow: 0px 3px 10px rgba(18, 42, 66, 0.08);
+}
+
+.checkout-shipping-input:last-child{
+  width: 100%;
+}
+
+.Input{
+  box-shadow: none !important;
+}
+
+
+#loading-spinner{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--light-clr);
+  z-index: 4;
+  opacity: 0.75;
+}
+
+@media (min-width: 1400px) {
+  .checkout-list-item-description p {
+    
+    font-size: var(--fs-base);
+    
+  }
+
+  .checkout-total-description li:nth-of-type(3) p {
+    font-size: var(--fs-base);
+    
+  }
+
+
+  .checkout-total-description li p {
+    margin-bottom: 0;
+    font-size: var(--fs-sm);
+  }
+  
+  
+  .checkout-total-description li:nth-of-type(2) span:nth-of-type(1),  .checkout-total-description li:nth-of-type(2) span div {
+    font-size: var(--fs-sm);
+  }
+  
+ 
+}
+
+@media (width < 576px) {
+  .checkout-section{
+    --_padding-inline: 12px
+  }
+}

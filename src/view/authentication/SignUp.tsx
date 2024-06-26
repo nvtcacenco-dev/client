@@ -111,9 +111,7 @@ export default function SignUp({ theme }: LoginSignUpProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6}}
         >
-            <li>
-                <h1>Sign Up For Free Now</h1>
-            </li>
+           
             <li>
                 <div className="d-flex column-gap-3">
                     <ThemeProvider theme={theme(outerTheme)}>
@@ -150,7 +148,7 @@ export default function SignUp({ theme }: LoginSignUpProps) {
             </li>
             <li className="d-flex">
                 <Checkbox className="authentication-checkbox"/>
-                <div className="checkbox-label d-flex align-items-center ms-1">Yes, I want to sign up for the newsletter.</div>
+                <div className="checkbox-label d-flex align-items-center ms-2">Yes, I want to sign up for the newsletter.</div>
             </li>
             <li className="d-flex">
                 <p className="authentication-eula">

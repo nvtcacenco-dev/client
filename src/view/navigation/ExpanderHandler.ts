@@ -3,7 +3,8 @@ import { Categories } from "../../utils/types";
 export interface ExpanderProps{
     
     categories: Categories[] | undefined;
-    urlEndpoint: string;
-   
+    urlEndpoint?: string;
+    isLoading?: boolean;
+    isDesktop?: boolean;
     
 }

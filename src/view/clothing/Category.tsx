@@ -13,6 +13,7 @@ import { setCategoryName } from "../../network/redux/actions/actions";
 import { setProductCount } from "../../network/redux/reducers/productCountSlice";
 import { motion } from "framer-motion";
 import { findSortTrue } from "../../utils/sortUtils";
+import { useLocation } from "react-router-dom";
 
 
 export function Category() {
@@ -28,6 +29,8 @@ export function Category() {
     const sortState = useSelector((state: RootState) => state.sortState);
    
     const dispatch = useDispatch();
+    const location = useLocation();
+    const pathname = location.pathname;
     
     const calculateProgress = () => {
         if (metaData && metaData.totalCount) {
@@ -115,7 +118,7 @@ export function Category() {
         }
        
         fetchData();
-    }, [sortState, categoryID]);
+    }, [sortState, categoryID, pathname]);
     
     
     return (

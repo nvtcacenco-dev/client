@@ -15,6 +15,7 @@ import {
   SET_SORTING_CREATEDAT,
   SET_SORTING_NAME,
   SET_SORTING_POPULARITY,
+  ADD_ORDER,
 } from "./actionTypes";
 import { Product, Sort } from "../../../utils/types";
 
@@ -45,6 +46,8 @@ export const decrementCartProduct = createAction<number>(
 );
 
 export const removeFromCart = createAction<number>(REMOVE_FROM_CART);
+
+export const addOrder = createAction<{product: Product; quantity: number; size: string}[]>(ADD_ORDER);
 
 export const clearPersistedState = createAction(CLEAR_PERSISTED_STATE);
 

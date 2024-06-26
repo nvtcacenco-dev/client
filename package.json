@@ -8,6 +8,8 @@
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.11",
     "@reduxjs/toolkit": "^2.2.1",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -17,12 +19,16 @@
     "@types/react-dom": "^18.2.19",
     "@types/react-swipeable-views": "^0.13.5",
     "axios": "^1.6.7",
+    "blurhash": "^2.0.5",
     "bootstrap": "^5.3.3",
     "framer-motion": "^11.0.20",
     "hamburger-react": "^2.5.0",
+    "highlight-string": "^1.1.2",
     "react": "^18.2.0",
+    "react-blurhash": "^0.3.0",
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-loading-skeleton": "^3.4.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.1",
@@ -58,6 +64,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.24.1",
+    "@types/react-lazy-load-image-component": "^1.6.4",
     "@types/react-router-dom": "^5.3.3",
     "@types/redux-persist": "^4.3.1"
   }

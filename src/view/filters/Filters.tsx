@@ -9,37 +9,35 @@ export enum ButtonRole {
     Date
 }
 
-interface FilterPillsProps{
-    buttonRole: ButtonRole;
+interface FiltersProps{
     name: string;
-    value?: number;
-    onLocationDeselect: () => void;
-    onResetPrice: () => void;
 }
 
+
 const CloseIconButton = styled(IconButton)<IconButtonProps>(({theme})=>({
-    color: "var(--dark-clr-faded)",
+    color: "var(--dark-clr)",
     transition: 'all 400ms',
     backgroundColor: 'transparent',
-    borderRadius: 0,
+    borderRadius: '100%',
     marginLeft: '0.25rem',
-    height: '100%',
+    
     '&:hover':{
         color: "var(--dark-clr)",
     },
     
     
 }))
-//FilterPills({name, value, onLocationDeselect, onResetPrice, buttonRole}:FilterPillsProps)
-export default function Filters(){
+
+export default function Filters({name}: FiltersProps){
 
     return (
 
-        <div className="filter-pill d-flex align-items-center pe-0">
-            Hello
+        <div className="filter-pill d-flex align-items-center justify-content-between">
             
-            <CloseIconButton aria-label="remove filter" >
-                <CloseIcon />
+           {name}
+            
+            <CloseIconButton className='filter-pill-delete-btn' aria-label="remove filter" >
+                <CloseIcon fontSize='small' />
             </CloseIconButton>
             
         </div>

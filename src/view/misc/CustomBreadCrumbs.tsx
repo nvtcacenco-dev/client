@@ -3,12 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 
 import { setCategoryID } from '../../network/redux/actions/actions';
 import { Breadcrumbs } from "@mui/material";
-function replaceHyphensWithSpace(url: string | undefined) {
-    if (url) {
-        return url.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-    }
 
-}
+
+import '../../styles/breadcrumbs/Breadcrumbs.css'
+import { removeAmpersandAndAfter, replaceHyphensWithSpace } from "../../utils/utils";
+
 
 export default function CustomBreadCrumbs(){
     
@@ -19,7 +18,7 @@ export default function CustomBreadCrumbs(){
         { label: 'Home', to: '/' },
         { label: 'Catalog', to: '/catalog' },
         ...pathSegments.slice(1).map((segment, index) => ({
-            label: replaceHyphensWithSpace(segment),
+            label: removeAmpersandAndAfter(replaceHyphensWithSpace(segment)) ,
             to: `/${pathSegments.slice(0, index + 2).join('/')}`
         }))
     ];
@@ -31,7 +30,7 @@ export default function CustomBreadCrumbs(){
             } else {
                 // Render link for other items
                 return (
-                    <Link key={index} color="inherit" to={item.to} onClick={(() => dispatch(setCategoryID(null)))}>
+                    <Link className='breadcrumbs-link' key={index} color="inherit" to={item.to} onClick={(() => dispatch(setCategoryID(null)))}>
                         {item.label}
                     </Link>
                 );

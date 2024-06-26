@@ -1,95 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { lazy, useContext, useEffect, useState } from 'react';
 import '../../styles/navigation/NavBar.css';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SearchIcon from '@mui/icons-material/Search';
-import { Link, useLocation } from 'react-router-dom';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
-
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
-import CategoriesBrandsExpander from './CategoriesBrandsExpander';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryID, setFavs } from '../../network/redux/actions/actions';
 import { RootState } from '../../network/redux/store/store';
 import { Turn as Hamburger } from 'hamburger-react'
-import DrawerCart from '../drawers/DrawerCart';
 import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
 import { UserContext } from '../user/UserContext';
-import { fetchAllCategories, fetchUserFavorites } from '../../network/networkConfig';
-import { Categories } from '../../utils/types';
-import { getLastPartOfUrl } from '../../utils/utils';
+import { fetchAllCategories, fetchSearchProducts, fetchUserFavorites } from '../../network/networkConfig';
+import { Categories, Product } from '../../utils/types';
+import { getLastPartOfUrl, handleHyphens } from '../../utils/utils';
+import { Collapse, IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import CategoriesBrandsExpander from './CategoriesBrandsExpander';
 
+import axios from 'axios';
 
-const customTheme = (outerTheme: { palette: { mode: any; }; }) =>
-    createTheme({
-        palette: {
-            mode: outerTheme.palette.mode,
-        },
-        components: {
-            MuiFormLabel: {
-                styleOverrides: {
-                    root: {
-                        fontSize: 'var(--fs-base)',
-                        paddingLeft: '12px',
-                    }
-                }
-            },
-            MuiTextField: {
-                styleOverrides: {
-
-                    root: {
-
-                        '--TextField-brandBorderColor': 'var(--primary-clr-light-faded)',
-                        '--TextField-brandBorderHoverColor': 'transparent',
-                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-light-faded)',
-                        '& label.Mui-focused': {
-                            color: '#6F7E8C',
-                        },
-                    },
-                },
-            },
-
-            MuiFilledInput: {
-                styleOverrides: {
-                    root: {
-                        borderRadius: '36px',
-                        transition: 'border-radius 0.3s 0.3s ease-in-out, background-color 0.3s ease-in-out',
-                        overflow: 'hidden',
-                        paddingLeft: '12px',
-                        fontSize: 'var(--fs-base)',
-                        backgroundColor: '#fdf6f7',
-                        border: '1px solid var(--primary-clr-light-faded)',
-                        '&:hover': {
-                            backgroundColor: 'var(--primary-clr-light-faded)',
-                        },
-                        '&.Mui-focused': {
-                            backgroundColor: 'var(--light-clr)',
-                            border: '1px solid var(--primary-clr-light-faded)',
-                            borderRadius: '0px',
-                            transition: 'border-radius 0.3s 0s ease-in-out, background-color 0.3s ease-in-out'
-                        },
-                        '&::before, &::after': {
-                            borderBottom: '0px solid var(--TextField-brandBorderColor)',
-                        },
-                        '&:hover:not(.Mui-disabled, .Mui-error):before': {
-                            borderBottom: '0px solid var(--TextField-brandBorderHoverColor)',
-
-                        },
-                        '&.Mui-focused:after': {
-
-                            borderBottom: '0px solid var(--TextField-brandBorderFocusedColor)',
-
-                        },
-                    },
-                },
-            },
-
-        },
-    });
-
-
+const CartDrawer = lazy(() => import('../drawers/DrawerCart'));
+const NavBarLGSection = lazy(() => import('./NavBarLGSection'));
+const CustomSearch = lazy(() => import('./CustomSearch'));
 
 export default function NavBar() {
 
@@ -99,94 +30,50 @@ export default function NavBar() {
     const [navClass3, setNavClass3] = useState<boolean>(false);
     const [bannerClass, setBannerClass] = useState<boolean>(false);
     const [state, setState] = useState<boolean>(false);
-    
+    const [searchSmState, setSearchSmState] = useState<boolean>(false);
+    const [categoriesSmState, setCategoriesSmState] = useState<boolean>(false);
     const [searchFocus, setSearchFocus] = useState<boolean>(false);
     const [categories, setCategories] = useState<Categories[]>();
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-    const { user} = useContext<any>(UserContext);
+    const { user } = useContext<any>(UserContext);
     const [urlEndpoint, setUrlEndpoint] = useState<string>('');
 
- 
+    
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<Product[]>([]);
+    
+    
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const location = useLocation();
     const pathname = location.pathname;
-
+    const navigate = useNavigate();
+    
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
-    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+    const order = useSelector((state: RootState) => state.orderReducer.order);
+    const drawerState = useSelector((state: RootState) => state.drawerStatus.state); 
+    const navName = navClass === true ? "navbar-changed" : "";
+    const navName2 = navClass2 === true ? "nav-box-shadow" : "";
+    const navName3 = navClass3 === true ? "nav-position" : "";
+
+    const bannerName = bannerClass === true ? "banner-changed" : "";
+
+
+    const searchSuggestionName = searchFocus === true ? "search-suggestions-focused" : "";
+    const searchBarName = searchFocus === true ? "search-bar-focused" : "";
 
     const dispatch = useDispatch();
     const isHome = location.pathname === '/';
-
-  
-    const accountButtonPath =  user ? `/user/${user._id}`  : '/login';
-
-    useEffect(() => {
-        
     
-        const lastPart = getLastPartOfUrl(pathname);
-
-         if (lastPart === 'brand-of-the-week') {
-            setUrlEndpoint('botw');
-         }else{
-            setUrlEndpoint(lastPart);
-         }
-        
-    }, [pathname]); 
- 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const data = await fetchAllCategories();
-                setCategories(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        function findCategoryID() {
-            if (categories && categories.length > 0) {
-                const category = categories.find(category => category.Name.toLowerCase() === urlEndpoint);
-                if (category) {
-                    dispatch(setCategoryID(category._id));
-                } 
-            }
-        }
- 
-        findCategoryID();
-    }, [categories, urlEndpoint]);
-
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            if (user) {
-                try {
-                    const response = await fetchUserFavorites(user._id);
-                    dispatch(setFavs(response))
-                } catch (error) {
-                    console.error("Error fetching user favorites:", error);
-                }
-            }
-        };
     
-        fetchFavorites();
-    }, [user]);
+    const accountButtonPath = user ? `/user/${user._id}` : '/login';
 
-    function calcCartSize(): number {
-        
-        let count = 0;
-
-        cart.forEach(function (item) {
-            count += item.quantity;
-        })
+ 
+    
 
 
-        return count;
-    }
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -199,8 +86,10 @@ export default function NavBar() {
 
         if (open) {
             (dispatch(setDrawerStatus(true)))
+            
         } else {
             (dispatch(setDrawerStatus(false)))
+           
         }
 
         setState((
@@ -208,15 +97,10 @@ export default function NavBar() {
         ));
     };
 
-    useEffect(() => {
-        if (isHome) {
-            dispatch(setCategoryID(null))
-        }
 
-    }, [isHome])
 
     const changeNavBarClr = () => {
-        if (window.scrollY < 120 || window.scrollY < prevScrollPos) {
+        if (window.scrollY < 300 || window.scrollY < prevScrollPos) {
             setNavClass(false);
 
             if (window.scrollY < prevScrollPos) {
@@ -232,7 +116,7 @@ export default function NavBar() {
                 setBannerClass(false);
             }
 
-        } else if (window.scrollY > 30 || window.scrollY > prevScrollPos) {
+        } else if (window.scrollY > 60 || window.scrollY > prevScrollPos) {
             setNavClass(true);
             setBannerClass(true);
 
@@ -248,21 +132,71 @@ export default function NavBar() {
         changeNavBarClr();
     };
 
-    function handleFocus(overflow: string, padding: string) {
-        document.body.style.overflowY = overflow
-        document.body.style.paddingRight = padding
-        const navElement = document.querySelector('nav');
-        const promoElement = document.getElementById('promo-banner');
-        if (navElement) {
-            navElement.style.width = `calc(100% - ${padding})`;
+
+
+    useEffect(() => {
+
+
+        const lastPart = getLastPartOfUrl(pathname);
+
+        if (lastPart === 'brand-of-the-week') {
+            setUrlEndpoint('botw');
+        } else {
+            setUrlEndpoint(lastPart);
+
         }
 
-        if (promoElement) {
-            promoElement.style.width = `calc(100% - ${padding})`;
+    }, [pathname]);
+
+    useEffect(() => {
+
+        async function fetchData() {
+            setIsLoading(true)
+            try {
+                const data = await fetchAllCategories();
+                setCategories(data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         }
-    }
+        fetchData();
 
+    }, []);
 
+    useEffect(() => {
+        function findCategoryID() {
+            if (categories && categories.length > 0) {
+                const category = categories.find(category => category.Name.toLowerCase() === urlEndpoint);
+                if (category) {
+                    dispatch(setCategoryID(category._id));
+                }
+            }
+        }
+        findCategoryID();
+    }, [categories, urlEndpoint]);
+
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (user) {
+                try {
+                    const response = await fetchUserFavorites(user._id);
+                    dispatch(setFavs(response))
+                } catch (error) {
+                    console.error("Error fetching user favorites:", error);
+                }
+            }
+        };
+
+        fetchFavorites();
+    }, [user]);
+
+    useEffect(() => {
+        if (isHome) {
+            dispatch(setCategoryID(null))
+        }
+
+    }, [isHome])
 
     useEffect(() => {
         const handleResize = () => {
@@ -276,115 +210,148 @@ export default function NavBar() {
         };
     }, []);
 
-    useEffect(() => {
-        
-        if (drawerState) {
-            handleFocus('hidden', '17px');
-        }
-        else {
-            handleFocus('', '0px');
-        }
-    }, [drawerState])
 
+
+    useEffect(() => {
+        async function getSearchResults() {
+            try {
+                if (searchQuery !== '') {
+
+                    const data = await fetchSearchProducts(1, 5, searchQuery);
+
+                    setSearchResults(data.products.data);
+
+                } else {
+                    setSearchResults([])
+                }
+
+            } catch (error) {
+
+            }
+        }
+
+        getSearchResults();
+        
+    }, [searchQuery])
+
+    const handleSearch = () =>{
+        navigate(`/search/results?search_query=${searchQuery}`)
+    }
+
+
+    function highlightAllSubstrings(text: string, substring: string): JSX.Element {
+        // Regular expression to match all instances of the substring (case-insensitive)
+        const regex = new RegExp(`(${substring.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        const parts = text.split(regex); // Split the text using the regex pattern
+
+        return (
+            <>
+                {parts.map((part, index) => (
+                    regex.test(part) ? <span key={index} className="si-highlight">{part}</span> : part
+                ))}
+            </>
+        );
+    }
+
+
+    const searchResultMap = searchResults.map((product, index) => (
+        <li className='search-suggestion-item col-12 ' key={index}>
+            <Link
+                to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
+                onClick={() => console.log(product.Name)}
+                className='search-suggestion-item-link col-12 d-flex px-3 py-2 align-items-center justify-content-between'
+            >
+                <div>
+                    {highlightAllSubstrings(product.Name, searchQuery)}
+                </div>
+
+
+                <img
+                    className='search-suggestion-item-img'
+                    src={`${product.imageURL}/1.webp?tr=w-200`}
+                    srcSet={`${product.imageURL}/1.webp?tr=w-1000 200w,
+                                ${product.imageURL}/1.webp?tr=w-700 100w,
+                                ${product.imageURL}/1.webp?tr=w-600 75w,
+                                ${product.imageURL}/1.webp?tr=w-500 50w
+                `}
+
+                />
+            </Link>
+
+        </li>
+    ))
 
     window.addEventListener('scroll', handleScroll);
-    const navName = navClass === true ? "navbar-changed" : "";
-    const navName2 = navClass2 === true ? "nav-box-shadow" : "";
-    const navName3 = navClass3 === true ? "nav-position" : "";
-
-    const bannerName = bannerClass === true ? "banner-changed" : "";
-    
-
-    const searchSuggestionName = searchFocus === true ? "search-suggestions-focused" : "";
-    const searchBarName = searchFocus === true ? "search-bar-focused" : "";
 
     return (
-        <nav className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}>
+        <nav 
+            id='topNav' 
+            className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}
+            style={{width: `calc(100% - ${drawerState? (window.innerWidth - document.documentElement.clientWidth):(0)}px)`
+            }}
+        >
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
                 <PromotionBanner />
             </div>
+            {windowWidth >= 992 ?
+                (
+                    <NavBarLGSection
+                        isUser={user ? (true) : (false)}
+                        cart={cart}
+                        favs={favs}
+                        categories={categories}
+                        outerTheme={outerTheme}
+                        searchBarName={searchBarName}
+                        searchSuggestionName={searchSuggestionName}
+                        accountButtonPath={accountButtonPath}
+                        searchResultMap={searchResultMap}
+                        isLoading={isLoading}
+                        urlEndpoint={urlEndpoint}
+                        isFocused={searchFocus}
+                        setSearchQuery={setSearchQuery}
+                        setSearchFocus={setSearchFocus}
+                        setState={setState}
+                        handleSearch ={handleSearch}
 
+                    />
+                )
+                :
+                (
+                    <div className='col-12 d-flex flex-column'>
+                        <div className='hamburger-container col-12 d-flex align-items-center justify-content-between'>
+                            <Hamburger toggled={categoriesSmState} onToggle={() => { setCategoriesSmState(!categoriesSmState); setSearchSmState(false); }} />
 
-            {windowWidth >= 992 ? (<section className='nav-main-section d-flex col-12 justify-content-center  align-items-center flex-grow-1 flex-wrap '>
-                <Link className='logo-link col-4' to={'/'}>TREND THREAD</Link>
+                            <Link className='logo-link logo-link-sm col-6' to={'/'}>TREND THREAD</Link>
 
-
-                <div className={`${searchBarName} search-bar col-10 col-sm-5 col-lg-3`}>
-
-                    <ThemeProvider theme={customTheme(outerTheme)}>
-
-                        <TextField label="Search"
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onInput={() => (setSearchFocus(true))}
-                            onClick={() => (setSearchFocus(true))}
-                            onFocus={() => { (setSearchFocus(true)); (dispatch(setDrawerStatus(true))) }}
-                            onBlur={() => { (setSearchFocus(false)); (dispatch(setDrawerStatus(false))) }} variant="filled" InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position='end'>
-                                        <IconButton>
-                                            <SearchIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-
-                            }} />
-
-                    </ThemeProvider>
-
-                    <div className={`search-suggestions ${searchSuggestionName}`}>
+                            <IconButton className='search-icon-sm' onClick={() => { setCategoriesSmState(false); setSearchSmState(!searchSmState);   }}>
+                                <SearchIcon />
+                            </IconButton>
+                        </div>
+                        <Collapse in={categoriesSmState}>
+                            <CategoriesBrandsExpander categories={categories} isDesktop={false} />
+                        </Collapse>
+                        <Collapse in={searchSmState}>
+                            <div className='search-bar-sm col-12'>
+                                <CustomSearch
+                                    isDesktop={false}
+                                    isFocused={searchFocus}
+                                    outerTheme={outerTheme}
+                                    searchBarName={searchBarName}
+                                    searchSuggestionName={searchSuggestionName}
+                                    searchResultMap={searchResultMap}
+                                    setSearchFocus={setSearchFocus}
+                                    setSearchQuery={setSearchQuery}
+                                    handleSearch={handleSearch}
+                                />
+                            </div>
+                        </Collapse>
 
                     </div>
 
 
 
-
-                </div>
-
-
-
-                <ul className='nav-icon-list d-flex col-4 justify-content-center align-items-center'>
-                    <li>
-                        <button id='cart-btn' className='nav-icon-link' onClick={() => { (setState(true)); (dispatch(setDrawerStatus(true))); }}>
-
-                            <ShoppingCartIcon className='nav-icon' />
-
-
-                            <div className='icon-product-counter'>
-                                {calcCartSize()}
-                            </div>
-                        </button>
-
-                    </li>
-
-                    <li>
-                        <Link className='nav-icon-link' to={'/favorites'}>
-                            <FavoriteIcon className='nav-icon' />
-                            <div className='icon-product-counter'>
-                                {favs.length}
-                            </div>
-                        </Link>
-
-                    </li>
-                    <li>
-                        <Link className='nav-icon-link' to={accountButtonPath}>
-                            <AccountCircleIcon className='nav-icon' />
-                        </Link>
-
-                    </li>
-                </ul>
-                
-                <DrawerCart onClose={toggleDrawer(false)} open={state} />
-                <CategoriesBrandsExpander urlEndpoint={urlEndpoint} categories={categories} />
-
-            </section>) : (
-                <div className='hamburger-container col-12 d-flex align-items-center'>
-                    <Hamburger />
-                    <Link className='logo-link col-12' to={'/'}>TREND THREAD</Link>
-                </div>
-
-
-            )}
-           
+                )}
+            <CartDrawer id='cart-top' direction='right' onClose={toggleDrawer(false)} open={state} />
         </nav>
     );
 }

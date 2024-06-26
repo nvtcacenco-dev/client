@@ -9,11 +9,12 @@
   --primary-clr-light: #b86776;
   --primary-clr-light-2: #fdf6f7;
   --primary-clr-light-faded: #ffdce0;
+  --primary-clr-light-faded-2: #fde4e7;
   --secondary-clr: #434566;
   --secondary-clr-light: #4b4c5e;
   --tertiary-clr-light: #f2ecdf;
   --tertiary-clr: #295036;
-  --dark-clr: #222222;
+  --dark-clr: #292929;
   --dark-clr-faded: #494949;
 
 
@@ -30,7 +31,12 @@
   --fs-title: clamp(5.96rem, 6.38vw + 4.68rem, 9.79rem);
 
 
-
+  --btn-border-radius: 6px;
+  --item-border-radius: 3px;
+  
+  --padding-top-sm: calc(75.5px + 60px);
+  --padding-top-md: calc(97.6px + 60px);
+  --padding-top-lg: calc(184px + 60px);
 
   --bs-breakpoint-xs: 0;
   --bs-breakpoint-sm: 576px;
@@ -39,7 +45,7 @@
   --bs-breakpoint-xl: 1200px;
   --bs-breakpoint-xxl: 1400px;
 
-
+  --radius: 12px;
   --padding-top: calc(124px + 60px + 0.5rem);
 }
 
@@ -47,17 +53,17 @@
 
 @supports (-moz-appearance:none) {
   html {
-    scroll-behavior: auto !important;
-    /* Disable smooth scrolling */
+    scroll-behavior: smooth !important;
+    
   }
 }
 
 html {
   /* -ms-overflow-style: none !important;*/
 
-  scrollbar-width: auto !important; 
+  scrollbar-width: thin !important; 
   scrollbar-color: var(--primary-clr-light-faded) var(--primary-clr-light-2) !important;
-  --scrollbar-width-legacy: 17px !important;
+  --scrollbar-width-legacy: 8px !important;
 
 }
 
@@ -84,16 +90,27 @@ code {
   position: absolute;
   left: 0;
   top: 10px;
-  width: 10%;
+  min-width: 10%;
   background-color: #186506;
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
 }
 
 .discount p{
   color: var(--light-clr);
   font-size: var(--fs-xs);
 }
+.sale-icon{
+  width: calc(12px + 0.25rem) !important;
+  height: calc(12px + 0.25rem) !important;
+}
 
+.sale-icon path{
+  fill: transparent;
+  stroke: var(--light-clr);
+}
 
 .discount-former{
   position: relative;
@@ -129,9 +146,11 @@ code {
 }
 
 .bestseller-icon{
-  width: var(--fs-base);
-  aspect-ratio: 1/1;
-  background-image: url('./resources/icons/star_icon.svg');
-  background-position: center;
-  background-size: contain;
+  width: var(--fs-md) !important;
+  height: var(--fs-md) !important;
+}
+
+.bestseller-icon path{
+  fill: #ffc400;
+  
 }

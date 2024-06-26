@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import favReducer from '../reducers/favSlice';
 import cartReducer from '../reducers/cartSlice';
+import orderReducer from '../reducers/orderSlice';
 import { CLEAR_PERSISTED_STATE } from '../actions/actionTypes';
 const persistConfig = {
   key: 'root',
@@ -39,6 +40,7 @@ export const store = configureStore({
     pageNumber: pageNumberReducer,
     drawerStatus: drawerStatusReducer,
     sortState: sortReducer,
+    orderReducer: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

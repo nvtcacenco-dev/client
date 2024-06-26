@@ -4,17 +4,21 @@
 
 
 import axios from 'axios';
-import { Product, Categories, ResponseDataProducts } from '../utils/types';
+import { Product, Categories, ResponseDataProducts, User } from '../utils/types';
+
+
+const API_URL = 'http://localhost:8080/api/v1';
+
 
 
 export async function fetchAllProducts(page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<ResponseDataProducts> {
     try {
-        let url = `http://localhost:8080/api/v1/products?page=${page}&pageSize=${limit}`;
+        let url = `${API_URL}/products?page=${page}&pageSize=${limit}`;
         if (sortBy && sortOrder) {
             url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
         }
         const response = await axios.get<ResponseDataProducts>(url);
-        console.log(response);
+        
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -23,7 +27,7 @@ export async function fetchAllProducts(page: number, limit: number, sortBy?: str
 }
 export async function fetchNewProducts(): Promise<Product[]> {
     try {
-        const response = await axios.get<Product[]>('http://localhost:8080/api/v1/products/new');
+        const response = await axios.get<Product[]>(`${API_URL}/products/new`);
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -32,7 +36,7 @@ export async function fetchNewProducts(): Promise<Product[]> {
 }
 export async function fetchAllFilterOptions(field: string): Promise<string[]> {
     try {
-        const response = await axios.get<string[]>(`http://localhost:8080/api/v1/products/filteropt/${field}`);
+        const response = await axios.get<string[]>(`${API_URL}/products/filteropt/${field}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching filter options for ${field}:`, error);
@@ -42,12 +46,12 @@ export async function fetchAllFilterOptions(field: string): Promise<string[]> {
 
 export async function fetchPopularProducts(page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<ResponseDataProducts> {
     try {
-        let url = `http://localhost:8080/api/v1/products/popular?page=${page}&pageSize=${limit}`;
+        let url = `${API_URL}/products/popular?page=${page}&pageSize=${limit}`;
         if (sortBy && sortOrder) {
             url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
         }
         const response = await axios.get<ResponseDataProducts>(url);
-        console.log(response);
+        
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,7 +61,7 @@ export async function fetchPopularProducts(page: number, limit: number, sortBy?:
 
 export async function fetchProductByID(id: string): Promise<Product> {
     try {
-        const response = await axios.get<Product>(`http://localhost:8080/api/v1/products/${id}`);
+        const response = await axios.get<Product>(`${API_URL}/products/${id}`);
         
         return response.data;
     } catch (error) {
@@ -66,9 +70,39 @@ export async function fetchProductByID(id: string): Promise<Product> {
     }
 }
 
+export async function fetchProductByName(name: string): Promise<Product> {
+    try {
+        const response = await axios.get<Product>(`${API_URL}/products/`, {
+            params: {
+                name: name
+            }
+        });
+
+        
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product by name:', error);
+        throw error;
+    }
+}
+
+export async function fetchSearchProducts(page: number, limit: number, query: string | null): Promise<ResponseDataProducts> {
+    try {
+        let url = `${API_URL}/products/search/${query}?page=${page}&pageSize=${limit}`;
+        
+        
+        const response = await axios.get<ResponseDataProducts>(url);
+        
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+}
+
 export async function fetchAllCategories(): Promise<Categories[]> {
     try {
-        const response = await axios.get<Categories[]>('http://localhost:8080/api/v1/categories');
+        const response = await axios.get<Categories[]>(`${API_URL}/categories`);
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -79,7 +113,7 @@ export async function fetchAllCategories(): Promise<Categories[]> {
 
 export async function fetchCategory(id: string | null, page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<Categories> {
     try {
-        let url = `http://localhost:8080/api/v1/categories/${id}?page=${page}&pageSize=${limit}`
+        let url = `${API_URL}/categories/${id}?page=${page}&pageSize=${limit}`
 
         if (sortBy && sortOrder) {
             url += `&sortBy=${sortBy}&sortOrder=${sortOrder}`;
@@ -97,13 +131,13 @@ export async function fetchCategory(id: string | null, page: number, limit: numb
 
 export const getCategoryIDByName = async (name: string): Promise<string | null> => {
     try {
-        const response = await axios.get<{ id: string }>('http://localhost:8080/api/v1/categories', {
+        const response = await axios.get<{ id: string }>(`${API_URL}/categories`, {
             params: {
                 name: name
             }
         });
 
-        console.log(response);
+        
         return response.data.id;
     } catch (error) {
         console.error('Error fetching category ID:', error);
@@ -113,7 +147,7 @@ export const getCategoryIDByName = async (name: string): Promise<string | null> 
 
 export async function registerUser(firstName: string, lastName:string, email:string, password: string, favs: Product[]){
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/users/register', {
+        const response = await axios.post(`${API_URL}/users/register`, {
           firstName: firstName,
           lastName: lastName,
           email: email,
@@ -135,9 +169,11 @@ export async function registerUser(firstName: string, lastName:string, email:str
       }
 }
 
+
+
 export async function authUser(email: string, password: string) {
     try {
-        const response = await axios.post('http://localhost:8080/api/v1/users/login', {
+        const response = await axios.post(`${API_URL}/users/login`, {
             email: email,
             password: password
         }, {
@@ -147,49 +183,98 @@ export async function authUser(email: string, password: string) {
         });
 
         const data = response.data;
-        console.log(data)
+        
+        
+        
         
         return data
     } catch (error) {
         console.error(error);
     }
 }
-export async function manageFavourites(userId: string, productId: string): Promise<void> {
+ export async function manageFavourites(userId: string, productId: string): Promise<void> {
     try {
-        const response = await axios.put(`http://localhost:8080/api/v1/users/${userId}/manageFavourites`, { productId }, {
+        const response = await axios.put(`${API_URL}/users/${userId}/manageFavourites`, { productId }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response.data.message);
+        
     } catch (error) {
         console.error("Error managing favourites:", error);
         throw error;
     }
+} 
+
+export async function editUserInfoByID(id: string, updates: Partial<User>): Promise<void> {
+    try {
+        const response = await axios.patch(`${API_URL}/users/${id}/edit`, updates, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+    } catch (error) {
+        console.error("Error editing user information:", error);
+        throw error;
+    }
 }
 
-export async function fetchUserFavorites(userId: string) {
+
+ export async function fetchUserFavorites(userId: string) {
     try {
-        const response = await axios.get(`http://localhost:8080/api/v1/users/${userId}/favourites`);
+        const response = await axios.get(`${API_URL}/users/${userId}/favourites`);
         return response.data;
     } catch (error) {
         console.error("Error fetching user favorites:", error);
         throw error;
     }
-}
+} 
 
 
 export async function logoutUser() {
     try {
-        const response = await axios.get('http://localhost:8080/api/v1/users/logout', {
+        const response = await axios.get(`${API_URL}/users/logout`, {
             withCredentials: true, 
         });
         
-        console.log(response.data.message);
+        
         
         return response.data; 
     } catch (error) {
         console.error("Error during logout:", error);
+        throw error;
+    }
+}
+
+
+export async function createCheckout() {
+    try {
+        
+        const response = await axios.post(`${API_URL}/checkout/create-payment-intent`, {
+            
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                
+            }
+        });
+        
+        return response; 
+    } catch (error) {
+        console.error("STRIPE ERROR:", error);
+        throw error;
+    }
+}
+
+
+export async function configStripe(): Promise<any> {
+    try {
+        const response = await axios.get(`${API_URL}/checkout/config`);
+        
+        return response;
+    } catch (error) {
+        console.error("STRIPE CONFIG ERROR:", error);
         throw error;
     }
 }

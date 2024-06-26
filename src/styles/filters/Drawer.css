@@ -1,21 +1,55 @@
 .custom-drawer {
-    --_drawer-width: 500px;
+    --_drawer-width: min(90%, 500px);
+    
+    
+}
+
+#cart-bottom{
+    width: 100%;
+}
+
+#cart-bottom .MuiDrawer-paper {
+    width: 100%;
+    height: 80%;
+    
+}
+
+#cart-top{
     min-width: 33%;
     width: var(--_drawer-width);
     position: relative;
     overflow: hidden !important;
+    
+}
+
+#cart-top .MuiDrawer-paper {
+    width: var(--_drawer-width);
+   
 }
 
 .custom-drawer .MuiDrawer-paper {
-    width: var(--_drawer-width);
-   
+    
+    
     display: flex;
     flex-direction: column;
 }
 
-/* #custom-drawer-fs .MuiDrawer-paper{
-    overflow: auto !important;
-} */
+#custom-drawer-fs{
+    min-width: 33%;
+    width: var(--_drawer-width);
+    position: relative;
+    overflow: hidden !important;
+    
+}
+
+#custom-drawer-fs .MuiDrawer-paper{
+    width: var(--_drawer-width);
+    
+    scrollbar-width: thin !important;
+    
+    scrollbar-color: var(--primary-clr-light-faded) var(--light-clr) !important;
+    
+} 
 
 .drawer-title {
     margin-top: 12px;
@@ -57,6 +91,17 @@
     padding: 0 !important;
     padding-inline: 12px !important;
 }
+
+.cart-scroll{
+    max-height: 72%;
+    margin-bottom: 12px;
+    overflow-y: scroll;
+    scrollbar-width: thin !important;
+    scrollbar-gutter: stable both-edges;
+    scrollbar-color: var(--primary-clr-light-faded) var(--light-clr) !important;
+    padding-inline-end: 8px;
+
+}
 .drawer-list, .drawer-list-sf {
     list-style: none;
     margin: 0;
@@ -66,6 +111,10 @@
    
     z-index: 0;
   
+}
+
+.drawer-list-sf{
+    
 }
 
 .drawer-list-sf li{
@@ -204,10 +253,13 @@
     margin-bottom: 0;
 }
 
-
+.drawer-list-item-link{
+    width: 17.5%;
+    aspect-ratio: 1/1.5;
+}
 
 .drawer-list-item img {
-    width: 17.5%;
+    width: 100%;
     aspect-ratio: 1/1.5;
     object-fit: cover;
     object-position: center;
@@ -404,7 +456,7 @@
     color: var(--light-clr) !important;
     font-family: 'Poppins' !important;
     font-size: var(--fs-base) !important;
-    border-radius: 2px !important;
+    border-radius: var(--btn-border-radius) !important;
     letter-spacing: .03em !important;
     background-color: var(--dark-clr) !important;
 }

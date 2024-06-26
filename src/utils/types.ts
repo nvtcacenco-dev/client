@@ -42,6 +42,7 @@ export interface Product {
     imgsNr: number;
     Popularity: number;
     Discount: number;
+    blurHash: string[];
 }
 
 
@@ -57,6 +58,10 @@ export interface User{
     email: string;
     cart: CartState;
     favourites: Product[];
+    address: string;
+    city: string;
+    zipCode: string;
+    orders: Order[] | Order;
 }
 
 
@@ -64,3 +69,17 @@ export interface Sort{
     state: boolean;
     order: string;
 }
+
+export type CartProduct = {
+    cartProductId: string;
+    quantity: number;
+}
+
+export interface Order{
+    stripeID: string;
+    order: {product: Product, quantity: number, size: string}[];
+    deliverStatus: boolean;
+}
+
+export const valuta = 'DKK'
+    

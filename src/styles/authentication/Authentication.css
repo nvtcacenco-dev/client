@@ -11,18 +11,13 @@
 
 .authentication-holder{
    
-    height: fit-content;
+    height: 100%;
     background-color: var(--light-clr) !important;
     padding-inline: var(--_padding-inline);
     padding-block: calc(12px + 1rem);
     transition: height 0.3s ease-in-out;
-    border: 1px solid var(--primary-clr-light-faded);
+    border-radius: 6px;
     
-}
-
-.authentication-holder > * {
-    margin-bottom: calc(12px + 1rem);
-    width: 100%;
 }
 
 
@@ -39,14 +34,25 @@
     width: 100%
 }
 
-.authentication-holder ul li h1{
+#authentication-title {
     font-size: var(--fs-lg);
     font-weight: 600;
     color: var(--dark-clr);
+    padding-bottom: calc(12px + 1rem);
 }
 
 .authentication-holder ul li:last-child{
     margin-top: auto;
+}
+
+.authentication-brand-logo{
+    
+    margin-block: calc(12px + 1rem);
+    aspect-ratio: 1/1;
+    background-image: url('../../resources/icons/logo.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 
@@ -77,7 +83,7 @@
     font-family: 'Poppins' !important;
     font-size: var(--fs-xl) !important;
     font-weight: 700 !important;
-    border-radius: 0px !important;
+    border-radius: var(--btn-border-radius) !important;
 }
 .checkbox-label{
     font-size: var(--fs-xs);
@@ -108,6 +114,17 @@
 
 .authentication-eula a{
     color: var(--primary-clr-light);
+}
+
+.authentication-box{
+    
+    height: fit-content
+}
+
+@media (min-width: 1200px) {
+    #authentication-static-box{
+       
+    }
 }
 
 @media (min-width: 992px) {

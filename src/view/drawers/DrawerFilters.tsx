@@ -15,7 +15,8 @@ import { useEffect, useState } from "react";
 import { fetchAllFilterOptions } from "../../network/networkConfig";
 
 
-export default function DrawerFilters({ onClose, open }: DrawerProps) {
+
+export default function DrawerFilters({ onClose, open, direction, id }: DrawerProps) {
 
 
     const [clrState, setClrState] = useState<boolean>(false);
@@ -29,7 +30,7 @@ export default function DrawerFilters({ onClose, open }: DrawerProps) {
     const dispatch = useDispatch();
 
     const sortState = useSelector((state: RootState) => state.sortState);
-
+    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
 
 
 
@@ -137,13 +138,13 @@ export default function DrawerFilters({ onClose, open }: DrawerProps) {
         fetchBrands();
         fetchColors();
     }, [])
-
+    
     
     return (
-        <Drawer anchor="right" className="custom-drawer" id="custom-drawer-fs" open={open} onClose={onClose}>
+        <Drawer anchor={direction} className="custom-drawer" id="custom-drawer-fs"  open={open} onClose={onClose}>
             <div className="drawer-title d-flex align-items-center">
                 Sorting & filtering
-                <IconButton className=" position-absolute end-0" onClick={onClose}>
+                <IconButton className=" position-absolute end-0" style={{marginRight: '12px'}} onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
             </div>

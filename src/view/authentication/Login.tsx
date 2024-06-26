@@ -59,9 +59,7 @@ export default function Login({ theme }: LoginSignUpProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
         >
-            <li>
-                <h1>Welcome Back</h1>
-            </li>
+            
             <li>
                 <ThemeProvider theme={theme(outerTheme)}>
                     <TextField label='Email' required variant="outlined" type="email" onChange={(e) => setEmail(e.target.value)}>
@@ -82,7 +80,7 @@ export default function Login({ theme }: LoginSignUpProps) {
             </li>
             <li className="d-flex">
                 <Checkbox className="authentication-checkbox" />
-                <div className="checkbox-label d-flex align-items-center ms-1">Keep me signed in.</div>
+                <div className="checkbox-label d-flex align-items-center ms-2">Keep me signed in.</div>
             </li>
             <li className="d-flex">
                 <p className="authentication-eula">

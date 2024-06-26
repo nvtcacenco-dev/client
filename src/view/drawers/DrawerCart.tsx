@@ -8,40 +8,52 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Scrollbar } from 'react-scrollbars-custom';
 import Zoom from '@mui/material/Zoom';
 import { decrementCartProduct, incrementCartProduct, removeFromCart } from "../../network/redux/actions/actions";
-import { calculateDiscountedPrice } from "../../utils/utils";
+import { calcCartSize, calculateDiscountedPrice, handleHyphens, quantityCheck } from "../../utils/utils";
+import { Link, useNavigate } from "react-router-dom";
+
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import { useContext, useEffect } from "react";
+import { valuta } from "../../utils/types";
+import { UserContext } from "../user/UserContext";
 
 
-
-export default function DrawerCart({ onClose, open }: DrawerProps) {
+export default function DrawerCart({ onClose, open, id, direction }: DrawerProps) {
 
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
     const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
+    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+    const { user } = useContext<any>(UserContext);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    
 
-    function calcCartSize(): number {
-        let count = 0;
-
-        cart.forEach(function (item) {
-            count += item.quantity;
-        })
-
-
-        return count;
+    const calcTotal = () =>{
+        if(cart.length === 0){
+            return 0;
+        }
+        const sum = total + deliveryFees.toFixed(2);
+        return sum;
     }
 
-    function quantityCheck(quantity: number): boolean{
-        if(quantity > 1 ){
-            return false
-        }else{
-            return true
+    function handleCheckout() {
+        
+        if (user){
+            navigate('/checkout');
+        } else{
+            navigate('/login')
         }
     }
+    
 
-    const deliveryFees = total >= 120 ? 0 : 20;
+    const deliveryFees = total >= 300 ? 0 : 60;
     const map = cart.map((item, index) => (
 
         <li className="drawer-list-item d-flex position-relative" key={index}>
-            <img src={`${item.product.imageURL}/1.webp?tr=w-200`} />
+            <Link className="drawer-list-item-link" to={`/catalog/${handleHyphens(item.product.Categories[0])}/${handleHyphens(item.product.Name)}&${item.product._id}`}>
+                <img src={`${item.product.imageURL}/1.webp?tr=w-200`} />
+            </Link>
+            
             <div className="d-flex flex-column flex-grow-1 ps-2 drawer-list-item-description">
 
                 <p className="">{item.product.Name}</p>
@@ -56,15 +68,15 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                 <p className="">{item.product.Discount > 0 ? 
                     (<span>
                         <span className="discount-former">
-                            {`$${item.product.Price}`}
+                            {`${item.product.Price} ${valuta}`}
                         </span>
                         <span className="discount-current ms-2">
-                            {`$${calculateDiscountedPrice(item.product.Price, item.product.Discount).toFixed(2)}`}
+                            {`${calculateDiscountedPrice(item.product.Price, item.product.Discount).toFixed(2)} ${valuta}`}
                         </span>
                     </span> ) 
-                    : (`$${item.product.Price} `)}</p>
+                    : (`${item.product.Price} ${valuta}`)}</p>
                 <IconButton className="remove-item-btn" onClick={()=> (dispatch(removeFromCart(index)))}>
-                    <CloseIcon />
+                    <DeleteIcon />
                 </IconButton>
             </div>
 
@@ -73,19 +85,20 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
     ))
 
     return (
-        <Drawer anchor="right" className="custom-drawer" open={open} onClose={onClose}>
+        <Drawer id={id} anchor={direction} className="custom-drawer" open={open} onClose={onClose}>
             <div className="drawer-title d-flex align-items-center">
-                Your cart {`(${calcCartSize()})`}
-                <IconButton className=" position-absolute end-0" onClick={onClose}>
+                Your cart {`(${calcCartSize(cart)})`}
+                <IconButton className=" position-absolute end-0" style={{marginRight: '12px'}} onClick={onClose}>
                     <CloseIcon/>
                 </IconButton>
             </div>
             <hr />
-            <Scrollbar >
+            <div className="cart-scroll">
                 <ul className="drawer-list d-flex flex-column">
                     {map}
                 </ul>
-            </Scrollbar>
+            
+            </div>
             
             <ul className="drawer-total-description d-flex justify-content-end flex-column">
                 <li>
@@ -93,18 +106,18 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                         Subtotal
                     </p>
                     <p>
-                        {`$${total}`}
+                        {`${total} ${valuta}`}
                     </p>
                 </li>
                 <li>
                     <span>
                         Shipping Fees 
-                        <Tooltip className="cart-drawer-tooltip" title={`$${120 - total < 0 ? 0 : (120 - total).toFixed(2)} left for free shipping`} placement="right" TransitionComponent={Zoom}>
+                        <Tooltip className="cart-drawer-tooltip" title={`${300 - total < 0 ? 0 : (300 - total).toFixed(2)} left for free shipping ${valuta}`} placement="right" TransitionComponent={Zoom}>
                             <div>?</div>
                         </Tooltip>
                     </span>
                     <p>
-                        {`$${deliveryFees}`}
+                        {`${deliveryFees} ${valuta}`}
                     </p>
                 </li>
                 <li>
@@ -112,11 +125,13 @@ export default function DrawerCart({ onClose, open }: DrawerProps) {
                         Total
                     </p>
                     <p>
-                        {`$${(total + deliveryFees).toFixed(2)}`}
+                        {`${(total + deliveryFees).toFixed(2)} ${valuta}`}
                     </p>
                 </li>
                 <li>
-                    <Button className="checkout-btn col-12">To Checkout</Button>
+                    <Link className="col-12" to={'/checkout'}>
+                        <Button disabled={cart.length === 0 ? true : false} onClick={onClose} className="checkout-btn col-12">To Checkout</Button>
+                    </Link>
                 </li>
                 <li>
                 <ul className='d-flex justify-content-center align-items-center col-6'>

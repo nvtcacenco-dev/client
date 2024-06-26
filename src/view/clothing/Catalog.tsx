@@ -45,7 +45,7 @@ export default function Catalog() {
     }
 
     const noMorePages = products.length === metaData?.totalCount ? true : false;
-    console.log(sortState)
+    
 
     useEffect(() => {
         async function fetchData() {
@@ -65,7 +65,7 @@ export default function Catalog() {
                 setMetaData(data.products.metadata);
                 
             } catch (error) {
-                console.error("Error fetching data:", error);
+                
             }
         }
 
@@ -79,14 +79,14 @@ export default function Catalog() {
             
             try {
                 const data = await fetchAllProducts(1, 8, sorting?.option, sorting?.order);
-                console.log(data.products.data);
+                
                 setProducts(data.products.data);
                 setMetaData(data.products.metadata)
                 dispatch(setCategoryName('Our Catalog'))
                 dispatch(setProductCount(data.products.metadata.totalCount));
                 
             } catch (error) {
-                console.error("Error fetching data:", error);
+                
             }
         }
        
@@ -95,8 +95,13 @@ export default function Catalog() {
 
     
 
+    function handleDelete(event: any): void {
+        throw new Error("Function not implemented.");
+    }
+
     return (
         <div className="col-12 d-flex justify-content-center align-items-center flex-column">
+            
             <ItemBrowser products={products} />
             <p className='mb-1 mt-5 item-count'>{products.length} out of {metaData?.totalCount}</p>
             <style>

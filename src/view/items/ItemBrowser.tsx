@@ -6,16 +6,19 @@ import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import '../../styles/items/ItemList.css';
+
 import { ItemBrowserProps } from "./ItemBrowserHandler";
 import { addFav, setProduct } from "../../network/redux/actions/actions";
 import { AnimatePresence, motion } from "framer-motion";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../user/UserContext";
-import { Product } from "../../utils/types";
+import { Product, valuta } from "../../utils/types";
 import { manageFavourites } from "../../network/networkConfig";
 import { calculateDiscountedPrice, handleHyphens } from "../../utils/utils";
-
+import OptimizedImage from "../loading/OptimizedImage";
+import '../../styles/items/ItemList.css'
+import IconSelector from "../icons/IconSelector";
+import StarIcon from '@mui/icons-material/Star';
 export default function ItemBrowser({ products }: ItemBrowserProps) {
 
 
@@ -32,9 +35,15 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
             manageFavourites(userID, product._id);
         }
     }
-    
 
-  
+
+    const [state, setState] = useState<boolean>(false);
+
+    const handleHover = () => {
+        setState(true);
+    }
+
+    const imgVal = state ? 1000 : 200
 
     const map = products.map((product, index) => (
 
@@ -48,55 +57,32 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
             transition={{ duration: 0.7 }}
         >
             <Link
-                className='browsing-item-link h-100 w-100 position-relative'
-                to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}`}
+                className='browsing-item-link h-100 w-100 position-relative d-flex flex-column justify-content-end'
+                to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
                 onClick={() => dispatch(setProduct(product))}
             >
-
-                <img
-
-                    loading="lazy"
-                    className='item-img'
-                    id="img-2"
-                    src={`${product.imageURL}/2.webp?tr=w-1000`}
-                    srcSet={`
-                                    ${product.imageURL}/2.webp?tr=w-1000 1080w,
-                                    ${product.imageURL}/2.webp?tr=w-700 720w,
-                                    ${product.imageURL}/2.webp?tr=w-600 480w,
-                                    ${product.imageURL}/2.webp?tr=w-500 320w
-                            `}
-                    alt={`${product.Name} 2`}
-                />
-
-                <img
-
-                    loading="lazy"
-                    className='item-img'
-                    id="img-1"
-                    src={`${product.imageURL}/1.webp?tr=w-700`}
-                    srcSet={`
-                                ${product.imageURL}/1.webp?tr=w-1000 1080w,
+                <OptimizedImage
+                    uImage={{
+                        src: `${product.imageURL}/1.webp?tr=w-700`,
+                        srcSet: `${product.imageURL}/1.webp?tr=w-900 1080w,
                                 ${product.imageURL}/1.webp?tr=w-700 720w,
                                 ${product.imageURL}/1.webp?tr=w-600 480w,
                                 ${product.imageURL}/1.webp?tr=w-500 320w
-                                `}
-                    alt={`${product.Name} 1`}
+                            `}}
+                    hash={product.blurHash[0]}
+                    id='img-1'
                 />
-
-
-
-
-                <div className='d-flex item-description col-12 flex-column align-items-start row-gap-2'>
-                    <p>{product.Discount > 0 ? 
-                    (<span>
-                        <span className="discount-former">
-                            {`$${product.Price}`}
-                        </span>
-                        <span className="discount-current ms-2">
-                            {`$${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)}`}
-                        </span>
-                    </span> ) 
-                    : (`$${product.Price} `)}</p>
+                <div className='item-desc d-flex col-12 flex-column align-items-start row-gap-2 z-1'>
+                    <p>{product.Discount > 0 ?
+                        (<span>
+                            <span className="discount-former">
+                                {`${product.Price} ${valuta}`}
+                            </span>
+                            <span className="discount-current ms-2">
+                                {`${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)} ${valuta}`}
+                            </span>
+                        </span>)
+                        : (`${product.Price} ${valuta}`)}</p>
 
                     <p>{product.Brand}</p>
                     <p>{product.Name}</p>
@@ -104,17 +90,28 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
             </Link>
             <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
                 <IconButton className='item-fav-btn' onClick={() => { user ? handleAddRemoveFromFavs(product, user._id) : dispatch(addFav(product)) }}>
-                    <FavoriteIcon className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
+                    <FavoriteIcon fontSize="inherit" className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
                 </IconButton>
             </div>
 
-            {product.Discount > 0 ? (<div className="discount"> <p className="p-0 m-0">{product.Discount}%</p></div>) : (<></>)}
-            {product.Popularity == 5 ? 
-            (<div className="bestseller d-flex justify-content-between align-items-center p-1">
-                <div className="bestseller-icon"></div>
-                <p className="p-0 m-0">Best Seller</p>
-            </div>) 
-            : (<></>)
+            {product.Discount > 0 ?
+                (
+                    <div className="discount">
+                        <p className="p-0 m-0">{product.Discount}%</p>
+                        
+                    </div>)
+                :
+                (
+                    <></>
+                )
+            }
+            {product.Popularity == 5 ?
+                (<div className="bestseller d-flex justify-content-between align-items-center p-1">
+                    <StarIcon className="bestseller-icon" />
+                    
+                    <p className="p-0 m-0">Best Seller</p>
+                </div>)
+                : (<></>)
             }
 
         </motion.li>
