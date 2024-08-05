@@ -3,6 +3,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useEffect, useState } from 'react';
+import { fetchUserOrders } from '../../network/networkConfig';
+import { UserContext } from './UserContext';
+import { Order } from '../../utils/types';
+import Orders from './Orders';
+import Account from './Account';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -22,8 +29,8 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box >
+          {children}
         </Box>
       )}
     </div>
@@ -38,30 +45,30 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = useState(0);
+  
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+ 
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='col-11 mx-auto'>
+          <Tab label="Account" {...a11yProps(0)} />
+          <Tab label="Orders" {...a11yProps(1)} />
+
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <Account />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+       <Orders/>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel>
+
     </Box>
   );
 }

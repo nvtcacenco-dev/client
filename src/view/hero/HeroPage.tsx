@@ -34,15 +34,10 @@ export default function HeroPage() {
     const [isLoadStarted, setLoadStarted] = useState<boolean>(false);
     const [products, setProducts] = useState<Product[]>([]);
 
-    const categoryID = useSelector((state: RootState) => state.persistedReducer.category.categoryID);
+    
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (categoryID) {
-            dispatch(setCategoryID(null));
-        }
-
-    }, [])
+    
 
     useEffect(() => {
         async function fetchData() {
@@ -87,7 +82,7 @@ export default function HeroPage() {
         <div className='hero-page-content'>
 
 
-            <section className='hero-section' aria-labelledby='section-title-1'>
+            <section className='hero-section justify-content-center  align-items-center' aria-labelledby='section-title-1'>
 
 
                 <img
@@ -113,18 +108,18 @@ export default function HeroPage() {
                     />
                 )}
 
-                <div id='title-text-wrapper' className="masked-text-wrapper">
+                <div id='title-text-wrapper' className="masked-text-wrapper ">
                     {/* <p className="text-underneath ">Trend <br /> Thread</p> */}
                     <h1 id='section-title-1' className="text-default">Trend <br /> Thread</h1>
 
                 </div>
 
-                <Button id='scroll-down-icon' className='cta-scroll-down-icon-container d-flex justify-content-center align-items-center'>
+                {/* <Button id='scroll-down-icon' className='cta-scroll-down-icon-container d-flex justify-content-center align-items-center'>
                     <a href='#section-2'>
                         <ChevronRightIcon className='cta-chevron-icon' />
                     </a>
 
-                </Button>
+                </Button> */}
                 <div className='cta-box position-absolute col-12 col-xl-10 col-xxl-9 d-flex justify-content-center align-items-center'>
                     <div className='col-6'>
                         <motion.h2
@@ -170,8 +165,8 @@ export default function HeroPage() {
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/spring'} />
                         <motion.div
-                            initial={{ translateX: -400 }}
-                            whileInView={{ translateX: 0, transition: { duration: 0.6 } }}
+                            initial={{ translateY: 200, opacity: 0 }}
+                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
                             viewport={{ once: true }}>
                             New <br /> Arrivals
                         </motion.div>
@@ -190,8 +185,8 @@ export default function HeroPage() {
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/jackets'} />
                         <motion.div
-                            initial={{ translateX: -400 }}
-                            whileInView={{ translateX: 0, transition: { duration: 0.6 } }}
+                            initial={{ translateY: 200, opacity: 0 }}
+                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
                             viewport={{ once: true }}>
                             Spring <br /> Jackets
                         </motion.div>
@@ -208,8 +203,8 @@ export default function HeroPage() {
                     <li className='col-12 col-md-4 position-relative'>
                         <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/dresses'} />
                         <motion.div
-                            initial={{ translateX: -400 }}
-                            whileInView={{ translateX: 0, transition: { duration: 0.6 } }}
+                            initial={{ translateY: 200, opacity: 0 }}
+                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
                             viewport={{ once: true }}>
                             Dresses
                         </motion.div>

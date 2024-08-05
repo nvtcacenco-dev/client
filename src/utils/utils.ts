@@ -1,4 +1,4 @@
-import { Product } from "./types";
+import { CategoryName, Product, categoryIDString, reverseCategoryMap } from "./types";
 import { createTheme, Theme} from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 
@@ -19,6 +19,19 @@ export function getLastPartOfUrl(url: string) {
     }
 }
 
+export function getEnumFromUrlPart(urlPart: string): CategoryName {
+    return reverseCategoryMap[urlPart];
+}
+
+export function getIdFromUrl(url: string): string  {
+    const lastPart = getLastPartOfUrl(url);
+    const categoryEnum = getEnumFromUrlPart(lastPart);
+    if (categoryEnum) {
+        return categoryIDString[categoryEnum];
+    }
+    return '';
+}
+
 export function handleHyphens(name: string): string {
     return name.replace(/ /g, "-").toLowerCase();
 }
@@ -29,6 +42,7 @@ export function replaceHyphensWithSpace(url: string) {
     
 
 }
+
 
 export function removeBackslash(inputString: string) {
     // Replace backslashes with an empty string
@@ -80,7 +94,23 @@ export function quantityCheck(quantity: number): boolean{
     }
 }
 
+export const extractDateFromObjectId = (objectId: string) => {
+    // The first 8 characters of the ObjectId represent the timestamp in hexadecimal
+    const timestampHex = objectId.substring(0, 8);
 
+    // Convert the hexadecimal timestamp to a decimal number
+    const timestamp = parseInt(timestampHex, 16);
+
+    // Create a Date object from the Unix timestamp (multiply by 1000 to convert seconds to milliseconds)
+    const date = new Date(timestamp * 1000);
+
+    // Format the date as a string (e.g., 'YYYY-MM-DD')
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
 
 export const customInputThemeCheckout = (outerTheme: Theme) =>
     createTheme({
@@ -93,8 +123,8 @@ export const customInputThemeCheckout = (outerTheme: Theme) =>
                     root: {
 
                         '--TextField-brandBorderColor': '#E0E3E7',
-                        '--TextField-brandBorderHoverColor': 'var(--primary-clr-light-faded)',
-                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-light-faded)',
+                        '--TextField-brandBorderHoverColor': 'var(--primary-clr-600)',
+                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-600)',
                         '& label.Mui-focused': {
                             color: 'var(--dark-clr)',
                         },

@@ -36,12 +36,15 @@ export default function DrawerCart({ onClose, open, id, direction }: DrawerProps
         return sum;
     }
 
-    function handleCheckout() {
-        
-        if (user){
-            navigate('/checkout');
-        } else{
-            navigate('/login')
+    function handleCheckout(event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) {
+        if (event.type === 'click' || (event.type === 'keydown' && (event as React.KeyboardEvent).key === 'Enter')) {
+            if (user) {
+                onClose(event);
+                navigate('/checkout');
+            } else {
+                onClose(event);
+                navigate('/login');
+            }
         }
     }
     
@@ -129,9 +132,9 @@ export default function DrawerCart({ onClose, open, id, direction }: DrawerProps
                     </p>
                 </li>
                 <li>
-                    <Link className="col-12" to={'/checkout'}>
-                        <Button disabled={cart.length === 0 ? true : false} onClick={onClose} className="checkout-btn col-12">To Checkout</Button>
-                    </Link>
+                    
+                        <Button disabled={cart.length === 0 ? true : false} onClick={handleCheckout} className="checkout-btn col-12">To Checkout</Button>
+                    
                 </li>
                 <li>
                 <ul className='d-flex justify-content-center align-items-center col-6'>

@@ -1,6 +1,6 @@
 
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import categoryReducer from '../reducers/categorySlice';
+
 import productCountReducer from '../reducers/productCountSlice';
 import productReducer from '../reducers/productSlice';
 import sortReducer from '../reducers/sortSlice';
@@ -18,7 +18,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  category: categoryReducer,
+  
   product: productReducer,
   favs: favReducer,
   cart: cartReducer,

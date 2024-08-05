@@ -15,9 +15,9 @@ import { Order, valuta } from "../../utils/types";
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import { customInputThemeCheckout } from "../../utils/utils";
 import { UserContext } from "../user/UserContext";
-import { editUserInfoByID } from "../../network/networkConfig";
+import { addUserOrder, editUserInfoByID } from "../../network/networkConfig";
 import { ControlCameraSharp } from "@mui/icons-material";
-import { addOrder } from "../../network/redux/actions/actions";
+
 import { DefaultValuesOption, PaymentIntent } from "@stripe/stripe-js";
 import LoadingPage from "../loading/LoadingPage";
 
@@ -72,8 +72,26 @@ export default function CheckoutForm() {
         setIsLoading(true);
         break;
       case "succeeded":
+        const order: Order = {
+          stripeID: paymentIntent.id,
+          userID: user._id,
+          total: paymentIntent.amount,
+          deliverStatus: false,
+          order: cart.map((item: any) => ({
+            product: item.product,
+            quantity: item.quantity,
+            size: item.size,
+          })),
+          
+        }
+        addUserOrder(order, user._id);
         setIsLoading(false);
-        navigate('/checkout/success')
+        navigate(
+          '/checkout/success',
+          {state:{
+              orderID: paymentIntent.id
+          }}
+        )
         break;
       default:
         break;
@@ -135,18 +153,6 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       setPaymentIntent(paymentIntent)
     })
-
-    /* const { error } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-
-        return_url: "http://localhost:3000/checkout/success",
-        
-      },
-      redirect: 'if_required'
-    }); */
   };
 
 

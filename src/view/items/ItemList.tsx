@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 
 import { fetchNewProducts, manageFavourites } from '../../network/networkConfig';
-import { Product } from '../../utils/types';
+import { Product, valuta } from '../../utils/types';
 import { addFav, setProduct } from '../../network/redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../network/redux/store/store';
@@ -90,6 +90,17 @@ export default function ItemList() {
                 /> */}
                 <OptimizedImage
                     uImage={{
+                        src: `${product.imageURL}/2.webp?tr=w-700`,
+                        srcSet: `${product.imageURL}/2.webp?tr=w-1000 1080w,
+                                ${product.imageURL}/2.webp?tr=w-700 720w,
+                                ${product.imageURL}/2.webp?tr=w-600 480w,
+                                ${product.imageURL}/2.webp?tr=w-500 320w
+                            `}}
+                    hash={product.blurHash[0]}
+                    id='img-2'
+                />
+                <OptimizedImage
+                    uImage={{
                         src: `${product.imageURL}/1.webp?tr=w-700`,
                         srcSet: `${product.imageURL}/1.webp?tr=w-1000 1080w,
                                 ${product.imageURL}/1.webp?tr=w-700 720w,
@@ -109,7 +120,7 @@ export default function ItemList() {
             </div>
             
             <div className='d-flex item-desc col-12 flex-column align-items-start row-gap-2'>
-                <p>{`$${product.Price}`}</p>
+                <p>{`${product.Price} ${valuta}`}</p>
                 <p>{product.Brand}</p>
                 <p>{product.Name}</p>
             </div>

@@ -24,10 +24,10 @@ export const customInputTheme = (outerTheme: Theme) =>
                     root: {
 
                         '--TextField-brandBorderColor': '#E0E3E7',
-                        '--TextField-brandBorderHoverColor': 'var(--primary-clr-light-faded)',
-                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-light-faded)',
+                        '--TextField-brandBorderHoverColor': 'var(--primary-clr-600)',
+                        '--TextField-brandBorderFocusedColor': 'var(--primary-clr-600)',
                         '& label.Mui-focused': {
-                            color: 'var(--primary-clr-light)',
+                            color: 'var(--primary-clr-800)',
                         },
                     },
                 },

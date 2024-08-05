@@ -47,7 +47,7 @@
     
     scrollbar-width: thin !important;
     
-    scrollbar-color: var(--primary-clr-light-faded) var(--light-clr) !important;
+    scrollbar-color: var(--primary-clr-600) var(--light-clr) !important;
     
 } 
 
@@ -79,12 +79,12 @@
     width: 8px !important;
     border-radius: 0 !important;
     height: 100% !important;
-    background-color: var(--primary-clr-light-2) !important;
+    background-color: var(--primary-clr-200) !important;
 }
 .ScrollbarsCustom-ThumbY{
     cursor: default !important;
     border-radius: 0 !important;
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
 }
 
 .ScrollbarsCustom-Content{
@@ -98,12 +98,12 @@
     overflow-y: scroll;
     scrollbar-width: thin !important;
     scrollbar-gutter: stable both-edges;
-    scrollbar-color: var(--primary-clr-light-faded) var(--light-clr) !important;
+    scrollbar-color: var(--primary-clr-600) var(--light-clr) !important;
     padding-inline-end: 8px;
 
 }
 .drawer-list, .drawer-list-sf {
-    list-style: none;
+    
     margin: 0;
     max-height: 70%;
     width: 100%;
@@ -113,9 +113,7 @@
   
 }
 
-.drawer-list-sf{
-    
-}
+
 
 .drawer-list-sf li{
     min-height: 75px;
@@ -199,7 +197,7 @@
 }
 
 .sf-active{
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
 }
 
 #divider-sf{
@@ -313,7 +311,7 @@
     background-color: transparent;
     box-shadow: none;
     border-radius: 2px !important;
-    border: 1px solid var(--primary-clr-light-faded)!important;
+    border: 1px solid var(--primary-clr-600)!important;
     color: var(--dark-clr) !important;
     font-size: var(--fs-base) !important;
     font-family: 'Poppins' !important;
@@ -322,7 +320,7 @@
 }
 
 .quantity-btn:hover{
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
     
 }
 
@@ -330,13 +328,13 @@
     position: absolute !important;
     top: 0;
     right: 0;
-    width: 16px;
-    aspect-ratio: 1/1;
+    width: calc(16px + 0.25rem);
+    height: calc(16px + 0.25rem);
 }
 
 .remove-item-btn svg {
-    width: 16px;
-    aspect-ratio: 1/1;
+    width: calc(16px + 0.25rem);
+    height: calc(16px + 0.25rem);
 }
 
 .css-1e6y48t-MuiButtonBase-root-MuiButton-root.Mui-disabled{
@@ -346,7 +344,7 @@
 
 .drawer-total-description {
    
-    list-style: none;
+    
     padding-inline: 12px;
     padding-top: 6px;
     
@@ -421,7 +419,7 @@
 }
 
 .drawer-total-description ul {
-    list-style: none;
+    
     padding-left: 0;
     
 }
@@ -459,12 +457,26 @@
     border-radius: var(--btn-border-radius) !important;
     letter-spacing: .03em !important;
     background-color: var(--dark-clr) !important;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.checkout-btn:hover, .checkout-btn:focus{
+    background-color: var(--tertiary-clr-800) !important;
 }
 
 @media (max-width: 1400px) {}
 
 
-@media (max-width: 992px) {}
+@media (max-width: 992px) {
+    .remove-item-btn {
+        width: 32px;
+        height: 32px;
+    }
+    .remove-item-btn svg {
+        width: 32px;
+        height: 32px;
+    }
+}
 
 @media (max-width: 768px) {}
 

@@ -13,6 +13,7 @@ import { setProductCount } from "../../network/redux/reducers/productCountSlice"
 import { setCategoryName} from "../../network/redux/actions/actions";
 import { incrPageNumber, resetPageNumber, setPageNumber } from "../../network/redux/reducers/pageNumberSlice";
 import { findSortTrue } from "../../utils/sortUtils";
+import { motion } from "framer-motion";
 
 
 
@@ -70,7 +71,7 @@ export default function Catalog() {
         }
 
         fetchData();
-    }, [page]);
+    }, [page, sortState]);
 
     useEffect(() => {
         
@@ -93,14 +94,8 @@ export default function Catalog() {
         fetchData();
     }, [sortState]);
 
-    
-
-    function handleDelete(event: any): void {
-        throw new Error("Function not implemented.");
-    }
-
     return (
-        <div className="col-12 d-flex justify-content-center align-items-center flex-column">
+        <motion.div layout layoutRoot className="col-12 d-flex justify-content-center align-items-center flex-column item-browser-container">
             
             <ItemBrowser products={products} />
             <p className='mb-1 mt-5 item-count'>{products.length} out of {metaData?.totalCount}</p>
@@ -119,6 +114,6 @@ export default function Catalog() {
             </style>
             <LinearProgress className='col-10 col-lg-2' variant="determinate" value={progressPercentage} />
             <Button className='load-more-btn mb-3 mt-2 col-10 col-lg-2' onClick={handleLoadingMoreProducts} disabled={noMorePages}> <AddIcon fontSize='small' /></Button>
-        </div>
+        </motion.div>
     );
 }

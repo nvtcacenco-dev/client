@@ -1,11 +1,15 @@
 .clothing-page-container{
     --_padding-inline: calc(6px + 0.25rem + 5vw);
     
-    min-height: 50svh;
+    min-height: 100svh;
     position: relative;
     
     
     
+}
+
+.item-browser-container{
+    min-height: 100svh;
 }
 
 @media (max-width: 992px) {
@@ -44,7 +48,7 @@
 }
 
 .filter-drawer-btn:hover{
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
     color: var(--primary-clr) !important;
     font-weight: 400 !important;
 }
@@ -54,7 +58,7 @@
 }
 
 .load-more-btn{
-    border: 1px solid var(--primary-clr-light-faded) !important;
+    border: 1px solid var(--primary-clr-600) !important;
     background-color: transparent;
     color: var(--dark-clr) !important;
     font-weight: 400 !important;
@@ -64,20 +68,20 @@
 
 .load-more-btn:hover{
     color: var(--primary-clr) !important;
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
 }
 
 .load-more-btn:disabled{
     pointer-events: none;
-    background-color: var(--primary-clr-light-faded);
+    background-color: var(--primary-clr-600);
 }
 
 .MuiLinearProgress-root{
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
 }
 
 .MuiLinearProgress-root span{
-    background-color: var(--primary-clr-light) !important;
+    background-color: var(--primary-clr-800) !important;
 }
 
 .browsing-skeleton{

@@ -4,7 +4,7 @@
 
 
 import axios from 'axios';
-import { Product, Categories, ResponseDataProducts, User } from '../utils/types';
+import { Product, Categories, ResponseDataProducts, User, Order } from '../utils/types';
 
 
 const API_URL = 'http://localhost:8080/api/v1';
@@ -275,6 +275,41 @@ export async function configStripe(): Promise<any> {
         return response;
     } catch (error) {
         console.error("STRIPE CONFIG ERROR:", error);
+        throw error;
+    }
+}
+
+export async function addUserOrder(order: Order, userID: string): Promise<any>{
+    try {
+        const response = await axios.post(`${API_URL}/users/${userID}/orders`,{
+            userID,
+            order
+        });
+        
+        console.log('Order added successfully:', response.data);
+    } catch (error) {
+        console.error('Error adding order:', error);
+        
+    }
+}
+
+export async function fetchUserOrders(userId: string) {
+    try {
+        const response = await axios.get(`${API_URL}/users/${userId}/orders`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
+        throw error;
+    }
+}
+
+
+export async function fetchRecentOrder(userID: string, stripeID: string) {
+    try {
+        const response = await axios.get(`${API_URL}/users/${userID}/orders/${stripeID}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
         throw error;
     }
 }

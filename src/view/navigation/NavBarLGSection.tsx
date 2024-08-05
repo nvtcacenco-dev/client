@@ -17,37 +17,35 @@ import CustomSearch from "./CustomSearch";
 import LockIcon from '@mui/icons-material/VpnKey';
 import { removeBackslash } from "../../utils/utils";
 import IconSelector from "../icons/IconSelector";
+import { useContext } from "react";
+import { UserContext } from "../user/UserContext";
 
 export default function NavBarLGSection(
     {
-        isUser,
+
         cart,
         outerTheme,
         searchBarName,
         searchSuggestionName,
         accountButtonPath,
-        searchResultMap,
         favs,
         isLoading,
-        urlEndpoint,
-        categories,
         isFocused,
-        setSearchQuery,
         setSearchFocus,
         setState,
-        handleSearch,
+
 
 
     }: NavBarSectionProps) {
 
-
+    const { user } = useContext<any>(UserContext);
     const dispatch = useDispatch();
 
     function handleLoginAccountIcon() {
 
 
-        if (!isUser) {
-            return <LockIcon className="nav-icon"/>
+        if (!user) {
+            return <LockIcon className="nav-icon" />
         } else {
             return <IconSelector icon="account" />
         }
@@ -62,19 +60,17 @@ export default function NavBarLGSection(
 
             <CustomSearch
                 isFocused={isFocused}
+
                 isDesktop={true}
                 outerTheme={outerTheme}
                 searchBarName={searchBarName}
                 searchSuggestionName={searchSuggestionName}
-                searchResultMap={searchResultMap}
                 setSearchFocus={setSearchFocus}
-                setSearchQuery={setSearchQuery}
-                handleSearch={handleSearch}
             />
             <ul className='nav-icon-list  col-4 '>
                 <li>
                     <button id='cart-btn' className='nav-icon-link' onClick={() => { (setState(true)); (dispatch(setDrawerStatus(true))); }}>
-                       <ShoppingCartIcon className="nav-icon"/>
+                        <ShoppingCartIcon className="nav-icon" />
                         <div className='icon-product-counter'>
                             {calcCartSize(cart)}
                         </div>
@@ -84,7 +80,7 @@ export default function NavBarLGSection(
 
                 <li>
                     <Link className='nav-icon-link' to={'/favorites'}>
-                        <FavoriteIcon className="nav-icon"/>
+                        <FavoriteIcon className="nav-icon" />
                         <div className='icon-product-counter'>
                             {favs.length}
                         </div>
@@ -100,7 +96,7 @@ export default function NavBarLGSection(
             </ul>
 
 
-            <CategoriesBrandsExpander isDesktop={true} isLoading={isLoading} urlEndpoint={urlEndpoint} categories={categories} />
+            <CategoriesBrandsExpander isDesktop={true} isLoading={isLoading} />
 
         </section>
     )

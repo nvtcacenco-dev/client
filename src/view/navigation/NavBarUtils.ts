@@ -18,10 +18,10 @@ export const customTheme = (outerTheme: { palette: { mode: any } }) =>
       MuiTextField: {
         styleOverrides: {
           root: {
-            "--TextField-brandBorderColor": "var(--primary-clr-light-faded)",
+            "--TextField-brandBorderColor": "var(--primary-clr-600)",
             "--TextField-brandBorderHoverColor": "transparent",
             "--TextField-brandBorderFocusedColor":
-              "var(--primary-clr-light-faded)",
+              "var(--primary-clr-600)",
             "& label.Mui-focused": {
               color: "#6F7E8C",
             },
@@ -39,13 +39,13 @@ export const customTheme = (outerTheme: { palette: { mode: any } }) =>
             paddingLeft: "12px",
             fontSize: "var(--fs-base)",
             backgroundColor: "#fdf6f7",
-            border: "1px solid var(--primary-clr-light-faded)",
+            border: "1px solid var(--primary-clr-600)",
             "&:hover": {
-              backgroundColor: "var(--primary-clr-light-faded)",
+              backgroundColor: "var(--primary-clr-600)",
             },
             "&.Mui-focused": {
               backgroundColor: "var(--light-clr)",
-              border: "1px solid var(--primary-clr-light-faded)",
+              border: "1px solid var(--primary-clr-600)",
               borderRadius: "0px",
               transition:
                 "border-radius 0.3s 0s ease-in-out, background-color 0.3s ease-in-out",
@@ -82,10 +82,10 @@ export const customTheme = (outerTheme: { palette: { mode: any } }) =>
         MuiTextField: {
           styleOverrides: {
             root: {
-              "--TextField-brandBorderColor": "var(--primary-clr-light-faded)",
+              "--TextField-brandBorderColor": "var(--primary-clr-600)",
               "--TextField-brandBorderHoverColor": "transparent",
               "--TextField-brandBorderFocusedColor":
-                "var(--primary-clr-light-faded)",
+                "var(--primary-clr-600)",
               "& label.Mui-focused": {
                 color: "#6F7E8C",
               },
@@ -103,13 +103,13 @@ export const customTheme = (outerTheme: { palette: { mode: any } }) =>
               paddingLeft: "12px",
               fontSize: "var(--fs-base)",
               backgroundColor: "#fdf6f7",
-              border: "1px solid var(--primary-clr-light-faded)",
+              border: "1px solid var(--primary-clr-600)",
               "&:hover": {
-                backgroundColor: "var(--primary-clr-light-faded)",
+                backgroundColor: "var(--primary-clr-600)",
               },
               "&.Mui-focused": {
                 backgroundColor: "var(--light-clr)",
-                border: "1px solid var(--primary-clr-light-faded)",
+                border: "1px solid var(--primary-clr-600)",
                 borderRadius: "0px",
                 transition:
                   "border-radius 0.3s 0s ease-in-out, background-color 0.3s ease-in-out",

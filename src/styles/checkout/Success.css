@@ -12,10 +12,12 @@
 
 
   .success-list {
-    list-style: none;
+    
     margin: 0;
     padding-left: 0;
     padding-bottom: calc(12px + 1rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
   }
   
@@ -88,7 +90,7 @@
   
   .success-total-description {
      
-    list-style: none;
+    
     padding-inline: 0px;
     
     

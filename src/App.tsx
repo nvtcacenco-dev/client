@@ -59,20 +59,21 @@ function App() {
   return (
 
     <div className="App" id='App'>
+      
       <Suspense fallback={<LoadingPage/>}>
         <NavBar />
         <AnimatePresence>
-          <motion.main 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}>
+          <main>
             <ScrollToTop />
             <PromotionBannerAlt />
             <Routes>
+
               <Route index element={<HeroPage />} />
+
               <Route path='/favorites' element={<Favorites />} />
+
               <Route path='/login' element={<Authentication />} />
+              
               {user ? (<Route path={`/user/${user._id}`} element={<UserDashboard />} />) : (<></>)}
               <Route path='/checkout' element={<Checkout/>} />
               <Route path='/checkout/success' element={<Success/>}/>
@@ -82,7 +83,7 @@ function App() {
               <Route path={`/search/results`} element={<Clothing/>} />
             </Routes>
 
-          </motion.main>
+          </main>
         </AnimatePresence>
         {windowWidth <= 992 && (<BottomBar/>)}
         {isPay || isLogin ? (<></>) : (<Footer />)}

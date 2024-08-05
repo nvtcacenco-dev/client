@@ -15,8 +15,8 @@ import { getLastPartOfUrl, handleHyphens } from '../../utils/utils';
 import { Collapse, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CategoriesBrandsExpander from './CategoriesBrandsExpander';
+import { useWindowResize } from '../../hooks/WindowResizeHook';
 
-import axios from 'axios';
 
 const CartDrawer = lazy(() => import('../drawers/DrawerCart'));
 const NavBarLGSection = lazy(() => import('./NavBarLGSection'));
@@ -35,25 +35,25 @@ export default function NavBar() {
     const [searchFocus, setSearchFocus] = useState<boolean>(false);
     const [categories, setCategories] = useState<Categories[]>();
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    
     const { user } = useContext<any>(UserContext);
     const [urlEndpoint, setUrlEndpoint] = useState<string>('');
+    const windowWidth = useWindowResize();
 
-    
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [searchResults, setSearchResults] = useState<Product[]>([]);
-    
-    
+    const [isSearchFound, setIsSearchFound] = useState<boolean>(false);
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const location = useLocation();
     const pathname = location.pathname;
     const navigate = useNavigate();
-    
+
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
     const order = useSelector((state: RootState) => state.orderReducer.order);
-    const drawerState = useSelector((state: RootState) => state.drawerStatus.state); 
+    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
     const navName = navClass === true ? "navbar-changed" : "";
     const navName2 = navClass2 === true ? "nav-box-shadow" : "";
     const navName3 = navClass3 === true ? "nav-position" : "";
@@ -66,12 +66,12 @@ export default function NavBar() {
 
     const dispatch = useDispatch();
     const isHome = location.pathname === '/';
-    
-    
+
+
     const accountButtonPath = user ? `/user/${user._id}` : '/login';
 
- 
-    
+
+
 
 
 
@@ -86,10 +86,10 @@ export default function NavBar() {
 
         if (open) {
             (dispatch(setDrawerStatus(true)))
-            
+
         } else {
             (dispatch(setDrawerStatus(false)))
-           
+
         }
 
         setState((
@@ -132,49 +132,7 @@ export default function NavBar() {
         changeNavBarClr();
     };
 
-
-
-    useEffect(() => {
-
-
-        const lastPart = getLastPartOfUrl(pathname);
-
-        if (lastPart === 'brand-of-the-week') {
-            setUrlEndpoint('botw');
-        } else {
-            setUrlEndpoint(lastPart);
-
-        }
-
-    }, [pathname]);
-
-    useEffect(() => {
-
-        async function fetchData() {
-            setIsLoading(true)
-            try {
-                const data = await fetchAllCategories();
-                setCategories(data);
-                setIsLoading(false);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-        fetchData();
-
-    }, []);
-
-    useEffect(() => {
-        function findCategoryID() {
-            if (categories && categories.length > 0) {
-                const category = categories.find(category => category.Name.toLowerCase() === urlEndpoint);
-                if (category) {
-                    dispatch(setCategoryID(category._id));
-                }
-            }
-        }
-        findCategoryID();
-    }, [categories, urlEndpoint]);
+    
 
     useEffect(() => {
         const fetchFavorites = async () => {
@@ -191,104 +149,16 @@ export default function NavBar() {
         fetchFavorites();
     }, [user]);
 
-    useEffect(() => {
-        if (isHome) {
-            dispatch(setCategoryID(null))
-        }
-
-    }, [isHome])
-
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
 
 
-
-    useEffect(() => {
-        async function getSearchResults() {
-            try {
-                if (searchQuery !== '') {
-
-                    const data = await fetchSearchProducts(1, 5, searchQuery);
-
-                    setSearchResults(data.products.data);
-
-                } else {
-                    setSearchResults([])
-                }
-
-            } catch (error) {
-
-            }
-        }
-
-        getSearchResults();
-        
-    }, [searchQuery])
-
-    const handleSearch = () =>{
-        navigate(`/search/results?search_query=${searchQuery}`)
-    }
-
-
-    function highlightAllSubstrings(text: string, substring: string): JSX.Element {
-        // Regular expression to match all instances of the substring (case-insensitive)
-        const regex = new RegExp(`(${substring.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        const parts = text.split(regex); // Split the text using the regex pattern
-
-        return (
-            <>
-                {parts.map((part, index) => (
-                    regex.test(part) ? <span key={index} className="si-highlight">{part}</span> : part
-                ))}
-            </>
-        );
-    }
-
-
-    const searchResultMap = searchResults.map((product, index) => (
-        <li className='search-suggestion-item col-12 ' key={index}>
-            <Link
-                to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
-                onClick={() => console.log(product.Name)}
-                className='search-suggestion-item-link col-12 d-flex px-3 py-2 align-items-center justify-content-between'
-            >
-                <div>
-                    {highlightAllSubstrings(product.Name, searchQuery)}
-                </div>
-
-
-                <img
-                    className='search-suggestion-item-img'
-                    src={`${product.imageURL}/1.webp?tr=w-200`}
-                    srcSet={`${product.imageURL}/1.webp?tr=w-1000 200w,
-                                ${product.imageURL}/1.webp?tr=w-700 100w,
-                                ${product.imageURL}/1.webp?tr=w-600 75w,
-                                ${product.imageURL}/1.webp?tr=w-500 50w
-                `}
-
-                />
-            </Link>
-
-        </li>
-    ))
 
     window.addEventListener('scroll', handleScroll);
 
     return (
-        <nav 
-            id='topNav' 
+        <nav
+            id='topNav'
             className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}
-            style={{width: `calc(100% - ${drawerState? (window.innerWidth - document.documentElement.clientWidth):(0)}px)`
-            }}
+        /* style={{width: `calc(100% - ${drawerState? (window.innerWidth - document.documentElement.clientWidth):(0)}px)`}} */
         >
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
                 <PromotionBanner />
@@ -296,23 +166,16 @@ export default function NavBar() {
             {windowWidth >= 992 ?
                 (
                     <NavBarLGSection
-                        isUser={user ? (true) : (false)}
                         cart={cart}
                         favs={favs}
-                        categories={categories}
                         outerTheme={outerTheme}
                         searchBarName={searchBarName}
                         searchSuggestionName={searchSuggestionName}
                         accountButtonPath={accountButtonPath}
-                        searchResultMap={searchResultMap}
                         isLoading={isLoading}
-                        urlEndpoint={urlEndpoint}
                         isFocused={searchFocus}
-                        setSearchQuery={setSearchQuery}
                         setSearchFocus={setSearchFocus}
                         setState={setState}
-                        handleSearch ={handleSearch}
-
                     />
                 )
                 :
@@ -323,12 +186,12 @@ export default function NavBar() {
 
                             <Link className='logo-link logo-link-sm col-6' to={'/'}>TREND THREAD</Link>
 
-                            <IconButton className='search-icon-sm' onClick={() => { setCategoriesSmState(false); setSearchSmState(!searchSmState);   }}>
+                            <IconButton className='search-icon-sm' onClick={() => { setCategoriesSmState(false); setSearchSmState(!searchSmState); }}>
                                 <SearchIcon />
                             </IconButton>
                         </div>
                         <Collapse in={categoriesSmState}>
-                            <CategoriesBrandsExpander categories={categories} isDesktop={false} />
+                            <CategoriesBrandsExpander isDesktop={false} />
                         </Collapse>
                         <Collapse in={searchSmState}>
                             <div className='search-bar-sm col-12'>
@@ -338,18 +201,11 @@ export default function NavBar() {
                                     outerTheme={outerTheme}
                                     searchBarName={searchBarName}
                                     searchSuggestionName={searchSuggestionName}
-                                    searchResultMap={searchResultMap}
                                     setSearchFocus={setSearchFocus}
-                                    setSearchQuery={setSearchQuery}
-                                    handleSearch={handleSearch}
                                 />
                             </div>
                         </Collapse>
-
                     </div>
-
-
-
                 )}
             <CartDrawer id='cart-top' direction='right' onClose={toggleDrawer(false)} open={state} />
         </nav>

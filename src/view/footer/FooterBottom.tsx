@@ -30,10 +30,10 @@ export default function FooterBottom() {
             <ul className='footer-bottom-top-section col-12'>
                 <li className=' col-12 col-lg-5 flex-grow-1 '>
                     <Link to={'/'} className='footer-logo'>
-                        <Link className='footer-link' to={'/'}></Link>
+                        
                     </Link>
-                    <Link to={'/'} className='footer-company-name-container d-flex align-items-center'>
-                        <p className='footer-company-name'>Trend Thread</p>
+                    <Link to={'/'} className='footer-company-name-container footer-company-name d-flex align-items-center'>
+                        Trend Thread
                     </Link>
                 </li>
                 <div className='col-12 col-lg-5 d-flex mt-5 mt-lg-0'>

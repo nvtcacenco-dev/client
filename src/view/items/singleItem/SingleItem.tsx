@@ -150,7 +150,7 @@ export default function SingleItem() {
                 ${imageUrl}?tr=w-600 480w,
                 ${imageUrl}?tr=w-500 320w`
             }}
-            id={`img-${index+1}`}
+            /* id={`img-${index+1}`} */
             containerClassName='col-6 pe-2 pb-2 position-relative'
             imgClassName='single-item-img col-12'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
@@ -168,7 +168,7 @@ export default function SingleItem() {
                 ${imageUrl}?tr=w-600 480w,
                 ${imageUrl}?tr=w-500 320w`
             }}
-            id={`img-${index+1}`}
+            /* id={`img-${index+1}`} */
             containerClassName='col-12 position-relative h-100'
             imgClassName='single-item-img col-12'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}

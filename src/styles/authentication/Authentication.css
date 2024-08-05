@@ -22,7 +22,7 @@
 
 
 .authentication-holder ul{
-    list-style: none;
+    
     padding: 0;
     margin: 0;
     display: flex;
@@ -68,7 +68,7 @@
     color: var(--light-clr) !important;
 }
 .authentication-btn-inactive{
-    background-color: var(--primary-clr-light-faded) !important;
+    background-color: var(--primary-clr-600) !important;
     color: var(--dark-clr) !important;
 }
 .authentication-btn-active{
@@ -113,7 +113,7 @@
 }
 
 .authentication-eula a{
-    color: var(--primary-clr-light);
+    color: var(--primary-clr-800);
 }
 
 .authentication-box{

@@ -28,7 +28,7 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;  
-  border: 2px solid var(--primary-clr-light-faded);
+  border: 2px solid var(--primary-clr-600);
 }
 
 .p-Input{
@@ -70,7 +70,7 @@
 }
 
 #submit:hover{
-  background-color: #186506;
+  background-color: var(--tertiary-clr-800);
 }
 
 #checkout-cart-title{
@@ -82,7 +82,7 @@
 }
 
 .checkout-list {
-  list-style: none;
+  
   margin: 0;
   padding-left: 0;
   padding-bottom: calc(12px + 1rem);
@@ -161,7 +161,7 @@
 
 .checkout-total-description {
    
-  list-style: none;
+  
   padding-inline: 0px;
   
   
@@ -231,7 +231,7 @@
 }
 
 .checkout-total-description ul {
-  list-style: none;
+  
   padding-left: 0;
   
 }
