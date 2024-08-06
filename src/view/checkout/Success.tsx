@@ -14,14 +14,40 @@ export default function Success() {
     const [order, setOrder] = useState<Order>();
     const { state } = useLocation();
     const { user } = useContext<any>(UserContext);
+    const [error, setError] = useState<string>('');
+    const maxRetries = 3;
+    const retryDelay = 2000; 
 
     useEffect(() => {
-        async function getOrder() {
-            const data = await fetchRecentOrder(user._id, state.orderID);
-            setOrder(data);
+        /* async function getOrderWithRetry(retries: number) {
+            try {
+                const response = await fetchRecentOrder(user._id, state.orderID);
+
+                if (!response.ok) {
+                    // If the response status is not OK (e.g., 404), throw an error
+                    throw new Error(`Error: ${response.status}`);
+                }
+
+                const data = await response.json(); // Assuming fetchRecentOrder returns a Response object
+                setOrder(data);
+            } catch (err) {
+                if (retries > 0) {
+                    console.log(`Retrying... (${maxRetries - retries + 1}/${maxRetries})`);
+                    setTimeout(() => getOrderWithRetry(retries - 1), retryDelay);
+                } else {
+                    console.error('Max retries reached. Failed to fetch the order:', err);
+                    setError('Failed to fetch the order. Please try again later.');
+                }
+            }
         }
-        getOrder();
-    }, [])
+        getOrderWithRetry(maxRetries); */
+
+        function showRecentOrder(){
+            setOrder(state.order)
+        }
+
+        showRecentOrder()
+    }, []);
     const map = order?.order.map((item, index) => (
 
         <li className="success-list-item d-flex position-relative" key={index}>
@@ -81,39 +107,3 @@ export default function Success() {
         </section>
     );
 }
-
-
-/* cart: 
-    "{"cart":[
-        {"product":{
-            "_id":"65f349312273e59cab0845f3",
-            "Name":"Rayne Short Trenchcoat",
-            "Price":330,
-            "Categories":["Jackets","Spring"],
-            "Brand":"Trend Thread",
-            "imageURL":"https://ik.imagekit.io/nvtcacenco/Webshop/Clothes/Jackets/Rayne_Short_Trenchcoat",
-            "Size":["xs","s","m","l","xl","xxl"],
-            "Color":"Beige",
-            "newStatus":false,
-            "imgsNr":2,
-            "Popularity":2,
-            "Discount":0,
-            "blurHash":[]},
-            "quantity":1,"size":"XS"
-            },
-        {"product":{
-            "_id":"65f75b01c3caec2b0f670882",
-            "Name":"Tove Pants",
-            "Price":960,
-            "Categories":["Pants","Spring"],
-            "Brand":"Trend Thread",
-            "imageURL":"https://ik.imagekit.io/nvtcacenco/Webshop/Clothes/Pants/Tove_Pants",
-            "Size":["xs","s","m","l","xl","xxl"],
-            "Color":"Denim",
-            "newStatus":true,
-            "imgsNr":4,
-            "Popularity":3,
-            "Discount":0,
-            "blurHash":["LXQ0UAt7~qRisSf6bvWBxZjZRkbH","LSJ*;v.8?b?HwuWY-;D%~VxvR-xY","LkO:|kt7~pRkWBayt7WBadj[kCay","LgOp[Nof~ps:ayRjxuofV@ofogjs"]},
-            "quantity":1,"size":"XS"},
-        {"product":{"_id":"65f758f1c3caec2b0f67087b","Name":"Uma Tunic","Price":60,"Categories":["Tops"],"Brand":"Trend Thread","imageURL":"https://ik.imagekit.io/nvtcacenco/Webshop/Clothes/Tops/Uma_Tunic","Size":["xs","s","m","l","xl","xxl"],"Color":"Black","newStatus":false,"imgsNr":3,"Popularity":5,"Discount":0,"blurHash":[]},"quantity":1,"size":"XS"},{"product":{"_id":"65f32b7d2273e59cab0845d3","Name":"Isla Top","Price":90,"Categories":["Tops","Spring","BotW"],"Brand":"Ida Sjostedt","imageURL":"https://ik.imagekit.io/nvtcacenco/Webshop/Clothes/BotW/Isla_Top","Size":["xs","s","m","l","xl","xxl"],"Color":"Black","newStatus":false,"imgsNr":4,"Popularity":1,"Discount":0,"blurHash":[]},"quantity":1,"size":"XS"}],"total":1440}" */

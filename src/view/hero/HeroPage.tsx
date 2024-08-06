@@ -218,7 +218,7 @@ export default function HeroPage() {
                             alt='Dresses'
                         />
                     </li>
-                    <Link to={'/catalog/spring'} className='spring-btn from-left'>
+                    <Link to={'/catalog'} className='spring-btn from-left'>
                         <div className='col-12' >
                             <h2 id='section-title-2'>
                                 Our Spring Collection

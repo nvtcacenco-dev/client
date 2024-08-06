@@ -62,6 +62,32 @@
 .user-info-field{
     
 }
+
+.save-changes-btn{
+    background-color: var(--primary-clr-600) !important;
+    color: var(--dark-clr) !important;
+    font-size: var(--fs-sm) !important;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
+}
+.save-changes-btn:hover{
+    background-color: var(--primary-clr) !important;
+    color: var(--light-clr) !important;
+}
+
+.sign-out-btn{
+    color: rgba(0, 0, 0, 0.6) !important;
+    background-color: transparent !important;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out !important;
+    border-radius: var(--btn-border-radius);
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    padding-inline: 1.5rem !important;
+}
+
+.sign-out-btn:hover{
+    color: var(--dark-clr) !important;
+    background-color: var(--primary-clr-600) !important;
+} 
 .order-list-item{
     display: flex;
     position: relative;

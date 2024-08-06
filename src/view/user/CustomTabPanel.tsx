@@ -9,7 +9,13 @@ import { UserContext } from './UserContext';
 import { Order } from '../../utils/types';
 import Orders from './Orders';
 import Account from './Account';
+import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { clearPersistedState } from '../../network/redux/actions/actions';
+import { clearPersistedStateAndRestart } from '../../network/redux/store/store';
 
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,28 +52,42 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
   const [value, setValue] = useState(0);
-  
+  const { user, setUser } = React.useContext<any>(UserContext);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const handleSignOut = async () => {
 
- 
+    setUser(null);
+    localStorage.removeItem('token');
+    dispatch(clearPersistedState());
+    clearPersistedStateAndRestart();
+
+    navigate(`/`);
+    window.location.reload();
+  }
+
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='col-11 mx-auto'>
-          <Tab label="Account" {...a11yProps(0)} />
-          <Tab label="Orders" {...a11yProps(1)} />
-
+          <Tab label="Orders" {...a11yProps(0)} />
+          <Tab label="Account" {...a11yProps(1)} />
+          <Button className='sign-out-btn ms-auto' onClick={handleSignOut} endIcon={<LogoutIcon />}>
+            Sign Out
+          </Button>
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Account />
+        <Orders />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-       <Orders/>
+        <Account />
       </CustomTabPanel>
+
 
     </Box>
   );

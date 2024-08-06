@@ -42,7 +42,7 @@ export default function UserDashboard() {
 
                 <BasicTabs />
 
-                <Button onClick={handleSignOut}> Log Out</Button>
+                
             </div>
 
         </section>

@@ -28,50 +28,7 @@ export default function Checkout(){
   const { user } = useContext<any>(UserContext);
   const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
   
-  /* useEffect(()=>{
-      return () =>{
-        if (piID !==''){
-          fetch("http://localhost:8080/api/v1/checkout/cancel-payment-intent", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pi_id: piID}),
-        })
-          .then((res) => res.json())
-          .then((data) => 
-            console.log(data)
-          );
-        }
-      }
-  },[])
- 
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    if (piID !==''){
-      fetch("http://localhost:8080/api/v1/checkout/cancel-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pi_id: piID}),
-    })
-      .then((res) => res.json())
-      .then((data) => 
-        console.log(data)
-      );
-    }
 
-    fetch("http://localhost:8080/api/v1/checkout/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cart, currency: 'DKK' , customerID: user._id, customerEmail: user.email}),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.clientSecret)
-        setPiID(data.pi_id)
-      });
-  }, [cart]); */ 
-
-  
-  
   const appearance = {
     theme: 'stripe',
     variables: {

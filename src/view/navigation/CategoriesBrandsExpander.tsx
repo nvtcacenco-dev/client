@@ -37,13 +37,6 @@ export default function CategoriesBrandsExpander({ isDesktop }: ExpanderProps) {
                         Catalog
                     </Link>
                 </li>
-                    {/* (<Skeleton className="categories-skeleton me-4" variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />) */}
-
-                <li className="d-flex">
-                    <Link to={`/catalog/best-sellers`} onClick={(() => dispatch(setCategoryID(null)))}>
-                        Best Sellers
-                    </Link>
-                </li>
                 {categoryMap.map((category) => (
                     <li className="d-flex" key={category}>
                         <Link className="text-capitalize" to={`/catalog/${category}`} state={{some: `${categoryIDString[category]}`}} onClick={handleClick}>
@@ -51,16 +44,7 @@ export default function CategoriesBrandsExpander({ isDesktop }: ExpanderProps) {
                         </Link>
                     </li>
                 ))}
-                {/* {!categories &&
-                    (<div className="d-flex justify-content-center categories-skeleton-container">
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                        <Skeleton className="categories-skeleton " variant="text" animation="wave" sx={{ fontSize: 'var(--fs-sm)' }} />
-                    </div>)
-                } */}
+                
             </ul>
         </div>
     );

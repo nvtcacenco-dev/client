@@ -89,7 +89,7 @@ export default function CheckoutForm() {
         navigate(
           '/checkout/success',
           {state:{
-              orderID: paymentIntent.id
+              order: order
           }}
         )
         break;
@@ -114,7 +114,7 @@ export default function CheckoutForm() {
       handleError(submitError);
       return;
     }
-    const res = await fetch("http://localhost:8080/api/v1/checkout/create-payment-intent", {
+    const res = await fetch("https://trendthread-server.onrender.com/api/v1/checkout/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: cart, currency: 'DKK', customerID: user._id, customerEmail: user.email, name: `${user.firstName} ${user.lastName}` }),

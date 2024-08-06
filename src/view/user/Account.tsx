@@ -37,8 +37,11 @@ export default function Account() {
                         </TextField>
 
                     </div>
-                    <Collapse in={isEditingPersonal}>
-                        <Button>Save Changes</Button>
+                    <Collapse className="col-12" in={isEditingPersonal}>
+                        <div className="col-12 d-flex justify-content-end justify-content-lg-start my-3">
+                            <Button className='save-changes-btn'>Save Changes</Button>
+                        </div>
+                        
                     </Collapse>
                 </li>
 
@@ -55,6 +58,13 @@ export default function Account() {
                         </TextField>
 
                     </div>
+
+                    <Collapse className="col-12" in={isEditingContact}>
+                        <div className="col-12 d-flex justify-content-end justify-content-lg-start my-3">
+                            <Button className='save-changes-btn'>Save Changes</Button>
+                        </div>
+                        
+                    </Collapse>
                 </li>
                 <li className="my-3">
                     <div className="col-12 d-flex justify-content-between align-items-center ">
@@ -82,6 +92,13 @@ export default function Account() {
                         </TextField>
 
                     </div>
+
+                    <Collapse className="col-12" in={isEditingShipping}>
+                        <div className="col-12 d-flex justify-content-end justify-content-lg-start my-3">
+                            <Button className='save-changes-btn'>Save Changes</Button>
+                        </div>
+                        
+                    </Collapse>
                 </li>
             </ul>
 
