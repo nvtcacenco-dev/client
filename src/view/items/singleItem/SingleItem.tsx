@@ -22,7 +22,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { addFav, addToCart, setProduct } from '../../../network/redux/actions/actions';
-import { setDrawerStatus2 } from '../../../network/redux/reducers/drawerStatusSlice';
+
 import { calculateDiscountedPrice, getStringAfterAmpersand} from '../../../utils/utils';
 import { useLocation } from 'react-router-dom';
 import { fetchProductByID} from '../../../network/networkConfig';

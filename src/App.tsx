@@ -62,10 +62,11 @@ function App() {
       
       <Suspense fallback={<LoadingPage/>}>
         <NavBar />
+        <PromotionBannerAlt />
         <AnimatePresence>
           <main>
             <ScrollToTop />
-            <PromotionBannerAlt />
+            
             <Routes>
 
               <Route index element={<HeroPage />} />

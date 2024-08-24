@@ -13,41 +13,31 @@ import { Link, useNavigate } from "react-router-dom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { valuta } from "../../utils/types";
 import { UserContext } from "../user/UserContext";
 
 
 export default function DrawerCart({ onClose, open, id, direction }: DrawerProps) {
-
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
     const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
-    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+    
     const { user } = useContext<any>(UserContext);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
 
-    const calcTotal = () =>{
-        if(cart.length === 0){
-            return 0;
-        }
-        const sum = total + deliveryFees.toFixed(2);
-        return sum;
-    }
-
+   
     function handleCheckout(event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element>) {
-        if (event.type === 'click' || (event.type === 'keydown' && (event as React.KeyboardEvent).key === 'Enter')) {
-            if (user) {
-                onClose(event);
-                navigate('/checkout');
-            } else {
-                onClose(event);
-                navigate('/login');
-            }
-        }
-    }
+        onClose(event); // Close the drawer first
     
+        // Add a delay before navigating
+        setTimeout(() => {
+            if (event.type === 'click' || (event.type === 'keydown' && (event as React.KeyboardEvent).key === 'Enter')) {
+                    navigate('/checkout');
+            }
+        }, 200);
+    }
+   
 
     const deliveryFees = total >= 300 ? 0 : 60;
     const map = cart.map((item, index) => (
@@ -133,7 +123,7 @@ export default function DrawerCart({ onClose, open, id, direction }: DrawerProps
                 </li>
                 <li>
                     
-                        <Button disabled={cart.length === 0 ? true : false} onClick={handleCheckout} className="checkout-btn col-12">To Checkout</Button>
+                        <Button disabled={cart.length === 0 ? true : false} onClick={(e) => {handleCheckout(e)}} className="checkout-btn col-12">To Checkout</Button>
                     
                 </li>
                 <li>

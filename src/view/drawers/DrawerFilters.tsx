@@ -30,7 +30,7 @@ export default function DrawerFilters({ onClose, open, direction, id }: DrawerPr
     const dispatch = useDispatch();
 
     const sortState = useSelector((state: RootState) => state.sortState);
-    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+    
 
 
 

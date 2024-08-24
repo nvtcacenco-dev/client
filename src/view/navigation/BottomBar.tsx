@@ -1,7 +1,7 @@
 import { lazy, useContext, useState } from 'react';
 import '../../styles/navigation/NavBar.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
+
 import { RootState } from '../../network/redux/store/store';
 import { calcCartSize } from './NavBarUtils';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -56,11 +56,7 @@ export default function BottomBar() {
             return;
         }
 
-        if (open) {
-            (dispatch(setDrawerStatus(true)))
-        } else {
-            (dispatch(setDrawerStatus(false)))
-        }
+        
 
         setState((
             open
@@ -71,7 +67,7 @@ export default function BottomBar() {
             <ul className='bottom-bar-container'>
                 <li className='bottom-bar-item'>
 
-                    <button id='cart-btn' className='bottom-bar-link' onClick={() => { (setState(true)); (dispatch(setDrawerStatus(true))); }}>
+                    <button id='cart-btn' className='bottom-bar-link' onClick={() => { (setState(true)); }}>
                         <div className='nav-icon-link me-0'>
                             {/* <ShoppingCartIcon className='nav-icon' /> */}
 

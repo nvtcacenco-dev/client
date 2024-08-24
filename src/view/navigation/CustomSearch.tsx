@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, TextField, ThemeProvider } from "@mui/material";
 import { CustomSearchProps } from "./NavBarSectionProps";
 import { customTheme, customThemeSm } from "./NavBarUtils";
-import { setDrawerStatus } from "../../network/redux/reducers/drawerStatusSlice";
+
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -124,7 +124,7 @@ export default function CustomSearch({
                         // Add a delay of 200 milliseconds before executing onBlur logic
                         setTimeout(() => {
                             setSearchFocus(false);
-                            dispatch(setDrawerStatus(false));
+                            
                         }, 100);
                     }}
                     variant="filled" InputProps={isDesktop ? ({

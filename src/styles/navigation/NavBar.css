@@ -1,7 +1,7 @@
 
 
 .bottom-bar{
-    position: fixed;
+    position: sticky;
     height: 75px;
     background-color: var(--light-clr);
     bottom: 0;
@@ -51,6 +51,7 @@
     background-color: var(--light-clr);
     
     height: 184px;
+    
     position: sticky;
     top: 0;
     box-shadow: none;
@@ -140,7 +141,17 @@
     justify-content: center;
     align-items: center;
     background-color: var(--light-clr);
-    top: 100%;
+    top: -500px;
+    bottom: 10px;
+    position: absolute;
+    z-index: -1;
+    transition: top 0.3s ease-in-out, bottom 0.3s ease-in-out;
+    box-shadow: none;
+}
+
+.categories-expanded{
+    top: 74.5px;
+    
 }
 
 .categories-skeleton{
@@ -244,6 +255,7 @@
     min-height: 50px;
     display: flex;
     align-items: center;
+    background-color: var(--light-clr);
 }
 
 

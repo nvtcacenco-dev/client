@@ -2,6 +2,45 @@ import { CategoryName, Product, categoryIDString, reverseCategoryMap } from "./t
 import { createTheme, Theme} from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 
+
+type CountryInfo = {
+    alpha2Code: string;
+    currencyCode: string;
+};
+
+type CountryInfoMap = {
+    [country: string]: CountryInfo;
+};
+
+const countryInfoMap: CountryInfoMap = {
+    "Denmark": { alpha2Code: "DK", currencyCode: "DKK" },
+    "United States": { alpha2Code: "US", currencyCode: "USD" },
+    "China": { alpha2Code: "CN", currencyCode: "CNY" },
+    "India": { alpha2Code: "IN", currencyCode: "INR" },
+    "Brazil": { alpha2Code: "BR", currencyCode: "BRL" },
+    "Russia": { alpha2Code: "RU", currencyCode: "RUB" },
+    "Germany": { alpha2Code: "DE", currencyCode: "EUR" },
+    "United Kingdom": { alpha2Code: "GB", currencyCode: "GBP" },
+    "France": { alpha2Code: "FR", currencyCode: "EUR" },
+    "Italy": { alpha2Code: "IT", currencyCode: "EUR" },
+    "Canada": { alpha2Code: "CA", currencyCode: "CAD" },
+    "Japan": { alpha2Code: "JP", currencyCode: "JPY" },
+    "South Korea": { alpha2Code: "KR", currencyCode: "KRW" },
+    "Australia": { alpha2Code: "AU", currencyCode: "AUD" },
+    "Spain": { alpha2Code: "ES", currencyCode: "EUR" },
+    "Mexico": { alpha2Code: "MX", currencyCode: "MXN" },
+    "Indonesia": { alpha2Code: "ID", currencyCode: "IDR" },
+    "Netherlands": { alpha2Code: "NL", currencyCode: "EUR" },
+    "Saudi Arabia": { alpha2Code: "SA", currencyCode: "SAR" },
+    "Turkey": { alpha2Code: "TR", currencyCode: "TRY" }
+};
+
+export function getCountryInfo(countryName: string): CountryInfo{
+    return countryInfoMap[countryName];
+}
+
+
+
 export function calculateDiscountedPrice(price: number, discount: number): number{
     const discountedPrice = price - (price*(discount/100))
     return discountedPrice;

@@ -13,7 +13,7 @@ import { CategoryName, categoryIDString } from "../../utils/types";
 
 
 
-export default function CategoriesBrandsExpander({ isDesktop }: ExpanderProps) {
+export default function CategoriesBrandsExpander({ isDesktop, className }: ExpanderProps) {
     const dispatch = useDispatch();
     const categoryMap = [
         CategoryName.BOTW,
@@ -29,7 +29,7 @@ export default function CategoriesBrandsExpander({ isDesktop }: ExpanderProps) {
     }
     return (
 
-        <div className={`col-12 ${isDesktop ? ('categories-brands-expander') : ('categories-brands-expander-sm')} `}>
+        <div className={`col-12 ${className} ${isDesktop ? ('categories-brands-expander') : ('categories-brands-expander-sm')} `}>
 
             <ul className={isDesktop ? ('categories-brands-list') : ('categories-brands-list-sm')}>
                 <li className="d-flex">

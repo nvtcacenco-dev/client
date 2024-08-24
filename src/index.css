@@ -24,6 +24,7 @@
   --success-clr: #37dd12;
   --warning-clr: #edb95e;
   --error-clr: #e23636;
+  --danger-clr: #df1b41;
 
   --fs-xs: clamp(0.64rem, -0.12vw + 0.66rem, 0.57rem);
   --fs-sm: clamp(0.8rem, -0.08vw + 0.82rem, 0.75rem);

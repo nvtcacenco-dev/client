@@ -41,13 +41,13 @@ const itemVariants = {
 
 export default function ItemBrowser({ products }: ItemBrowserProps) {
 
-    
+
     const [isTouch, setIsTouch] = useState<boolean>(false);
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const dispatch = useDispatch();
     const { user } = useContext<any>(UserContext);
     const windowWidth = useWindowResize();
-    
+
     useEffect(() => {
         setIsTouch(checkIfTouchDevice());
     }, [windowWidth]);
@@ -82,8 +82,8 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
             manageFavourites(userID, product._id);
         }
     }
-    
-   
+
+
 
     const map = products.map((product, index) => (
 
@@ -195,9 +195,7 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 exit="hidden"
                 variants={listVariants}
             >
-
                 {map}
-
             </motion.ul>
 
         </AnimatePresence>

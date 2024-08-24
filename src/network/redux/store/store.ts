@@ -5,7 +5,7 @@ import productCountReducer from '../reducers/productCountSlice';
 import productReducer from '../reducers/productSlice';
 import sortReducer from '../reducers/sortSlice';
 import pageNumberReducer from '../reducers/pageNumberSlice';
-import drawerStatusReducer from '../reducers/drawerStatusSlice';
+
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import favReducer from '../reducers/favSlice';
@@ -38,7 +38,7 @@ export const store = configureStore({
     persistedReducer: rootReducerWithClear,
     productCount: productCountReducer,
     pageNumber: pageNumberReducer,
-    drawerStatus: drawerStatusReducer,
+    
     sortState: sortReducer,
     orderReducer: orderReducer,
   },

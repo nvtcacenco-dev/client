@@ -1,17 +1,16 @@
 import React, { lazy, useContext, useEffect, useState } from 'react';
 import '../../styles/navigation/NavBar.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryID, setFavs } from '../../network/redux/actions/actions';
 import { RootState } from '../../network/redux/store/store';
 import { Turn as Hamburger } from 'hamburger-react'
-import { setDrawerStatus } from '../../network/redux/reducers/drawerStatusSlice';
+
 import { UserContext } from '../user/UserContext';
-import { fetchAllCategories, fetchSearchProducts, fetchUserFavorites } from '../../network/networkConfig';
-import { Categories, Product } from '../../utils/types';
-import { getLastPartOfUrl, handleHyphens } from '../../utils/utils';
+import { fetchUserFavorites } from '../../network/networkConfig';
+
 import { Collapse, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CategoriesBrandsExpander from './CategoriesBrandsExpander';
@@ -33,71 +32,39 @@ export default function NavBar() {
     const [searchSmState, setSearchSmState] = useState<boolean>(false);
     const [categoriesSmState, setCategoriesSmState] = useState<boolean>(false);
     const [searchFocus, setSearchFocus] = useState<boolean>(false);
-    const [categories, setCategories] = useState<Categories[]>();
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
-    
     const { user } = useContext<any>(UserContext);
-    const [urlEndpoint, setUrlEndpoint] = useState<string>('');
-    const windowWidth = useWindowResize();
-
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [searchResults, setSearchResults] = useState<Product[]>([]);
-    const [isSearchFound, setIsSearchFound] = useState<boolean>(false);
-
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const location = useLocation();
-    const pathname = location.pathname;
-    const navigate = useNavigate();
+    const windowWidth = useWindowResize();
 
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
-    const order = useSelector((state: RootState) => state.orderReducer.order);
-    const drawerState = useSelector((state: RootState) => state.drawerStatus.state);
+    
     const navName = navClass === true ? "navbar-changed" : "";
     const navName2 = navClass2 === true ? "nav-box-shadow" : "";
     const navName3 = navClass3 === true ? "nav-position" : "";
-
     const bannerName = bannerClass === true ? "banner-changed" : "";
-
-
     const searchSuggestionName = searchFocus === true ? "search-suggestions-focused" : "";
     const searchBarName = searchFocus === true ? "search-bar-focused" : "";
 
     const dispatch = useDispatch();
-    const isHome = location.pathname === '/';
-
-
+ 
     const accountButtonPath = user ? `/user/${user._id}` : '/login';
 
 
-
-
-
-
-    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    const toggleDrawer = () => async (event: React.KeyboardEvent | React.MouseEvent): Promise<void> => {
         if (
             event.type === 'keydown' &&
-            ((event as React.KeyboardEvent).key === 'Tab' ||
-                (event as React.KeyboardEvent).key === 'Shift')
+            ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
         ) {
             return;
         }
-
-        if (open) {
-            (dispatch(setDrawerStatus(true)))
-
-        } else {
-            (dispatch(setDrawerStatus(false)))
-
-        }
-
-        setState((
-            open
-        ));
+        
+        setState(false);
+        
+        return Promise.resolve();
     };
-
-
 
     const changeNavBarClr = () => {
         if (window.scrollY < 300 || window.scrollY < prevScrollPos) {
@@ -126,11 +93,7 @@ export default function NavBar() {
         }
     };
 
-    const handleScroll = () => {
-        setPrevScrollPos(window.scrollY);
-        setSearchFocus(false);
-        changeNavBarClr();
-    };
+    
 
     
 
@@ -150,15 +113,20 @@ export default function NavBar() {
     }, [user]);
 
 
-
+    const handleScroll = () => {
+        setPrevScrollPos(window.scrollY);
+        setSearchFocus(false);
+        changeNavBarClr();
+    };
 
     window.addEventListener('scroll', handleScroll);
 
+    const expanderClassName = categoriesSmState? 'categories-expanded' : '';
     return (
         <nav
             id='topNav'
             className={`top-nav d-flex justify-content-lg-center flex-column align-items-lg-center ${navName} ${navName2} ${navName3} ${windowWidth <= 992 && ('nav-mobile')}`}
-        /* style={{width: `calc(100% - ${drawerState? (window.innerWidth - document.documentElement.clientWidth):(0)}px)`}} */
+        
         >
             <div className={`nav-bar-banner col-12 ${bannerName}`}>
                 <PromotionBanner />
@@ -190,10 +158,11 @@ export default function NavBar() {
                                 <SearchIcon />
                             </IconButton>
                         </div>
-                        <Collapse in={categoriesSmState}>
-                            <CategoriesBrandsExpander isDesktop={false} />
-                        </Collapse>
-                        <Collapse in={searchSmState}>
+                        {/* <Collapse in={categoriesSmState}>
+                            
+                        </Collapse> */}
+                        <CategoriesBrandsExpander isDesktop={false} className={expanderClassName}/>
+                        {/* <Collapse in={searchSmState}>
                             <div className='search-bar-sm col-12'>
                                 <CustomSearch
                                     isDesktop={false}
@@ -204,10 +173,10 @@ export default function NavBar() {
                                     setSearchFocus={setSearchFocus}
                                 />
                             </div>
-                        </Collapse>
+                        </Collapse> */}
                     </div>
                 )}
-            <CartDrawer id='cart-top' direction='right' onClose={toggleDrawer(false)} open={state} />
+            <CartDrawer id='cart-top' direction='right' onClose={toggleDrawer()} open={state} />
         </nav>
     );
 }

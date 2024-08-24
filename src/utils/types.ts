@@ -56,6 +56,7 @@ export interface User {
   address: string;
   city: string;
   zipCode: string;
+  country: string;
   orders: Order[] | Order;
 }
 
@@ -72,7 +73,8 @@ export type CartProduct = {
 export interface Order {
   _id?: string;
   stripeID: string;
-  userID: string;
+  userID?: string;
+  email?: string;
   order: { product: Product; quantity: number; size: string }[];
   deliverStatus: boolean;
   total: number;

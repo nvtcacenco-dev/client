@@ -92,7 +92,12 @@ export default function Account() {
                         </TextField>
 
                     </div>
+                    <div className="col-12 col-lg-4 d-flex ps-2 mt-3">
+                        <TextField className="  user-info-field" label='Country' defaultValue={user.country? user.country : 'Country'} variant="standard" type="input" disabled={!isEditingShipping}>
 
+                        </TextField>
+
+                    </div>
                     <Collapse className="col-12" in={isEditingShipping}>
                         <div className="col-12 d-flex justify-content-end justify-content-lg-start my-3">
                             <Button className='save-changes-btn'>Save Changes</Button>

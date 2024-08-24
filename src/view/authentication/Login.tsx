@@ -15,43 +15,56 @@ export default function Login({ theme }: LoginSignUpProps) {
     const [pw, setPassword] = useState<string>('');
     const [emailEmpty, setEmailEmpty] = useState<boolean>(false);
     const [pwEmpty, setPwEmpty] = useState<boolean>(false);
+    const [isTestUser, setIsTestUser] = useState<boolean>(false);
     const { user, setUser } = useContext<any>(UserContext);
 
-    const handleAuth = () =>{
-        if(email === ''){
+    const handleAuth = () => {
+        if (email === '') {
             setEmailEmpty(true)
         }
-        if(pw === ''){
+        if (pw === '') {
             setPwEmpty(true)
         }
 
-        if(!(emailEmpty && pwEmpty)){
+        if (!(emailEmpty && pwEmpty)) {
             authUser(email, pw).then((data: any) => {
                 setUser(data.user);
                 console.log(data)
                 localStorage.setItem('token', data.accessToken);
-                
+
             });
         }
-        
+
     }
 
-    useEffect(()=>{
-        if(user){
+    const handleTestUser = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsTestUser(event.target.checked)
+       
+    }
+
+    useEffect(() =>{
+        if (isTestUser) {
+            setEmail('test@gmail.com')
+            setPassword('1234')
+        }
+    },[isTestUser])
+
+    useEffect(() => {
+        if (user) {
             navigate(`/user/${user._id}`)
         }
-    },[user])
+    }, [user])
 
-    useEffect(()=>{
-        
-        if(emailEmpty && email !== ''){
+    useEffect(() => {
+
+        if (emailEmpty && email !== '') {
             setEmailEmpty(false)
         }
-        if(pwEmpty && pw !== ''){
+        if (pwEmpty && pw !== '') {
             setPwEmpty(false)
         }
-    },[email, pw])
-    
+    }, [email, pw])
+
     return (
         <motion.ul
             initial={{ opacity: 0 }}
@@ -59,7 +72,7 @@ export default function Login({ theme }: LoginSignUpProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
         >
-            
+
             <li>
                 <ThemeProvider theme={theme(outerTheme)}>
                     <TextField label='Email' required variant="outlined" type="email" onChange={(e) => setEmail(e.target.value)}>
@@ -78,9 +91,16 @@ export default function Login({ theme }: LoginSignUpProps) {
 
                 </ThemeProvider>
             </li>
-            <li className="d-flex">
-                <Checkbox className="authentication-checkbox" />
-                <div className="checkbox-label d-flex align-items-center ms-2">Keep me signed in.</div>
+            <li className="d-flex flex-column row-gap-2">
+                <div className="col-12 d-flex">
+                    <Checkbox className="authentication-checkbox" />
+                    <div className="checkbox-label d-flex align-items-center ms-2">Keep me signed in.</div>
+                </div>
+                <div className="col-12 d-flex">
+                    <Checkbox checked={isTestUser} onChange={handleTestUser} className="authentication-checkbox" />
+                    <div className="checkbox-label d-flex align-items-center ms-2">Sign in as a test user.</div>
+                </div>
+
             </li>
             <li className="d-flex">
                 <p className="authentication-eula">

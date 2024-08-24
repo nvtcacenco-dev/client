@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 
 import { useDispatch } from "react-redux";
-import { setDrawerStatus } from "../../network/redux/reducers/drawerStatusSlice";
+
 
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -69,7 +69,7 @@ export default function NavBarLGSection(
             />
             <ul className='nav-icon-list  col-4 '>
                 <li>
-                    <button id='cart-btn' className='nav-icon-link' onClick={() => { (setState(true)); (dispatch(setDrawerStatus(true))); }}>
+                    <button id='cart-btn' className='nav-icon-link' onClick={() => { (setState(true));}}>
                         <ShoppingCartIcon className="nav-icon" />
                         <div className='icon-product-counter'>
                             {calcCartSize(cart)}

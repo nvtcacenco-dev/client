@@ -7,8 +7,8 @@ import axios from 'axios';
 import { Product, Categories, ResponseDataProducts, User, Order } from '../utils/types';
 
 
-/* const API_URL = 'http://localhost:8080/api/v1'; */
-const API_URL = 'https://trendthread-server.onrender.com/api/v1'
+const API_URL = 'http://localhost:8080/api/v1';
+/* const API_URL = 'https://trendthread-server.onrender.com/api/v1' */
 
 
 export async function fetchAllProducts(page: number, limit: number, sortBy?: string, sortOrder?: string): Promise<ResponseDataProducts> {
@@ -248,16 +248,58 @@ export async function logoutUser() {
 }
 
 
-export async function createCheckout() {
+export async function createCheckoutUser(
+    items: {
+        product: Product;
+        quantity: number;
+        size: string;
+    }[],
+    currency: string,
+    customerEmail: string,
+    name: string,
+    customerID: any,
+) {
     try {
-        
-        const response = await axios.post(`${API_URL}/checkout/create-payment-intent`, {
+        const response = await fetch(`${API_URL}/checkout/create-payment-intent/user`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                items, 
+                currency, 
+                customerID,
+                customerEmail,
+                name,
+            })
             
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                
-            }
+        });
+        
+        return response; 
+    } catch (error) {
+        console.error("STRIPE ERROR:", error);
+        throw error;
+    }
+}
+
+
+export async function createCheckoutGuest(
+    items: {
+        product: Product;
+        quantity: number;
+        size: string;
+    }[],
+    currency: string,
+    customerEmail: string,
+) {
+    try {
+        const response = await fetch(`${API_URL}/checkout/create-payment-intent/guest`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                items, 
+                currency, 
+                customerEmail,
+            })
+            
         });
         
         return response; 
@@ -281,8 +323,22 @@ export async function configStripe(): Promise<any> {
 
 export async function addUserOrder(order: Order, userID: string): Promise<any>{
     try {
-        const response = await axios.post(`${API_URL}/users/${userID}/orders`,{
+        const response = await axios.post(`${API_URL}/orders/user/${userID}`,{
             userID,
+            order
+        });
+        
+        console.log('Order added successfully:', response.data);
+    } catch (error) {
+        console.error('Error adding order:', error);
+        
+    }
+}
+
+
+export async function addGuestOrder(order: Order): Promise<any>{
+    try {
+        const response = await axios.post(`${API_URL}/orders/guest`,{
             order
         });
         
@@ -295,7 +351,7 @@ export async function addUserOrder(order: Order, userID: string): Promise<any>{
 
 export async function fetchUserOrders(userId: string) {
     try {
-        const response = await axios.get(`${API_URL}/users/${userId}/orders`);
+        const response = await axios.get(`${API_URL}/orders/user/${userId}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching user orders:", error);
