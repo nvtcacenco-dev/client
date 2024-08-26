@@ -162,7 +162,7 @@ export default function NavBar() {
                             
                         </Collapse> */}
                         <CategoriesBrandsExpander isDesktop={false} className={expanderClassName}/>
-                        {/* <Collapse in={searchSmState}>
+                        <Collapse in={searchSmState}>
                             <div className='search-bar-sm col-12'>
                                 <CustomSearch
                                     isDesktop={false}
@@ -173,7 +173,7 @@ export default function NavBar() {
                                     setSearchFocus={setSearchFocus}
                                 />
                             </div>
-                        </Collapse> */}
+                        </Collapse>
                     </div>
                 )}
             <CartDrawer id='cart-top' direction='right' onClose={toggleDrawer()} open={state} />

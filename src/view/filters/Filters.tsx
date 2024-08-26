@@ -2,6 +2,7 @@ import {IconButton, IconButtonProps, styled } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import '../../styles/filters/Filters.css'
+import { motion } from 'framer-motion';
 
 export enum ButtonRole {
     Location,
@@ -32,7 +33,12 @@ export default function Filters({name}: FiltersProps){
 
     return (
 
-        <div className="filter-pill d-flex align-items-center justify-content-between">
+        <motion.div 
+            className="filter-pill d-flex align-items-center justify-content-between"
+            initial={{scale: 0}}
+            animate={{scale: 1}}
+            exit={{scale: 0}}
+        >
             
            {name}
             
@@ -40,6 +46,6 @@ export default function Filters({name}: FiltersProps){
                 <CloseIcon fontSize='small' />
             </CloseIconButton>
             
-        </div>
+        </motion.div>
     )
 }

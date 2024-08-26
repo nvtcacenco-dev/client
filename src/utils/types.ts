@@ -1,7 +1,11 @@
-import { CartState } from "../network/redux/reducers/cartSlice";
+import { CartState } from '../network/redux/reducers/cartSlice';
+
+export const freeShipping = 300;
+export const shipping = 60;
+
 
 export enum BOTW {
-  name = "Brand of the Week",
+  name = 'Brand of the Week',
 }
 
 export interface ResponseDataProducts {
@@ -81,27 +85,41 @@ export interface Order {
   time?: string;
 }
 
-export const valuta = "DKK";
+export const valuta = 'DKK';
+
+export type CurrencySignDirection = 'front' | 'back';
+
+export type CountryInfo = {
+  alpha2Code: string;
+  currencyCode: string;
+  currencySign?: string;
+  currencySignDirection?: CurrencySignDirection;
+  conversionRateFromDKK?: number;
+};
+
+export type CountryInfoMap = {
+  [country: string]: CountryInfo;
+};
 
 export enum CategoryName {
-  CATALOG = "catalog",
-  BEST_SELLERS = "best-sellers",
-  BOTW = "brand-of-the-week",
-  DRESSES = "dresses",
-  JACKETS = "jackets",
-  PANTS = "pants",
-  SKIRTS = "skirts",
-  TOPS = "tops",
+  CATALOG = 'catalog',
+  BEST_SELLERS = 'best-sellers',
+  BOTW = 'brand-of-the-week',
+  DRESSES = 'dresses',
+  JACKETS = 'jackets',
+  PANTS = 'pants',
+  SKIRTS = 'skirts',
+  TOPS = 'tops',
 }
 export const categoryIDString: Record<CategoryName, string> = {
-  [CategoryName.CATALOG]: "",
-  [CategoryName.BEST_SELLERS]: "",
-  [CategoryName.BOTW]: "65f479d6d7cb797decefeea3",
-  [CategoryName.DRESSES]: "65f479a2d7cb797decefee9e",
-  [CategoryName.JACKETS]: "65f479cdd7cb797decefeea2",
-  [CategoryName.PANTS]: "65f479c4d7cb797decefeea1",
-  [CategoryName.SKIRTS]: "65f479abd7cb797decefee9f",
-  [CategoryName.TOPS]: "65f47999d7cb797decefee9d",
+  [CategoryName.CATALOG]: '',
+  [CategoryName.BEST_SELLERS]: '',
+  [CategoryName.BOTW]: '65f479d6d7cb797decefeea3',
+  [CategoryName.DRESSES]: '65f479a2d7cb797decefee9e',
+  [CategoryName.JACKETS]: '65f479cdd7cb797decefeea2',
+  [CategoryName.PANTS]: '65f479c4d7cb797decefeea1',
+  [CategoryName.SKIRTS]: '65f479abd7cb797decefee9f',
+  [CategoryName.TOPS]: '65f47999d7cb797decefee9d',
 };
 
 export const reverseCategoryMap: { [key: string]: CategoryName } =
@@ -109,3 +127,10 @@ export const reverseCategoryMap: { [key: string]: CategoryName } =
     acc[value] = value;
     return acc;
   }, {} as { [key: string]: CategoryName });
+
+export enum TestCards {
+  SUCCESS = '4242 4242 4242 4242',
+  DECLINED_INSUFFICIENT_FUNDS = '4000 0000 0000 9995',
+  DECLINED_GENERIC = '4000 0000 0000 0002',
+}
+

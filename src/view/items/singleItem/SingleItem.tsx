@@ -1,5 +1,5 @@
 import { Carousel } from 'react-bootstrap';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useContext, useEffect, useState } from 'react';
 import '../../../styles/clothing/SingleItemPage.css';
 import CustomBreadCrumbs from '../../misc/CustomBreadCrumbs';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,9 +25,11 @@ import { addFav, addToCart, setProduct } from '../../../network/redux/actions/ac
 
 import { calculateDiscountedPrice, getStringAfterAmpersand} from '../../../utils/utils';
 import { useLocation } from 'react-router-dom';
-import { fetchProductByID} from '../../../network/networkConfig';
+import { fetchProductByID, manageFavourites} from '../../../network/networkConfig';
 import OptimizedImage from '../../loading/OptimizedImage';
-import { valuta } from '../../../utils/types';
+import { Product, valuta } from '../../../utils/types';
+import { UserContext } from '../../user/UserContext';
+import CustomFavButton from '../../misc/CustomFavButton';
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -54,7 +56,7 @@ export default function SingleItem() {
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     const [size, setSize] = useState<string>('Size');
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
-    
+    const { user } = useContext<any>(UserContext);
 
     const location = useLocation();
     const pathname = location.pathname;
@@ -150,7 +152,7 @@ export default function SingleItem() {
                 ${imageUrl}?tr=w-600 480w,
                 ${imageUrl}?tr=w-500 320w`
             }}
-            /* id={`img-${index+1}`} */
+            
             containerClassName='col-6 pe-2 pb-2 position-relative'
             imgClassName='single-item-img col-12'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
@@ -168,7 +170,7 @@ export default function SingleItem() {
                 ${imageUrl}?tr=w-600 480w,
                 ${imageUrl}?tr=w-500 320w`
             }}
-            /* id={`img-${index+1}`} */
+            
             containerClassName='col-12 position-relative h-100'
             imgClassName='single-item-img col-12'
             onClick={(() => { (handleClickOpen(`${imageUrl.split('?')[0]}?tr=w-1280`)); })}
@@ -198,14 +200,13 @@ export default function SingleItem() {
                         }
                         
                     });
-                    backgroundImageSet = true; // Mark as background images set
+                    backgroundImageSet = true;
                 }
             }
         }
 
         setBackgroundImage();
 
-        // Return a cleanup function that resets the flag when the component unmounts
         return () => {
             backgroundImageSet = false;
         };
@@ -239,7 +240,13 @@ export default function SingleItem() {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
+    
+    function handleAddRemoveFromFavs(product: Product, userID: string) {
+        dispatch(addFav(product));
+        if (user) {
+            manageFavourites(userID, product._id);
+        }
+    }
     return (
         <div className="singleItem-page-container col-12 d-flex flex-column align-items-center ">
             <div className='col-12 col-lg-10'>
@@ -263,9 +270,7 @@ export default function SingleItem() {
                                 <p className='col-12 '>{priceMap()}</p>
                                 <p className='col-12 '>{product?.Name}</p>
                                 <p className='col-12 '>{product?.Brand.toUpperCase()}</p>
-                                <IconButton className='singleItem-fav-btn' onClick={() => { if (product) { dispatch(addFav(product)) } }}>
-                                    <FavoriteIcon className={`singleItem-fav-icon ${favs.some((favProduct: { _id: any; }) => favProduct._id === product?._id) ? 'singleItem-fav-icon-active' : ''}`} />
-                                </IconButton>
+                                <CustomFavButton product={product} userID={user? user._id : null} user={user} favs={favs} className='singleItem' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
                             </div>
                             <p className='color-txt-field col-12 '>Color: <span>{product?.Color}</span></p>
                             <Accordion id='size-accordion' className='single-item-info-accordion col-12 ' expanded={expanded} onClick={handleSizesExpand}>

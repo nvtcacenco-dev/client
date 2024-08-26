@@ -1,56 +1,55 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
 import {
   PaymentElement,
   useStripe,
   useElements,
   AddressElement,
-  PaymentElementComponent
-} from "@stripe/react-stripe-js";
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Button, Collapse, IconButton, TextField, Tooltip, Zoom } from "@mui/material";
+
+} from '@stripe/react-stripe-js';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Button, Collapse, TextField, Tooltip, Zoom } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { RootState } from "../../network/redux/store/store";
-import { Order, valuta } from "../../utils/types";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../network/redux/store/store';
+import { CountryInfo, freeShipping, Order, TestCards } from '../../utils/types';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
-import { customInputThemeCheckout, getCountryInfo } from "../../utils/utils";
-import { UserContext } from "../user/UserContext";
-import { addUserOrder, createCheckoutUser, createCheckoutGuest, editUserInfoByID, addGuestOrder } from "../../network/networkConfig";
-import { ControlCameraSharp } from "@mui/icons-material";
-import ErrorIcon from '@mui/icons-material/Error';
-import { DefaultValuesOption, PaymentIntent } from "@stripe/stripe-js";
-import LoadingPage from "../loading/LoadingPage";
+import { calcRemainderShipping, calcSubTotalValuta, calcTotalValuta, currencyPresenter, customInputThemeCheckout, deliveryFees, getCountryCurrencySign, valutaConversion } from '../../utils/utils';
+import { UserContext } from '../user/UserContext';
+import { addUserOrder, createCheckoutUser, createCheckoutGuest, addGuestOrder } from '../../network/networkConfig';
 
+import { PaymentIntent } from '@stripe/stripe-js';
+import LoadingPage from '../loading/LoadingPage';
+import TestCard from '../misc/TestCard';
 
-interface CheckoutFormProps {
-  clientSecret: any;
+interface CheckoutFormProps{
+  country: string;
+  countryInfo: CountryInfo | undefined;
+  setCountry: React.Dispatch<React.SetStateAction<string>>;
+  setCountryInfo: React.Dispatch<React.SetStateAction<CountryInfo | undefined>>;
 }
 
-export default function CheckoutForm() {
+export default function CheckoutForm({country, countryInfo, setCountry, setCountryInfo}: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
-  const [cS, setCS] = useState("");
+  const [cS, setCS] = useState('');
   const [paymentIntent, setPaymentIntent] = useState<PaymentIntent>();
   const [message, setMessage] = useState<string>();
 
   const [email, setEmail] = useState<string>('');
   const [emailEmpty, setEmailEmpty] = useState<boolean>(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [piID, setPiID] = useState<string>('');
-  const [successTitle, setSuccessTitle] = useState<string>('Copy');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+
   const { user } = useContext<any>(UserContext);
-  const [line1, setLine1] = useState<string>('dsadsadsada');
+
   const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
   const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
-  const order = useSelector((state: RootState) => state.orderReducer.order);
   const outerTheme = useTheme();
-  const deliveryFees = total >= 300 ? 0 : 60;
-  const dispatch = useDispatch();
+  
   const navigate = useNavigate();
 
-  const successCardNr = '4242 4242 4242 4242';
-  const declinedCardNr = '4000 0000 0000 9995';
+
 
   const handleError = (error: any) => {
     setIsLoading(false);
@@ -58,53 +57,30 @@ export default function CheckoutForm() {
   }
 
   const emailFieldError = emailEmpty ? 'input-error' : '';
-  console.log(email)
-  function handleCopy(status: string) {
+  useEffect(() => {
+    console.log("Country in CheckoutForm:", country);
+  }, [country]);
 
-    switch (status) {
-      case 'success':
-        navigator.clipboard.writeText(successCardNr).then(function () {
-          setSuccessTitle('Copied');
-        }, function (err) {
-          console.error('Async: Could not copy text: ', err);
-        });
-        break;
-      case 'declined':
-        navigator.clipboard.writeText(declinedCardNr).then(function () {
-          setSuccessTitle('Copied');
-        }, function (err) {
-          console.error('Async: Could not copy text: ', err);
-        });
-        break;
-      default:
-        break;
-    }
-
-  }
   useEffect(() => {
     if (!stripe) {
       return;
     }
-
     if (!cS) {
       return;
     }
-
-
     console.log(message);
   }, [stripe]);
 
   useEffect(() => {
-    console.log(paymentIntent?.status)
 
     switch (paymentIntent?.status) {
-      case "processing":
+      case 'processing':
         setIsLoading(true);
         break;
-      case "requires_payment_method":
+      case 'requires_payment_method':
         setIsLoading(true);
         break;
-      case "succeeded":
+      case 'succeeded':
 
         const order: Order = {
           stripeID: paymentIntent.id,
@@ -146,7 +122,6 @@ export default function CheckoutForm() {
     if (!stripe || !elements) {
       return;
     }
-
     setIsLoading(true);
 
     const { error: submitError } = await elements.submit();
@@ -161,7 +136,7 @@ export default function CheckoutForm() {
 
     const res = await createCheckoutUser(
       cart,
-      user.country ? getCountryInfo(user.country).currencyCode : 'DKK',
+      countryInfo? countryInfo.currencyCode : 'DKK' ,
       user.email,
       `${user.firstName} ${user.lastName}`,
       user._id
@@ -185,14 +160,12 @@ export default function CheckoutForm() {
       elements,
       clientSecret,
       confirmParams: {
-        // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-        return_url: "http://localhost:3000/checkout/success",
+        return_url: `${window.location.origin}/checkout/success`,
       },
       redirect: 'if_required'
     })
       .then(function (result) {
         if (result.error) {
-          // Inform the customer that there was an error.
         }
         console.log(result)
       });
@@ -200,7 +173,7 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       setPaymentIntent(paymentIntent)
     })
-   }
+  }
   const handleSubmitGuest = async (e: any) => {
     e.preventDefault();
 
@@ -222,8 +195,8 @@ export default function CheckoutForm() {
 
     const res = await createCheckoutGuest(
       cart,
-      user ? getCountryInfo(user?.country)?.currencyCode : 'DKK',
-      user ? user.email : email,
+      countryInfo? countryInfo.currencyCode : 'DKK',
+      email,
     )
 
     const { client_secret: clientSecret } = await res.json();
@@ -244,14 +217,12 @@ export default function CheckoutForm() {
       elements,
       clientSecret,
       confirmParams: {
-        // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-        return_url: "http://localhost:3000/checkout/success",
+        return_url: `${window.location.origin}/checkout/success`,
       },
       redirect: 'if_required'
     })
       .then(function (result) {
         if (result.error) {
-          // Inform the customer that there was an error.
         }
         console.log(result)
       });
@@ -261,46 +232,42 @@ export default function CheckoutForm() {
     })
   };
 
-
-
-
   return (
-    <div className="payment-container d-flex justify-content-center col-12 col-md-10 col-lg-5 col-xxl-4 position-relative">
+    <div className='payment-container d-flex justify-content-center col-12 col-md-10 col-lg-5 col-xxl-4 position-relative'>
       {isLoading && (
-        <div id="loading-spinner">
+        <div id='loading-spinner'>
           <LoadingPage />
         </div>)
       }
-
-
-      <form id="payment-form" className=" col-12" onSubmit={user ? handleSubmitUser : handleSubmitGuest}>
-
-
-        <div className="my-4">
-          <p id="payment-form-title" className="mb-3">Shipping Details</p>
-          <AddressElement id="shipping-element" options={{
-            mode: "shipping",
-            display: {
-              name: 'full'
-            },
-            defaultValues: {
-              name: user ? `${user.firstName} ${user.lastName}` : '',
-              address: {
-                country: user ? getCountryInfo(user?.country)?.alpha2Code : 'DK',
-                city: user ? user.city : '',
-                postal_code: user ? user.zipCode : '',
-                line1: user ? user.address : '',
-              }
-            },
-          }} />
+      <form id='payment-form' className=' col-12' onSubmit={user ? handleSubmitUser : handleSubmitGuest}>
+        <div className='my-4'>
+          <p id='payment-form-title' className='mb-3'>Shipping Details</p>
+          <AddressElement
+            onChange={(e) => { setCountry(e.value.address.country) }}
+            id='shipping-element'
+            options={{
+              mode: 'shipping',
+              display: {
+                name: 'full'
+              },
+              defaultValues: {
+                name: user ? `${user.firstName} ${user.lastName}` : '',
+                address: {
+                  country: countryInfo ? countryInfo.alpha2Code : 'DK',
+                  city: user ? user.city : '',
+                  postal_code: user ? user.zipCode : '',
+                  line1: user ? user.address : '',
+                }
+              },
+            }} />
           {!user &&
             (
               <>
-                <p className="p-0" id="email-tag">Email</p>
-                <div className="col-12">
-                  <input className={`col-12 ${emailFieldError}`} id="email-input" type="email" placeholder='Email address' onChange={(e) => setEmail(e.target.value)}></input>
+                <p className='p-0' id='email-tag'>Email</p>
+                <div className='col-12'>
+                  <input className={`col-12 ${emailFieldError}`} id='email-input' type='email' placeholder='Email address' onChange={(e) => setEmail(e.target.value)}></input>
                   <Collapse in={emailEmpty}>
-                    <p className="m-0 p-0" id="email-error">
+                    <p className='m-0 p-0' id='email-error'>
                       Please provide your email address.
                     </p>
                   </Collapse>
@@ -308,124 +275,36 @@ export default function CheckoutForm() {
               </>
             )
           }
-
-
         </div>
-
-        <div className="my-4">
-          <p id="payment-form-title" className="mb-3">Payment Details</p>
+        <div className='my-4'>
+          <p id='payment-form-title' className='mb-3'>Payment Details</p>
           <Accordion className='checkout-accordion col-12 my-3 '>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon fontSize="small" />}
-              aria-controls="panel2-content"
-              id="panel2-header"
-              className="checkout-accordion-header"
+              expandIcon={<ExpandMoreIcon fontSize='small' />}
+              aria-controls='panel2-content'
+              id='panel2-header'
+              className='checkout-accordion-header'
             >
-              <Alert className="col-12" severity="info">
+              <Alert className='col-12' severity='info'>
                 Cards for testing purposes.
               </Alert>
-
             </AccordionSummary>
-            <AccordionDetails className="checkout-accordion-details">
+            <AccordionDetails className='checkout-accordion-details'>
               <ThemeProvider theme={customInputThemeCheckout(outerTheme)}>
-
-                <ul className="m-0 p-0 col-12 d-flex flex-wrap justify-content-between row-gap-3">
-                  <li className="d-flex col-12 flex-column">
-                    <p className="col-12 m-0 p-0 test-info-category-title text-success" >Success</p>
-                    <div className="d-flex column-gap-3 test-info-category-details-container">
-                      <Tooltip
-                        title={successTitle}
-                        placement="bottom"
-                        TransitionComponent={Zoom}
-                        arrow
-                        leaveDelay={100}
-                        onClick={() => handleCopy('success')}
-                        onClose={() => setSuccessTitle('Copy')}
-                        slotProps={{
-                          popper: {
-                            modifiers: [
-                              {
-                                name: 'offset',
-                                options: {
-                                  offset: [0, -4],
-                                },
-                              },
-                            ],
-                          },
-                        }}
-                      >
-                        <div className="d-flex flex-wrap align-items-center column-gap-1 test-info-category-details flex-grow-1 py-2 card-nr">
-                          <p className="m-0">Card number:</p>
-                          <p className="m-0">{successCardNr}</p>
-
-                        </div>
-                      </Tooltip>
-
-                      <div className="d-flex flex-wrap align-items-center column-gap-1 test-info-category-details flex-grow-1 py-2">
-                        <p className="m-0">Expiration date:</p>
-                        <p className="m-0">12/34</p>
-
-                      </div>
-                      <div className="d-flex flex-wrap align-items-center column-gap-1 test-info-category-details flex-grow-1 py-2">
-                        <p className="m-0">CVC:</p>
-                        <p className="m-0">567</p>
-                      </div>
-                    </div>
-                  </li>
-
-                  <li className="d-flex col-12 flex-column">
-                    <p className="col-12 m-0 p-0 test-info-category-title text-danger" >Declined</p>
-                    <div className="d-flex column-gap-3 test-info-category-details-container">
-                      <Tooltip
-                        title={successTitle}
-                        placement="bottom"
-                        TransitionComponent={Zoom}
-                        arrow
-                        leaveDelay={100}
-                        onClick={() => handleCopy('declined')}
-                        onClose={() => setSuccessTitle('Copy')}
-                        slotProps={{
-                          popper: {
-                            modifiers: [
-                              {
-                                name: 'offset',
-                                options: {
-                                  offset: [0, -4],
-                                },
-                              },
-                            ],
-                          },
-                        }}
-                      >
-                        <div className="d-flex flex-wrap align-items-center column-gap-1 test-info-category-details flex-grow-1 py-2 card-nr">
-                          <p className="m-0">Card number:</p>
-                          <p className="m-0">{declinedCardNr}</p>
-
-                        </div>
-                      </Tooltip>
-                      <div className="d-flex flex-wrap column-gap-1 test-info-category-details flex-grow-1 py-2">
-                        <p className="m-0">Expiration date:</p>
-                        <p className="m-0">12/34</p>
-
-                      </div>
-                      <div className="d-flex flex-wrap column-gap-1 test-info-category-details flex-grow-1 py-2">
-                        <p className="m-0">CVC:</p>
-                        <p className="m-0">567</p>
-                      </div>
-                    </div>
-                  </li>
+                <ul className='m-0 p-0 col-12 d-flex flex-wrap justify-content-between row-gap-3'>
+                  <TestCard title='Success' color={'success'} type={TestCards.SUCCESS} />
+                  <TestCard title='Declined - Generic' color={'danger'} type={TestCards.DECLINED_GENERIC} />
+                  <TestCard title='Declined - Insufficient funds' color={'danger'} type={TestCards.DECLINED_INSUFFICIENT_FUNDS} />
                 </ul>
-
               </ThemeProvider>
             </AccordionDetails>
           </Accordion>
-          <PaymentElement id="payment-element" options={{
+          <PaymentElement id='payment-element' options={{
             layout: {
               type: 'tabs',
 
             },
             defaultValues: {
-
             }
           }}
           />
@@ -433,40 +312,48 @@ export default function CheckoutForm() {
 
         <Accordion className='checkout-accordion col-12 my-3 '>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon fontSize="small" />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-            className="checkout-accordion-header"
+            expandIcon={<ExpandMoreIcon fontSize='small' />}
+            aria-controls='panel2-content'
+            id='panel2-header'
+            className='checkout-accordion-header'
           >
             Promo Code
           </AccordionSummary>
-          <AccordionDetails className="checkout-accordion-details">
+          <AccordionDetails className='checkout-accordion-details'>
             <ThemeProvider theme={customInputThemeCheckout(outerTheme)}>
-              <div className="col-12 d-flex flex-wrap justify-content-between row-gap-3">
-                <TextField className="checkout-shipping-input" label='Code' variant="outlined" type="email" />
+              <div className='col-12 d-flex flex-wrap justify-content-between row-gap-3'>
+                <TextField className='checkout-shipping-input' label='Code' variant='outlined' type='email' />
                 <Button>Apply</Button>
               </div>
             </ThemeProvider>
           </AccordionDetails>
         </Accordion>
-        <ul className="checkout-total-description d-flex justify-content-end flex-column">
+        <ul className='checkout-total-description d-flex justify-content-end flex-column'>
           <li>
             <p>
               Subtotal
             </p>
             <p>
-              {`${total} ${valuta}`}
+              {
+                `
+                  ${currencyPresenter(calcSubTotalValuta(total, countryInfo?.conversionRateFromDKK || 1),countryInfo)} 
+                  
+                `
+              }
             </p>
           </li>
           <li>
             <span>
               Shipping Fees
-              <Tooltip className="cart-checkout-tooltip" title={`${300 - total < 0 ? 0 : (300 - total).toFixed(2)} ${valuta} left for free shipping.`} placement="right" TransitionComponent={Zoom}>
+              <Tooltip
+                className='cart-checkout-tooltip'
+                title={`${currencyPresenter(calcRemainderShipping(total, countryInfo?.conversionRateFromDKK || 1), countryInfo)} remaining for free shipping`}
+                placement='right' TransitionComponent={Zoom}>
                 <div>?</div>
               </Tooltip>
             </span>
             <p>
-              {`${deliveryFees} ${valuta}`}
+              {`${currencyPresenter(deliveryFees(total, countryInfo?.conversionRateFromDKK || 1), countryInfo)}`}
             </p>
           </li>
           <li>
@@ -474,12 +361,17 @@ export default function CheckoutForm() {
               Total
             </p>
             <p>
-              {`${(total + deliveryFees).toFixed(2)} ${valuta}`}
+              {
+                `
+                  ${currencyPresenter(calcTotalValuta(total, countryInfo?.conversionRateFromDKK || 1), countryInfo)} 
+                  
+                `
+              }
             </p>
           </li>
-          <button disabled={isLoading || !stripe || !elements} id="submit" className="col-12 ">
-            <span id="button-text">
-              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          <button disabled={isLoading || !stripe || !elements} id='submit' className='col-12 '>
+            <span id='button-text'>
+              {isLoading ? <div className='spinner' id='spinner'></div> : 'Pay now'}
             </span>
           </button>
           <li>

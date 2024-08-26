@@ -8,8 +8,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../network/redux/store/store";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CartProduct, valuta } from '../../utils/types'
-import { calculateDiscountedPrice, handleHyphens, quantityCheck } from '../../utils/utils';
+import { CartProduct, CountryInfo, valuta } from '../../utils/types'
+import { calcSubTotalValuta, calculateDiscountedPrice, currencyPresenter, getCountryCurrencySign, handleHyphens, quantityCheck } from '../../utils/utils';
 import { decrementCartProduct, incrementCartProduct, removeFromCart } from '../../network/redux/actions/actions';
 import { Alert, Button, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { fetchCountryInfo } from '../../network/networkConfig';
 
 const stripePromise = loadStripe("pk_test_51P94CLRo6b8KqR208vzIWq2FF8IprMhHSDx28NZgGEfwKPfGwZeRgSHOc2zdWsZaMwrFX9basu57MHD5nVFvraOR00961p5Z1q");
 
@@ -31,10 +32,13 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const { user } = useContext<any>(UserContext);
   const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
-
+  const [country, setCountry] = useState<string>(user? user.country : 'Denmark')
+  const [countryInfo, setCountryInfo] = useState<CountryInfo>();
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(country)
 
   const appearance = {
     theme: 'stripe',
@@ -83,16 +87,25 @@ export default function Checkout() {
   }
 
   const options = {
-    /* clientSecret, */
     mode: 'payment',
     amount: calcSubUnitSum(),
     currency: 'dkk',
     appearance,
   };
 
+  useEffect(() => {
+    async function getCountryInfo(){
+      const data = fetchCountryInfo(country);
+      setCountryInfo(await data)
+      console.log(countryInfo)
+      console.log(data)
+    }
+    getCountryInfo()
+  }, [country]);
+
   const map = cart.map((item, index) => (
 
-    <li className="checkout-list-item d-flex position-relative" key={index}>
+    <li className="checkout-list-item d-flex position-relative" key={`${item.product._id} ${country}`}>
       <Link className="checkout-list-item-link" to={`/catalog/${handleHyphens(item.product.Categories[0])}/${handleHyphens(item.product.Name)}&${item.product._id}`}>
         <img src={`${item.product.imageURL}/1.webp?tr=w-200`} />
       </Link>
@@ -111,13 +124,13 @@ export default function Checkout() {
         <p className="">{item.product.Discount > 0 ?
           (<span>
             <span className="discount-former">
-              {`${item.product.Price} ${valuta}`}
+              {`${currencyPresenter(calcSubTotalValuta(item.product.Price, countryInfo?.conversionRateFromDKK || 1), countryInfo)}`}
             </span>
-            <span className="discount-current ms-2">
-              {`${calculateDiscountedPrice(item.product.Price, item.product.Discount).toFixed(2)} ${valuta}`}
+            <span className="discount-current ms-2" >
+              {`${currencyPresenter(calcSubTotalValuta(calculateDiscountedPrice(item.product.Price, item.product.Discount), countryInfo?.conversionRateFromDKK || 1), countryInfo)}`}
             </span>
           </span>)
-          : (`${item.product.Price} ${valuta}`)}</p>
+          : (`${currencyPresenter(calcSubTotalValuta(item.product.Price, countryInfo?.conversionRateFromDKK || 1),countryInfo)}`)}</p>
         <IconButton className="remove-item-btn" onClick={() => (dispatch(removeFromCart(index)))}>
           <DeleteIcon />
         </IconButton>
@@ -138,7 +151,7 @@ export default function Checkout() {
       </div>
       { // @ts-expect-error
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm country={country} countryInfo={countryInfo} setCountryInfo={setCountryInfo} setCountry={setCountry} />
 
         </Elements>}
 

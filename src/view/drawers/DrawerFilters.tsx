@@ -98,9 +98,9 @@ export default function DrawerFilters({ onClose, open, direction, id }: DrawerPr
     ))
 
     const renderSelectedColors = () => {
-        let selectedColorsToShow = selectedColors.slice(0, 3); // Get the first four selected colors
+        let selectedColorsToShow = selectedColors.slice(0, 3);
         if (selectedColors.length > 3) {
-            selectedColorsToShow.push('...'); // Add "..." if there are more than four selected colors
+            selectedColorsToShow.push('...');
         }
         return selectedColorsToShow.map((color, index) => (
             <span className="selected-colors" key={index}>{color}</span>

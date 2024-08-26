@@ -49,13 +49,13 @@ const Clothing: React.FC = () => {
     const productCount = useSelector((state: RootState) => state.productCount.count);
     const sortState = useSelector((state: RootState) => state.sortState);
     const filterBtnRef = useRef<HTMLDivElement>(null);
-    
+
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             setIsVisible(entry.isIntersecting);
         }, {
-            root: null, // Use the viewport as the root
-            threshold: 0.9 // Adjust this threshold as needed
+            root: null,
+            threshold: 0.9
         });
 
         const currentElement = filterBtnRef.current;
@@ -134,48 +134,53 @@ const Clothing: React.FC = () => {
     const actionBtn = {
         hidden: { scale: 0 },
         show: {
-          scale: 1,
-          transition: {
-            type: "spring", 
-            bounce: 0.6,
-            stiffness: 100, 
-            duration: 0.4
-          }
+            scale: 1,
+            transition: {
+                type: 'spring',
+                bounce: 0.6,
+                stiffness: 300,
+                duration: 0.4
+            }
         }
-      }
+    }
     return (
         <div className='col-12 d-flex justify-content-center'>
-            
+
             <div className='clothing-page-container d-flex flex-column justify-content-center align-items-center col-12 col-lg-11 col-xxl-10'>
                 <CustomBreadCrumbs />
-                <h1>{searchQuery ? (`Results for "${searchQuery}"`) : (replaceHyphensWithSpace(categoryName))} </h1>
+                <h1>{searchQuery ? (`Results for '${searchQuery}'`) : (replaceHyphensWithSpace(categoryName))} </h1>
 
                 <div id='filter-btn-pill-container' ref={filterBtnRef} className='d-flex  col-12 align-items-center justify-content-between my-2 flex-wrap'>
                     <p className='m-0'>{productCount} products</p>
                     <Button className='filter-drawer-btn' onClick={() => { (setState(true)); }} endIcon={<FilterAltIcon />}>Filter & sort</Button>
-                    <Collapse className='col-12' in={findSortTrueBool(sortState)} >
-                        {filterPillMap()}
-                    </Collapse >
+                    {/* <Collapse className='col-12' in={findSortTrueBool(sortState)} >
+                       
+                    </Collapse > */}
+
+                    <div className='col-12'>
+                        <AnimatePresence>
+                            {filterPillMap()}
+                        </AnimatePresence>
+                    </div>
+
+
+
                 </div>
 
                 <DrawerFilters direction='right' id='' onClose={toggleDrawer(false)} open={state} />
                 <AnimatePresence>
                     {!isVisible &&
-                        <motion.div 
+                        <motion.div
                             className='filter-floating-action-btn-container'
                             variants={actionBtn}
-                            initial="hidden"
-                            animate="show"
-                            exit="hidden"
+                            initial='hidden'
+                            animate='show'
+                            exit='hidden'
                         >
                             <IconButton className='filter-drawer-btn' onClick={() => { (setState(true)); }}><FilterAltIcon /></IconButton>
                         </motion.div>
                     }
                 </AnimatePresence>
-                
-
-
-
                 {componentSwitch()}
             </div>
         </div>

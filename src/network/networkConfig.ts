@@ -370,3 +370,18 @@ export async function fetchRecentOrder(userID: string, stripeID: string) {
     }
 }
 
+export async function fetchCountryInfo(country: string) {
+    try {
+        const response = await axios.get(`${API_URL}/country-info/country?=${country}`,{
+            params: {
+                country: country
+            }
+        })
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching country info:', error);
+        throw error;
+    }
+}
+

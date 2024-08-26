@@ -113,7 +113,7 @@ export default function SearchResults() {
         }
 
         fetchData();
-    }, []);
+    }, [searchQuery]);
 
     return (
         <motion.div layout layoutRoot className="col-12 d-flex justify-content-center align-items-center flex-column">

@@ -65,7 +65,7 @@ function App() {
         <PromotionBannerAlt />
         <AnimatePresence>
           <main>
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
             
             <Routes>
 
@@ -83,11 +83,11 @@ function App() {
               <Route path='/catalog/:category/:item' element={<SingleItem />} />
               <Route path={`/search/results`} element={<Clothing/>} />
             </Routes>
-
+            {isPay || isLogin ? (<></>) : (<Footer />)}
           </main>
         </AnimatePresence>
         {windowWidth <= 992 && (<BottomBar/>)}
-        {isPay || isLogin ? (<></>) : (<Footer />)}
+        
       </Suspense>
     </div>
 

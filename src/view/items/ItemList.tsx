@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../network/redux/store/store';
 import OptimizedImage from '../loading/OptimizedImage';
 import { UserContext } from '../user/UserContext';
+import CustomFavButton from '../misc/CustomFavButton';
 
 
 
@@ -63,31 +64,6 @@ export default function ItemList() {
                 className='item-link h-100 w-100' 
                 to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
                 onClick={() => dispatch(setProduct(product))}>
-
-                {/* <img
-                    className='item-img'
-                    id='img-2'
-                    src={`${product.imageURL}/2.webp?tr=w-1080`}
-                    srcSet={`
-                        ${product.imageURL}/2.webp?tr=w-1080 1080w,
-                        ${product.imageURL}/2.webp?tr=w-920 720w,
-                        ${product.imageURL}/2.webp?tr=w-720 480w,
-                        ${product.imageURL}/2.webp?tr=w-640 320w
-                        `}
-                    alt={`${product.Name} 2`}
-                />
-                <img
-                    className='item-img'
-                    id='img-1'
-                    src={`${product.imageURL}/1.webp?tr=w-1080`}
-                    srcSet={`
-                        ${product.imageURL}/1.webp?tr=w-1080 1080w,
-                        ${product.imageURL}/1.webp?tr=w-920 720w,
-                        ${product.imageURL}/1.webp?tr=w-720 480w,
-                        ${product.imageURL}/1.webp?tr=w-640 320w
-                        `}
-                    alt={`${product.Name} 1`}
-                /> */}
                 <OptimizedImage
                     uImage={{
                         src: `${product.imageURL}/2.webp?tr=w-700`,
@@ -114,9 +90,7 @@ export default function ItemList() {
 
             </Link>
             <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
-                <IconButton className='item-fav-btn' onClick={() => { user ? handleAddRemoveFromFavs(product, user._id) : dispatch(addFav(product)) }}>
-                    <FavoriteIcon fontSize="inherit" className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
-                </IconButton>
+                <CustomFavButton product={product} userID={user? user._id : null} user={user} favs={favs} className='item' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
             </div>
             
             <div className='d-flex item-desc col-12 flex-column align-items-start row-gap-2'>

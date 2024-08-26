@@ -20,6 +20,8 @@ import '../../styles/items/ItemList.css'
 
 import StarIcon from '@mui/icons-material/Star';
 import { useWindowResize } from "../../hooks/WindowResizeHook";
+import CustomFavButton from "../misc/CustomFavButton";
+import { transform } from "typescript";
 
 
 const listVariants = {
@@ -32,7 +34,7 @@ const listVariants = {
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, translateX: 100 },
+    hidden: { opacity: 0, translateX: 100},
     visible: { opacity: 1, translateX: 0 },
     exit: { opacity: 0 },
 };
@@ -103,20 +105,6 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
                 onClick={() => dispatch(setProduct(product))}
             >
-                {/* {!isTouch && (
-                    <OptimizedImage
-                        uImage={{
-                            src: `${product.imageURL}/2.webp?tr=w-700`,
-                            srcSet: `${product.imageURL}/2.webp?tr=w-900 1080w,
-                                    ${product.imageURL}/2.webp?tr=w-700 720w,
-                                    ${product.imageURL}/2.webp?tr=w-600 480w,
-                                    ${product.imageURL}/2.webp?tr=w-500 320w
-                                `}}
-                        hash={product.blurHash[0]}
-                        id='img-2'
-                    />
-                )} */}
-
                 <OptimizedImage
                     uImage={{
                         src: `${product.imageURL}/2.webp?tr=w-700`,
@@ -158,9 +146,8 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 </div>
             </Link>
             <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
-                <IconButton className='item-fav-btn' onClick={() => { user ? handleAddRemoveFromFavs(product, user._id) : dispatch(addFav(product)) }}>
-                    <FavoriteIcon fontSize="inherit" className={`item-fav-icon ${favs.some((favProduct) => favProduct._id === product._id) ? 'item-fav-icon-active' : ''}`} />
-                </IconButton>
+                <CustomFavButton product={product} userID={user? user._id : null} user={user} favs={favs} className='item' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
+                
             </div>
 
             {product.Discount > 0 ?
@@ -187,7 +174,7 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
 
     ))
     return (
-        <AnimatePresence mode="wait" >
+         
             <motion.ul
                 className="browsing-item-list justify-content-center flex-wrap col-12"
                 initial="hidden"
@@ -195,9 +182,12 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 exit="hidden"
                 variants={listVariants}
             >
-                {map}
+                <AnimatePresence>
+                    {map}
+                </AnimatePresence>
+                
             </motion.ul>
 
-        </AnimatePresence>
+        
     );
 }

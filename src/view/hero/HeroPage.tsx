@@ -20,7 +20,7 @@ import { RootState } from '../../network/redux/store/store';
 
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { motion } from 'framer-motion';
+import { easeInOut, motion } from 'framer-motion';
 
 import { Blurhash } from 'react-blurhash';
 import ItemBrowser from '../items/ItemBrowser';
@@ -81,8 +81,7 @@ export default function HeroPage() {
     return (
         <div className='hero-page-content'>
 
-
-            <section className='hero-section justify-content-center  align-items-center' aria-labelledby='section-title-1'>
+            <section id='hero-section' className='hero-section justify-content-center  align-items-center' aria-labelledby='section-title-1'>
 
 
                 <img
@@ -158,18 +157,20 @@ export default function HeroPage() {
 
 
             </section>
-            <section id='section-2' aria-labelledby='section-title-2'>
+            <section id='promo-section' aria-labelledby='section-title-2'>
 
                 <ul className='col-12 col-xl-12 d-flex justify-content-center align-items-center flex-wrap'>
 
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/spring'} />
-                        <motion.div
-                            initial={{ translateY: 200, opacity: 0 }}
-                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
-                            viewport={{ once: true }}>
+                        
+                        <motion.a
+                            initial={{opacity: 0 }}
+                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            viewport={{ once: true }}
+                            href='/catalog/spring'
+                        >
                             New <br /> Arrivals
-                        </motion.div>
+                        </motion.a>
                         <img
                             loading="lazy"
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_1.webp?tr=w-1200'
@@ -183,13 +184,16 @@ export default function HeroPage() {
 
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/jackets'} />
-                        <motion.div
-                            initial={{ translateY: 200, opacity: 0 }}
-                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
-                            viewport={{ once: true }}>
+                        
+                        <motion.a
+                            initial={{opacity: 0 }}
+                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            viewport={{ once: true }}
+                            href='/catalog/jackets'
+                        >
                             Spring <br /> Jackets
-                        </motion.div>
+                            
+                        </motion.a>
                         <img
                             loading="lazy"
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_2.webp?tr=w-1200'
@@ -201,13 +205,15 @@ export default function HeroPage() {
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        <Link className=' position-absolute w-100 h-100 z-1' to={'/catalog/dresses'} />
-                        <motion.div
-                            initial={{ translateY: 200, opacity: 0 }}
-                            whileInView={{ translateY: 0, opacity: 1, transition: { duration: 0.6 } }}
-                            viewport={{ once: true }}>
+                        
+                        <motion.a
+                            initial={{opacity: 0 }}
+                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            viewport={{ once: true }}
+                            href='/catalog/dresses'
+                        >
                             Dresses
-                        </motion.div>
+                        </motion.a>
                         <img
                             loading="lazy"
                             src='https://ik.imagekit.io/nvtcacenco/Webshop/backgrounds/promo_3.webp?tr=w-1200'
@@ -231,19 +237,34 @@ export default function HeroPage() {
                 </ul>
 
             </section>
-            <section aria-labelledby='section-title-3'>
+            <section id='newest-section' aria-labelledby='section-title-3'>
                 <h2 id='section-title-3'>Newest From Us</h2>
 
                 <ItemList />
 
             </section>
-            <section aria-labelledby='section-title-4'>
-                <div className='d-flex justify-content-center align-items-center col-12 col-xxl-10 flex-wrap'>
-                    <img src={img4} loading="lazy" className='botw-promo-img col-12 col-md-5' alt='brand of the week' />
+            <section id='botw-section' aria-labelledby='section-title-4'>
+                <div id='botw-promo-container' className='d-flex justify-content-center align-items-center col-12 col-xxl-10 flex-wrap'>
+                    <motion.img 
+                        src={img4} 
+                        loading="lazy" 
+                        className='botw-promo-img col-12 col-md-5' 
+                        alt='brand of the week'
+                        initial={{translateX: -100, opacity: 0 }}
+                        whileInView={{translateX: 0, opacity: 1, transition: { duration: 1, delay: 0.5, ease: easeInOut } }}
+                        viewport={{ once: true }}
+                    
+                    />
                     <ul className='botw d-flex justify-content-center align-items-center flex-column col-12 col-md-7 col-xxl-5'>
                         <li className='botw-item'><h2 id='section-title-4'>Brand of the week</h2></li>
-                        <li className='botw-item col-9'>
-                            <img loading="lazy" className='botw-brand-title' src={img5} alt='brand of the week' /></li>
+                        <motion.li 
+                            className='botw-item col-9'
+                            initial={{opacity: 0 }}
+                            whileInView={{opacity: 1, transition: { duration: 1.2, delay: 0.5, ease: easeInOut } }}
+                            viewport={{ once: true }}
+                        >
+                            <img loading="lazy" className='botw-brand-title' src={img5} alt='brand of the week' />
+                        </motion.li>
                         <li className='botw-item col-12'>
                             <Link className='botw-promo-link' to={'/catalog/brand-of-the-week'}>
                                 <Button >Get it here</Button>
