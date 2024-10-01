@@ -255,7 +255,7 @@ export default function HeroPage() {
                         viewport={{ once: true }}
                     
                     />
-                    <ul className='botw d-flex justify-content-center align-items-center flex-column col-12 col-md-7 col-xxl-5'>
+                    <ul className='botw d-flex justify-content-center pb-3 align-items-center flex-column col-12 col-md-7 col-xxl-5'>
                         <li className='botw-item'><h2 id='section-title-4'>Brand of the week</h2></li>
                         <motion.li 
                             className='botw-item col-9'
