@@ -12,7 +12,6 @@ export interface AuthenticationLayoutProps{
     setSwitchStatus: (value: React.SetStateAction<boolean>) => void;
 }
 
-
 export const customInputTheme = (outerTheme: Theme) =>
     createTheme({
         palette: {
@@ -22,7 +21,6 @@ export const customInputTheme = (outerTheme: Theme) =>
             MuiTextField: {
                 styleOverrides: {
                     root: {
-
                         '--TextField-brandBorderColor': '#E0E3E7',
                         '--TextField-brandBorderHoverColor': 'var(--primary-clr-600)',
                         '--TextField-brandBorderFocusedColor': 'var(--primary-clr-600)',
@@ -61,7 +59,6 @@ export const customInputTheme = (outerTheme: Theme) =>
             MuiInput: {
                 styleOverrides: {
                     root: {
-
                         '&::before': {
                             borderBottom: '2px solid var(--TextField-brandBorderColor)',
                         },

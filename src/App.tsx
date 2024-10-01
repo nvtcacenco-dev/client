@@ -1,35 +1,20 @@
 import { Suspense, lazy, useContext, useEffect, useState } from 'react';
-
 import './App.css';
-
 import { Route, Routes, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './view/navigation/NavBar';
-
 import ScrollToTop from './view/misc/ScrollToTop';
-
 import Footer from './view/footer/Footer';
-
 import PromotionBannerAlt from './view/banner/PromotionBannerAlt';
-
-
-
 import { UserContext } from './view/user/UserContext';
 import LoadingPage from './view/loading/LoadingPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 
-
-
-
-
-
 const HeroPage = lazy(() => import('./view/hero/HeroPage'))
 const Favorites = lazy(() => import('./view/favorites/Favorites'))
-
 const Authentication = lazy(() => import('./view/authentication/Authentication'))
 const Clothing = lazy(() => import('./view/clothing/Clothing'))
-const SearchResults = lazy(() => import('./view/clothing/SearchResults'))
 const SingleItem = lazy(() => import('./view/items/singleItem/SingleItem'))
 const UserDashboard = lazy(() => import('./view/user/UserDashboard'))
 const Checkout= lazy(() => import('./view/checkout/Checkout'))
@@ -42,8 +27,6 @@ function App() {
   const { user } = useContext<any>(UserContext);
   const isLogin = location.pathname === '/login';
   const isPay = location.pathname === '/checkout';
-
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,23 +41,17 @@ function App() {
 }, []);
   return (
 
-    <div className="App" id='App'>
-      
+    <div className='App' id='App'>
       <Suspense fallback={<LoadingPage/>}>
         <NavBar />
         <PromotionBannerAlt />
         <AnimatePresence>
           <main>
-            {/* <ScrollToTop /> */}
-            
+            <ScrollToTop />
             <Routes>
-
               <Route index element={<HeroPage />} />
-
               <Route path='/favorites' element={<Favorites />} />
-
               <Route path='/login' element={<Authentication />} />
-              
               {user ? (<Route path={`/user/${user._id}`} element={<UserDashboard />} />) : (<></>)}
               <Route path='/checkout' element={<Checkout/>} />
               <Route path='/checkout/success' element={<Success/>}/>
@@ -87,12 +64,8 @@ function App() {
           </main>
         </AnimatePresence>
         {windowWidth <= 992 && (<BottomBar/>)}
-        
       </Suspense>
     </div>
-
-
-
   );
 }
 

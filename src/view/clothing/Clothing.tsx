@@ -1,38 +1,22 @@
-import React, { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-
-
 import '../../styles/clothing/ClothingMainPage.css'
-
-
 import DrawerFilters from '../drawers/DrawerFilters';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
-import { MetaData, } from '../../utils/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../network/redux/store/store';
-
 import Catalog from './Catalog';
 import { Category } from './Category';
 import CustomBreadCrumbs from '../misc/CustomBreadCrumbs';
-
-
-import { findSortTrue, findSortTrueBool } from '../../utils/sortUtils';
-import { getLastPartOfUrl } from '../../utils/utils';
+import { findSortTrue } from '../../utils/sortUtils';
+import { getLastPartOfUrl, secondaryReplaceHyphensWithSpace } from '../../utils/utils';
 import CategoryFilter from './CategoryFilter';
-import { Button, Chip, Collapse, IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import Filters from '../filters/Filters';
 import SearchResults from './SearchResults';
-import { useOnScreen } from '../../utils/CustomHooks';
 import { AnimatePresence, motion } from 'framer-motion';
 
-
-function replaceHyphensWithSpace(url: string | undefined) {
-    if (url) {
-        return url.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-    }
-
-}
 
 const Clothing: React.FC = () => {
 
@@ -89,8 +73,6 @@ const Clothing: React.FC = () => {
                 return <Category />
         }
     }
-
-
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
             event.type === 'keydown' &&
@@ -112,7 +94,6 @@ const Clothing: React.FC = () => {
     }
 
     useEffect(() => {
-
         function getName() {
             const url = getLastPartOfUrl(pathname);
             if (url !== 'catalog') {
@@ -121,15 +102,9 @@ const Clothing: React.FC = () => {
             else {
                 setCategoryName('Our Catalog')
             }
-
-
         }
-
         getName();
-
-
     }, [pathname]);
-
 
     const actionBtn = {
         hidden: { scale: 0 },
@@ -143,30 +118,21 @@ const Clothing: React.FC = () => {
             }
         }
     }
+    
     return (
         <div className='col-12 d-flex justify-content-center'>
-
             <div className='clothing-page-container d-flex flex-column justify-content-center align-items-center col-12 col-lg-11 col-xxl-10'>
                 <CustomBreadCrumbs />
-                <h1>{searchQuery ? (`Results for '${searchQuery}'`) : (replaceHyphensWithSpace(categoryName))} </h1>
-
+                <h1>{searchQuery ? (`Results for '${searchQuery}'`) : (secondaryReplaceHyphensWithSpace(categoryName))} </h1>
                 <div id='filter-btn-pill-container' ref={filterBtnRef} className='d-flex  col-12 align-items-center justify-content-between my-2 flex-wrap'>
                     <p className='m-0'>{productCount} products</p>
                     <Button className='filter-drawer-btn' onClick={() => { (setState(true)); }} endIcon={<FilterAltIcon />}>Filter & sort</Button>
-                    {/* <Collapse className='col-12' in={findSortTrueBool(sortState)} >
-                       
-                    </Collapse > */}
-
                     <div className='col-12'>
                         <AnimatePresence>
                             {filterPillMap()}
                         </AnimatePresence>
                     </div>
-
-
-
                 </div>
-
                 <DrawerFilters direction='right' id='' onClose={toggleDrawer(false)} open={state} />
                 <AnimatePresence>
                     {!isVisible &&
@@ -184,7 +150,6 @@ const Clothing: React.FC = () => {
                 {componentSwitch()}
             </div>
         </div>
-
     );
 };
 

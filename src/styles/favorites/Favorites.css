@@ -1,10 +1,7 @@
 .favorites-container{
     --_padding-top: 148px;
     --_padding-inline: calc(6px + 0.25rem + 5vw);
-    min-height: 20svh;
-    
-   
-    
+    min-height: 66svh; 
 }
 
 .favorites-container h1{
@@ -15,7 +12,11 @@
     margin: calc(12px + 0.5rem) 0 calc(22px + 0.5rem) 0;
 }
 
-
+#no-favs-header{
+    margin-block: auto;
+    font-weight: 700;
+    text-transform: uppercase;
+}
 
 @media (max-width: 1400px) {
     .favorites-item{

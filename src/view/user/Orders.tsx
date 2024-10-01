@@ -1,16 +1,16 @@
 
-import { useState, useEffect, useContext } from "react";
-import { fetchUserOrders } from "../../network/networkConfig";
-import { extractDateFromObjectId, handleHyphens } from "../../utils/utils";
-import { UserContext } from "./UserContext";
-import { Order, valuta } from "../../utils/types";
+import { useState, useEffect, useContext } from 'react';
+import { fetchUserOrders } from '../../network/networkConfig';
+import { extractDateFromObjectId, handleHyphens } from '../../utils/utils';
+import { UserContext } from './UserContext';
+import { Order, valuta } from '../../utils/types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
-import OptimizedImage from "../loading/OptimizedImage";
-import { Link } from "react-router-dom";
-import { useWindowResize } from "../../hooks/WindowResizeHook";
+import OptimizedImage from '../loading/OptimizedImage';
+import { Link } from 'react-router-dom';
+import { useWindowResize } from '../../hooks/WindowResizeHook';
 
 export default function Orders() {
     
@@ -44,14 +44,14 @@ export default function Orders() {
         
     const userOrderMap = orders?.map((order, index) => (
         <li key={index} className='order-list-item flex-wrap-reverse px-2 row-gap-3' onClick={() => toggleCollapse(index)}>
-            <Collapse in={collapseStates[index]} id="order-list-item-collapse" className="col-12">
+            <Collapse in={collapseStates[index]} id='order-list-item-collapse' className='col-12'>
 
                 {order.order.map((product, index) => (
                     <div key={product.product._id} className='col-12 col-lg-5 d-flex flex-wrap'>
 
                         <Link 
                             to={`/catalog/${handleHyphens(product.product.Categories[0])}/${handleHyphens(product.product.Name)}&${product.product._id}`} 
-                            className="col-3 col-lg-1 order-img-container"
+                            className='col-3 col-lg-1 order-img-container'
                         >
                             <OptimizedImage
                                 uImage={{
@@ -61,26 +61,27 @@ export default function Orders() {
                                 ${product.product.imageURL}/1.webp?tr=w-240 480w,
                                 ${product.product.imageURL}/1.webp?tr=w-160 320w
                             `}}
+                                alt={`${product.product.Name}-1`}
                                 hash={product.product.blurHash[0]}
                                 id=''
                             />
                         </Link>
-                        <div className="col-7 col-lg-4 ps-1 d-flex flex-column">
-                            <div className="d-flex column-gap-2 align-items-center">
-                                <p id="order-details-label" className="col-3 order-label">Name:</p>
+                        <div className='col-7 col-lg-4 ps-1 d-flex flex-column'>
+                            <div className='d-flex column-gap-2 align-items-center'>
+                                <p id='order-details-label' className='col-3 order-label'>Name:</p>
                                 <p className='mb-0 order-details '>{`${product.product.Name}`}</p>
                             </div>
-                            <div className="d-flex column-gap-2 align-items-center">
-                                <p id="order-details-label" className="col-3 order-label">Brand:</p>
+                            <div className='d-flex column-gap-2 align-items-center'>
+                                <p id='order-details-label' className='col-3 order-label'>Brand:</p>
                                 <p className='mb-0 order-details '>{`${product.product.Brand}`}</p>
                             </div>
-                            <div className="d-flex column-gap-2 align-items-center">
-                                <p id="order-details-label" className="col-3 order-label">Size:</p>
+                            <div className='d-flex column-gap-2 align-items-center'>
+                                <p id='order-details-label' className='col-3 order-label'>Size:</p>
                                 <p className='mb-0 order-details '>{product.size}</p>
                             </div>
 
                         </div>
-                        <div className="col-2 d-flex flex-column">
+                        <div className='col-2 d-flex flex-column'>
                             
                                 <p className='mb-0 ms-auto order-details'>{`${product.product.Price} ${valuta}`}</p>
                             
@@ -95,37 +96,37 @@ export default function Orders() {
                 ))}
 
             </Collapse>
-            <div className="col-12 col-lg-5 d-flex align-items-center">
+            <div className='col-12 col-lg-5 d-flex align-items-center'>
                 {windowWidth < 992 &&
-                    <p id="order-id-label" className="col-2 order-label">Order ID:</p>
+                    <p id='order-id-label' className='col-2 order-label'>Order ID:</p>
                 }
 
-                <p id="order-id" className='mb-0'>{order.stripeID}</p>
+                <p id='order-id' className='mb-0'>{order.stripeID}</p>
             </div>
 
-            <div className="col-6 col-lg-2 d-flex align-items-center">
+            <div className='col-6 col-lg-2 d-flex align-items-center'>
                 {windowWidth < 992 &&
-                    <p id="" className="col-4 order-label">Total:</p>
+                    <p id='' className='col-4 order-label'>Total:</p>
                 }
-                <p id="order-total" className='mb-0'>{`${(order.total / 100).toFixed(2)} DKK`}</p>
+                <p id='order-total' className='mb-0'>{`${(order.total / 100).toFixed(2)} DKK`}</p>
             </div>
 
 
-            <div className="col-6 col-lg-2 d-flex align-items-center">
+            <div className='col-6 col-lg-2 d-flex align-items-center'>
                 {windowWidth < 992 &&
-                    <p id="" className="col-4 order-label">Date:</p>
+                    <p id='' className='col-4 order-label'>Date:</p>
                 }
-                <p id="order-date" className='mb-0'>{order._id && `${extractDateFromObjectId(order._id)}`}</p>
+                <p id='order-date' className='mb-0'>{order._id && `${extractDateFromObjectId(order._id)}`}</p>
             </div>
 
             <div className=' col-12 col-lg-3'>
-                <p id='delivery-status' className={`${order.deliverStatus ? "delivered" : " not-delivered"} mb-0`}>{order.deliverStatus ? "Delivered" : "In progress"}</p>
+                <p id='delivery-status' className={`${order.deliverStatus ? 'delivered' : ' not-delivered'} mb-0`}>{order.deliverStatus ? 'Delivered' : 'In progress'}</p>
 
             </div>
         </li>
     ))
     return (
-        <section className="col-12 ">
+        <section className='col-12 '>
             {windowWidth > 992 &&
                 <ul className='d-flex align-items-center col-11 mx-auto order-list-index mb-0 ps-0'>
                     <li className='col-5'>

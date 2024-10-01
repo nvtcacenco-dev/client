@@ -6,9 +6,9 @@ import {
   freeShipping,
   reverseCategoryMap,
   shipping,
-} from "./types";
-import { createTheme, Theme } from "@mui/material/styles";
-import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+} from './types';
+import { createTheme, Theme } from '@mui/material/styles';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 
 export function valutaConversion(value: number, rate: number) {
   return value * rate;
@@ -36,19 +36,19 @@ export function calcTotalValuta(subTotal: number, rate: number) {
 }
 
 export function currencyPresenter(value: number, country: CountryInfo | undefined) {
-  if (country?.currencySignDirection === "front") {
+  if (country?.currencySignDirection === 'front') {
     return `${getCountryCurrencySign(country)}${value.toFixed(2)}`;
   }
-  return `${value} ${getCountryCurrencySign(country)}`;
+  return `${value.toFixed(2)} ${getCountryCurrencySign(country)}`;
 }
 
 export function getCountryCurrencySign(
   country: CountryInfo | undefined
 ): string {
   const defaultCountry: CountryInfo = {
-    alpha2Code: "DK",
-    currencyCode: "DKK",
-    currencySignDirection: "back",
+    alpha2Code: 'DK',
+    currencyCode: 'DKK',
+    currencySignDirection: 'back',
   };
 
   if (country === undefined) {
@@ -72,11 +72,11 @@ export function calculateDiscountedPrice(
 export function getLastPartOfUrl(url: string) {
   try {
     const urlObj = new URL(url, window.location.origin);
-    const parts = urlObj.pathname.split("/");
+    const parts = urlObj.pathname.split('/');
     return parts[parts.length - 1];
   } catch (error) {
-    console.error("Error parsing URL:", error);
-    return "";
+    console.error('Error parsing URL:', error);
+    return '';
   }
 }
 
@@ -90,35 +90,41 @@ export function getIdFromUrl(url: string): string {
   if (categoryEnum) {
     return categoryIDString[categoryEnum];
   }
-  return "";
+  return '';
 }
 
 export function handleHyphens(name: string): string {
-  return name.replace(/ /g, "-").toLowerCase();
+  return name.replace(/ /g, '-').toLowerCase();
 }
 
 export function replaceHyphensWithSpace(url: string) {
-  return url.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+  return url.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+} 
+
+export function secondaryReplaceHyphensWithSpace(url: string | undefined) {
+  if (url) {
+      return url.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  }
+
 }
 
 export function removeBackslash(inputString: string) {
-  // Replace backslashes with an empty string
-  let cleanedString = inputString.replace(/\//g, "");
+  let cleanedString = inputString.replace(/\//g, '');
   cleanedString = cleanedString.replace(/\b\w/g, (char) => char.toUpperCase());
   return cleanedString;
 }
 
 export function getStringAfterAmpersand(id: string) {
   // Find the index of the first occurrence of '&'
-  const index = id.indexOf("&");
+  const index = id.indexOf('&');
 
   // If '&' is found, return the substring after '&', otherwise return an empty string
-  return index !== -1 ? id.slice(index + 1) : "";
+  return index !== -1 ? id.slice(index + 1) : '';
 }
 
 export function removeAmpersandAndAfter(inputString: string) {
   // Find the index of the first occurrence of '&'
-  const index = inputString.indexOf("&");
+  const index = inputString.indexOf('&');
 
   // If '&' is found, return the substring before '&', otherwise return the original string
   return index !== -1 ? inputString.slice(0, index) : inputString;
@@ -160,8 +166,8 @@ export const extractDateFromObjectId = (objectId: string) => {
 
   // Format the date as a string (e.g., 'YYYY-MM-DD')
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
 
   return `${year}-${month}-${day}`;
 };
@@ -175,11 +181,11 @@ export const customInputThemeCheckout = (outerTheme: Theme) =>
       MuiTextField: {
         styleOverrides: {
           root: {
-            "--TextField-brandBorderColor": "#E0E3E7",
-            "--TextField-brandBorderHoverColor": "var(--primary-clr-600)",
-            "--TextField-brandBorderFocusedColor": "var(--primary-clr-600)",
-            "& label.Mui-focused": {
-              color: "var(--dark-clr)",
+            '--TextField-brandBorderColor': '#E0E3E7',
+            '--TextField-brandBorderHoverColor': 'var(--primary-clr-600)',
+            '--TextField-brandBorderFocusedColor': 'var(--primary-clr-600)',
+            '& label.Mui-focused': {
+              color: 'var(--dark-clr)',
             },
           },
         },
@@ -187,18 +193,18 @@ export const customInputThemeCheckout = (outerTheme: Theme) =>
       MuiOutlinedInput: {
         styleOverrides: {
           notchedOutline: {
-            borderColor: "var(--TextField-brandBorderColor)",
+            borderColor: 'var(--TextField-brandBorderColor)',
           },
           root: {
-            color: "var(--dark-clr)",
-            fontFamily: "Poppins !important",
-            fontSize: "var(--fs-sm)",
-            borderRadius: "0px",
+            color: 'var(--dark-clr)',
+            fontFamily: 'Poppins !important',
+            fontSize: 'var(--fs-sm)',
+            borderRadius: '0px',
             [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderHoverColor)",
+              borderColor: 'var(--TextField-brandBorderHoverColor)',
             },
             [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderFocusedColor)",
+              borderColor: 'var(--TextField-brandBorderFocusedColor)',
             },
           },
         },
@@ -206,22 +212,22 @@ export const customInputThemeCheckout = (outerTheme: Theme) =>
       MuiInputLabel: {
         styleOverrides: {
           root: {
-            fontSize: "var(--fs-sm)",
+            fontSize: 'var(--fs-sm)',
           },
         },
       },
       MuiInput: {
         styleOverrides: {
           root: {
-            "&::before": {
-              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            '&::before': {
+              borderBottom: '2px solid var(--TextField-brandBorderColor)',
             },
-            "&:hover:not(.Mui-disabled, .Mui-error):before": {
-              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            '&:hover:not(.Mui-disabled, .Mui-error):before': {
+              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
             },
-            "&.Mui-focused:after": {
+            '&.Mui-focused:after': {
               borderBottom:
-                "2px solid var(--TextField-brandBorderFocusedColor)",
+                '2px solid var(--TextField-brandBorderFocusedColor)',
             },
           },
         },

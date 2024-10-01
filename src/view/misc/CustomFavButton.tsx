@@ -19,8 +19,8 @@ export default function CustomFavButton({ product, userID, handleAddRemoveFromFa
     const dispatch = useDispatch();
     return (
         <motion.div
-            whileTap={{ scale: 0.8 }}
-            transition={{ duration: 1, type: 'spring', bounce: 0.6, stiffness: 500 }}
+           /*  whileTap={{ scale: 0.8 }}
+            transition={{ duration: 1, type: 'spring', bounce: 0.6, stiffness: 500 }} */
         >
             <IconButton className={`${className}-fav-btn`} onClick={() => { if (product) user ? handleAddRemoveFromFavs(product, userID) : dispatch(addFav(product)) }}>
                 <FavoriteIcon className={`${className}-fav-icon ${favs.some((favProduct: { _id: any; }) => favProduct._id === product?._id) ? `${className}-fav-icon-active` : ''}`} />

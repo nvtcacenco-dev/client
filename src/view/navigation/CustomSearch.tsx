@@ -1,14 +1,13 @@
-import { IconButton, InputAdornment, TextField, ThemeProvider } from "@mui/material";
-import { CustomSearchProps } from "./NavBarSectionProps";
-import { customTheme, customThemeSm } from "./NavBarUtils";
-
+import { IconButton, InputAdornment, TextField, ThemeProvider } from '@mui/material';
+import { CustomSearchProps } from './NavBarSectionProps';
 import SearchIcon from '@mui/icons-material/Search';
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { Product } from "../../utils/types";
-import { fetchSearchProducts } from "../../network/networkConfig";
-import { Link, useNavigate } from "react-router-dom";
-import { handleHyphens } from "../../utils/utils";
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Product } from '../../utils/types';
+import { fetchSearchProducts } from '../../network/networkConfig';
+import { Link, useNavigate } from 'react-router-dom';
+import { handleHyphens } from '../../utils/utils';
+import { customTheme, customThemeSm } from '../../utils/themes';
 
 
 export default function CustomSearch({
@@ -64,7 +63,7 @@ export default function CustomSearch({
         return (
             <>
                 {parts.map((part, index) => (
-                    regex.test(part) ? <span key={index} className="si-highlight">{part}</span> : part
+                    regex.test(part) ? <span key={index} className='si-highlight'>{part}</span> : part
                 ))}
             </>
         );
@@ -111,23 +110,20 @@ export default function CustomSearch({
     };
     return (
         <div className={`${searchBarName} search-bar ${isDesktop ? ('col-10 col-sm-5 col-lg-3') : ('col-12')}`}>
-
             <ThemeProvider theme={isDesktop ? (customTheme(outerTheme)) : (customThemeSm(outerTheme))}>
-
-                <TextField label="Search"
+                <TextField label='Search'
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onInput={() => (setSearchFocus(true))}
                     onClick={handleSearchBarFocus}
                     onFocus={() => { (setSearchFocus(true)) }}
                     onKeyDown={handleKeyDown}
                     onBlur={() => {
-                        // Add a delay of 200 milliseconds before executing onBlur logic
                         setTimeout(() => {
                             setSearchFocus(false);
                             
                         }, 100);
                     }}
-                    variant="filled" InputProps={isDesktop ? ({
+                    variant='filled' InputProps={isDesktop ? ({
                         endAdornment: (
                             <InputAdornment position='end'>
                                 <IconButton onClick={handleSearch}>
@@ -141,7 +137,7 @@ export default function CustomSearch({
             </ThemeProvider>
 
             <ul className={`search-suggestions ${searchSuggestionName} d-flex flex-column  row-gap-2 `}>
-                {isSearchFound ? (searchResultMap) : (<p className="p-0 my-auto">No products matching your search</p>)}
+                {isSearchFound ? (searchResultMap) : (<p className='p-0 my-auto'>No products matching your search</p>)}
             </ul>
         </div>
     );

@@ -9,7 +9,8 @@ export default function Favorites() {
         <div className='favorites-container d-flex justify-content-center'>
             <div className='favorites-item flex-column d-flex col-12 col-xxl-10'>
                 <h1 >My Favorites</h1>
-                <ItemBrowser products={favs} />
+                {favs.length > 0 ? (<ItemBrowser products={favs} />):(<h2 id='no-favs-header'>There seems to be nothing here...</h2>)}
+                
             </div>
         </div>
     )

@@ -1,15 +1,15 @@
 
 
 import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 import '../../styles/checkout/Checkout.css'
 import CheckoutForm from './CheckoutForm'
 import { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../network/redux/store/store";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../network/redux/store/store';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CartProduct, CountryInfo, valuta } from '../../utils/types'
-import { calcSubTotalValuta, calculateDiscountedPrice, currencyPresenter, getCountryCurrencySign, handleHyphens, quantityCheck } from '../../utils/utils';
+import { CountryInfo } from '../../utils/types'
+import { calcSubTotalValuta, calculateDiscountedPrice, currencyPresenter, handleHyphens, quantityCheck } from '../../utils/utils';
 import { decrementCartProduct, incrementCartProduct, removeFromCart } from '../../network/redux/actions/actions';
 import { Alert, Button, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -20,64 +20,21 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { fetchCountryInfo } from '../../network/networkConfig';
+import { stripeAppearance } from '../../utils/themes';
 
-const stripePromise = loadStripe("pk_test_51P94CLRo6b8KqR208vzIWq2FF8IprMhHSDx28NZgGEfwKPfGwZeRgSHOc2zdWsZaMwrFX9basu57MHD5nVFvraOR00961p5Z1q");
+const stripePromise = loadStripe('pk_test_51P94CLRo6b8KqR208vzIWq2FF8IprMhHSDx28NZgGEfwKPfGwZeRgSHOc2zdWsZaMwrFX9basu57MHD5nVFvraOR00961p5Z1q');
 
 export default function Checkout() {
   const [open, setOpen] = useState<boolean>(true);
-  const [clientSecret, setClientSecret] = useState("");
-  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
-  const [piID, setPiID] = useState<string>('');
   const cart = useSelector((state: RootState) => state.persistedReducer.cart.cart);
   const dispatch = useDispatch();
   const { user } = useContext<any>(UserContext);
   const total = useSelector((state: RootState) => state.persistedReducer.cart.total);
   const [country, setCountry] = useState<string>(user? user.country : 'Denmark')
+
   const [countryInfo, setCountryInfo] = useState<CountryInfo>();
   const handleClose = () => {
     setOpen(false);
-  };
-
-  console.log(country)
-
-  const appearance = {
-    theme: 'stripe',
-    variables: {
-
-
-      fontWeightNormal: '400',
-      fontWeightMedium: '500',
-      fontWeightBold: '600',
-      borderRadius: '2px',
-      colorPrimary: '#ffdce0',
-      tabIconSelectedColor: '#fff',
-      gridRowSpacing: '16px'
-    },
-    rules: {
-      '.Tab': {
-        boxShadow: '0px 3px 10px rgba(18, 42, 66, 0.08)',
-        fontWeight: '600'
-      },
-      '.Input, .Block, .CheckboxInput, .CodeInput': {
-        boxShadow: 'none',
-      },
-      '.Block': {
-        borderColor: 'transparent'
-      },
-      '.BlockDivider': {
-        backgroundColor: '#ebebeb'
-      },
-      '.Tab, .Tab:hover, .Tab:focus': {
-        border: '0'
-      },
-      '.Tab--selected, .Tab--selected:hover': {
-        backgroundColor: '#ffdce0',
-        color: 'var(--light-clr)'
-      },
-      '.Label': {
-        fontWeight: '700'
-      }
-    }
   };
 
   function calcSubUnitSum() {
@@ -90,7 +47,7 @@ export default function Checkout() {
     mode: 'payment',
     amount: calcSubUnitSum(),
     currency: 'dkk',
-    appearance,
+    stripeAppearance,
   };
 
   useEffect(() => {
@@ -105,33 +62,33 @@ export default function Checkout() {
 
   const map = cart.map((item, index) => (
 
-    <li className="checkout-list-item d-flex position-relative" key={`${item.product._id} ${country}`}>
-      <Link className="checkout-list-item-link" to={`/catalog/${handleHyphens(item.product.Categories[0])}/${handleHyphens(item.product.Name)}&${item.product._id}`}>
+    <li className='checkout-list-item d-flex position-relative' key={`${item.product._id} ${country}`}>
+      <Link className='checkout-list-item-link' to={`/catalog/${handleHyphens(item.product.Categories[0])}/${handleHyphens(item.product.Name)}&${item.product._id}`}>
         <img src={`${item.product.imageURL}/1.webp?tr=w-200`} />
       </Link>
 
-      <div className="d-flex flex-column flex-grow-1 ps-2 checkout-list-item-description">
+      <div className='d-flex flex-column flex-grow-1 ps-2 checkout-list-item-description'>
 
-        <p className="">{item.product.Name}</p>
-        <p className="">{item.product.Brand}</p>
+        <p className=''>{item.product.Name}</p>
+        <p className=''>{item.product.Brand}</p>
 
-        <p className="">{item.size}</p>
-        <div className="quantity-container d-flex col-9">
-          <Button className="quantity-btn " disabled={quantityCheck(item.quantity)} onClick={() => (dispatch(decrementCartProduct(index)))}>-</Button>
-          <div className="d-flex justify-content-center align-items-center ">{item.quantity}</div>
-          <Button className="quantity-btn " onClick={() => (dispatch(incrementCartProduct(index)))}>+</Button>
+        <p className=''>{item.size}</p>
+        <div className='quantity-container d-flex col-9'>
+          <Button className='quantity-btn ' disabled={quantityCheck(item.quantity)} onClick={() => (dispatch(decrementCartProduct(index)))}>-</Button>
+          <div className='d-flex justify-content-center align-items-center '>{item.quantity}</div>
+          <Button className='quantity-btn ' onClick={() => (dispatch(incrementCartProduct(index)))}>+</Button>
         </div>
-        <p className="">{item.product.Discount > 0 ?
+        <p className=''>{item.product.Discount > 0 ?
           (<span>
-            <span className="discount-former">
+            <span className='discount-former'>
               {`${currencyPresenter(calcSubTotalValuta(item.product.Price, countryInfo?.conversionRateFromDKK || 1), countryInfo)}`}
             </span>
-            <span className="discount-current ms-2" >
+            <span className='discount-current ms-2' >
               {`${currencyPresenter(calcSubTotalValuta(calculateDiscountedPrice(item.product.Price, item.product.Discount), countryInfo?.conversionRateFromDKK || 1), countryInfo)}`}
             </span>
           </span>)
           : (`${currencyPresenter(calcSubTotalValuta(item.product.Price, countryInfo?.conversionRateFromDKK || 1),countryInfo)}`)}</p>
-        <IconButton className="remove-item-btn" onClick={() => (dispatch(removeFromCart(index)))}>
+        <IconButton className='remove-item-btn' onClick={() => (dispatch(removeFromCart(index)))}>
           <DeleteIcon />
         </IconButton>
       </div>
@@ -141,7 +98,7 @@ export default function Checkout() {
   ))
 
   return (
-    <div className="checkout-section d-flex justify-content-center py-5 flex-wrap ">
+    <div className='checkout-section d-flex justify-content-center py-5 flex-wrap '>
       <div className='col-12 col-md-10 col-lg-5 col-xxl-5'>
         <p id='checkout-cart-title'>Your Cart</p>
         <ul className='checkout-list d-flex flex-column '>
@@ -160,18 +117,18 @@ export default function Checkout() {
         disableScrollLock
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
         id='alert-dialog'
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id='alert-dialog-title'>
           <Alert severity='error'>
             Before you do anything!
           </Alert>
 
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             Do <span className='fw-bolder'>NOT</span>, under any circumstance, use your real credentials or card information.
             This is a demo website and not a real service. Testing values will be provided on the page.
 

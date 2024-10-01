@@ -1,28 +1,21 @@
 
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../network/redux/store/store";
-import { Link, useLocation } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-
-import { ItemBrowserProps } from "./ItemBrowserHandler";
-import { addFav, setProduct } from "../../network/redux/actions/actions";
-import { AnimatePresence, easeInOut, motion } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../user/UserContext";
-import { Product, valuta } from "../../utils/types";
-import { manageFavourites } from "../../network/networkConfig";
-import { calculateDiscountedPrice, handleHyphens } from "../../utils/utils";
-import OptimizedImage from "../loading/OptimizedImage";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../network/redux/store/store';
+import { Link } from 'react-router-dom';
+import { ItemBrowserProps } from './ItemBrowserHandler';
+import { addFav, setProduct } from '../../network/redux/actions/actions';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../user/UserContext';
+import { Product, valuta } from '../../utils/types';
+import { manageFavourites } from '../../network/networkConfig';
+import { calculateDiscountedPrice, handleHyphens } from '../../utils/utils';
+import OptimizedImage from '../loading/OptimizedImage';
 import '../../styles/items/ItemList.css'
-
 import StarIcon from '@mui/icons-material/Star';
-import { useWindowResize } from "../../hooks/WindowResizeHook";
-import CustomFavButton from "../misc/CustomFavButton";
-import { transform } from "typescript";
-
+import { useWindowResize } from '../../hooks/WindowResizeHook';
+import CustomFavButton from '../misc/CustomFavButton';
 
 const listVariants = {
     visible: {
@@ -43,23 +36,11 @@ const itemVariants = {
 
 export default function ItemBrowser({ products }: ItemBrowserProps) {
 
-
-    const [isTouch, setIsTouch] = useState<boolean>(false);
     const favs = useSelector((state: RootState) => state.persistedReducer.favs.favs);
     const dispatch = useDispatch();
     const { user } = useContext<any>(UserContext);
     const windowWidth = useWindowResize();
 
-    useEffect(() => {
-        setIsTouch(checkIfTouchDevice());
-    }, [windowWidth]);
-
-    const checkIfTouchDevice = (): boolean => {
-        return (
-            "ontouchstart" in window ||
-            navigator.maxTouchPoints > 0
-        );
-    };
     const getManualDelay = (index: number) => {
         let rowSize = 1;
 
@@ -88,16 +69,14 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
 
 
     const map = products.map((product, index) => (
-
-
         <motion.li
             key={`${product._id}+${index}`}
             className={`browsing-item flex-grow-0 d-flex`}
             variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
+            initial='hidden'
+            whileInView='visible'
             viewport={{ once: true }}
-            exit="exit"
+            exit='exit'
             transition={{ duration: 0.5, delay: getManualDelay(index), ease: 'easeInOut' }}
         >
             <Link
@@ -114,6 +93,7 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                                     ${product.imageURL}/2.webp?tr=w-500 320w
                                 `}}
                     hash={product.blurHash[0]}
+                    alt={`${product.Name}-2`}
                     id='img-2'
                 />
 
@@ -126,16 +106,17 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                                 ${product.imageURL}/1.webp?tr=w-500 320w
                             `}}
                     hash={product.blurHash[0]}
+                    alt={`${product.Name}-1`}
                     id='img-1'
                 />
 
-                <div className='item-desc d-flex col-12 flex-column align-items-start row-gap-2 z-1'>
-                    <p>{product.Discount > 0 ?
+                <div className='item-desc d-flex col-12 flex-column align-items-start row-gap-1 z-1'>
+                    <p className='mb-1'>{product.Discount > 0 ?
                         (<span>
-                            <span className="discount-former">
+                            <span className='discount-former'>
                                 {`${product.Price} ${valuta}`}
                             </span>
-                            <span className="discount-current ms-2">
+                            <span className='discount-current ms-2'>
                                 {`${calculateDiscountedPrice(product.Price, product.Discount).toFixed(2)} ${valuta}`}
                             </span>
                         </span>)
@@ -152,8 +133,8 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
 
             {product.Discount > 0 ?
                 (
-                    <div className="discount">
-                        <p className="p-1 m-0">{product.Discount}%</p>
+                    <div className='discount'>
+                        <p className='p-1 m-0'>{product.Discount}%</p>
 
                     </div>)
                 :
@@ -162,10 +143,10 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 )
             }
             {product.Popularity === 5 ?
-                (<div className="bestseller d-flex justify-content-between align-items-center p-1">
-                    <StarIcon className="bestseller-icon" />
+                (<div className='bestseller d-flex justify-content-between align-items-center p-1'>
+                    <StarIcon className='bestseller-icon' />
 
-                    <p className="p-0 m-0">Best Seller</p>
+                    <p className='p-0 m-0'>Best Seller</p>
                 </div>)
                 : (<></>)
             }
@@ -176,10 +157,10 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
     return (
          
             <motion.ul
-                className="browsing-item-list justify-content-center flex-wrap col-12"
-                initial="hidden"
-                whileInView="visible"
-                exit="hidden"
+                className='browsing-item-list justify-content-center flex-wrap col-12'
+                initial='hidden'
+                whileInView='visible'
+                exit='hidden'
                 variants={listVariants}
             >
                 <AnimatePresence>

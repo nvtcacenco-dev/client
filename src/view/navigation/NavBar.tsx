@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import PromotionBanner from '../banner/PromotionBanner';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryID, setFavs } from '../../network/redux/actions/actions';
+import { setFavs } from '../../network/redux/actions/actions';
 import { RootState } from '../../network/redux/store/store';
 import { Turn as Hamburger } from 'hamburger-react'
 
@@ -158,9 +158,6 @@ export default function NavBar() {
                                 <SearchIcon />
                             </IconButton>
                         </div>
-                        {/* <Collapse in={categoriesSmState}>
-                            
-                        </Collapse> */}
                         <CategoriesBrandsExpander isDesktop={false} className={expanderClassName}/>
                         <Collapse in={searchSmState}>
                             <div className='search-bar-sm col-12'>

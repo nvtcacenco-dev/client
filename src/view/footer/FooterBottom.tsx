@@ -6,27 +6,14 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import '../../styles/footer/Footer.css';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useWindowResize } from '../../hooks/WindowResizeHook';
 
 export default function FooterBottom() {
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
-
-
-        window.addEventListener('resize', handleResize);
-
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
+    useWindowResize();
     return (
         <div className='footer-bottom-container d-flex flex-column align-items-center justify-content-center col-12 col-sm-11 col-xl-10 mx-auto '>
-
             <ul className='footer-bottom-top-section col-12'>
                 <li className=' col-12 col-lg-5 flex-grow-1 '>
                     <Link to={'/'} className='footer-logo'>
@@ -39,16 +26,9 @@ export default function FooterBottom() {
                 <div className='col-12 col-lg-5 d-flex mt-5 mt-lg-0'>
                     {windowWidth >= 576 &&
                         <li className='col-6'>
-
                             <p className='footer-title'>Categories</p>
-                            <Link to={`/catalog/best-sellers`}>
-                                Best Sellers
-                            </Link>
                             <Link to={`/catalog/brand-of-the-week`}>
                                 Brand of the Week
-                            </Link>
-                            <Link to={`/catalog/spring`}>
-                                Spring Collection
                             </Link>
                             <Link to={`/catalog/dresses`}>
                                 Dresses

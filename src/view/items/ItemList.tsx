@@ -73,6 +73,7 @@ export default function ItemList() {
                                 ${product.imageURL}/2.webp?tr=w-500 320w
                             `}}
                     hash={product.blurHash[0]}
+                    alt={`${product.Name}-2`}
                     id='img-2'
                 />
                 <OptimizedImage
@@ -84,6 +85,7 @@ export default function ItemList() {
                                 ${product.imageURL}/1.webp?tr=w-500 320w
                             `}}
                     hash={product.blurHash[0]}
+                    alt={`${product.Name}-1`}
                     id='img-1'
                 />
 
@@ -93,8 +95,8 @@ export default function ItemList() {
                 <CustomFavButton product={product} userID={user? user._id : null} user={user} favs={favs} className='item' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
             </div>
             
-            <div className='d-flex item-desc col-12 flex-column align-items-start row-gap-2'>
-                <p>{`${product.Price} ${valuta}`}</p>
+            <div className='d-flex item-desc col-12 flex-column align-items-start row-gap-1'>
+                <p className='mb-1'>{`${product.Price} ${valuta}`}</p>
                 <p>{product.Brand}</p>
                 <p>{product.Name}</p>
             </div>
