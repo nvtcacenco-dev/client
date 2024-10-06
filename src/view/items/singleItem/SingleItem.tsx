@@ -228,7 +228,7 @@ export default function SingleItem() {
     }
     return (
         <div className='singleItem-page-container col-12 d-flex flex-column align-items-center '>
-            <div className='col-12 col-lg-10'>
+            <div id='singleItem-page-wrap' className='col-12 col-lg-10'>
                 <CustomBreadCrumbs />
                 <div className='singleItem-container d-flex justify-content-center align-items-start col-12 flex-wrap'>
                     <div className='singleItem-imgs-container d-flex justify-content-start d-flex flex-wrap col-12 col-md-7 col-lg-6 col-xl-7   '>
@@ -244,7 +244,7 @@ export default function SingleItem() {
                             (lgMap)}
                     </div>
                     <div className='singleItem-info-container col-12 col-md-5 col-lg-6 col-xl-5 px-0 px-md-3 px-xxl-0 d-flex align-items-center flex-column '>
-                        <div className='col-12 col-lg-12 col-xxl-8'>
+                        <div id='singleItem-info-wrapper' className='col-12 col-lg-12 col-xxl-8'>
                             <div className='singleItem-info-description d-flex flex-column col-12'>
                                 <p className='col-12 '>{priceMap()}</p>
                                 <p className='col-12 '>{product?.Name}</p>
@@ -254,7 +254,7 @@ export default function SingleItem() {
                             <p className='color-txt-field col-12 '>Color: <span>{product?.Color}</span></p>
                             <Accordion id='size-accordion' className='single-item-info-accordion col-12 ' expanded={expanded} onClick={handleSizesExpand}>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<ExpandMoreIcon className='expand-icon' />}
 
                                     aria-controls='panel1-content'
                                     id='panel1-header'
@@ -309,7 +309,7 @@ export default function SingleItem() {
                             </Collapse>
                             <Accordion className='single-item-info-accordion col-12 '>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<ExpandMoreIcon className='expand-icon' />}
                                     aria-controls='panel1-content'
                                     id='panel1-header'
                                 >
@@ -322,7 +322,7 @@ export default function SingleItem() {
                             </Accordion>
                             <Accordion className='single-item-info-accordion col-12 '>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<ExpandMoreIcon className='expand-icon' />}
                                     aria-controls='panel2-content'
                                     id='panel2-header'
                                 >
@@ -335,7 +335,7 @@ export default function SingleItem() {
                             </Accordion>
                             <Accordion className='single-item-info-accordion col-12 '>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
+                                    expandIcon={<ExpandMoreIcon className='expand-icon' />}
                                     aria-controls='panel2-content'
                                     id='panel2-header'
                                 >

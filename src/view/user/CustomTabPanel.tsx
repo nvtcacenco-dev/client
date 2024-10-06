@@ -71,12 +71,12 @@ export default function BasicTabs() {
 
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '66.66%', fontSize: 'var(--fs-xs)', marginInline: 'auto'}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" className='col-11 mx-auto'>
-          <Tab label="Orders" {...a11yProps(0)} />
-          <Tab label="Account" {...a11yProps(1)} />
-          <Button className='sign-out-btn ms-auto' onClick={handleSignOut} endIcon={<LogoutIcon />}>
+        <Tabs sx={{ marginBottom: 'calc(12px + 1vw)' }} value={value} onChange={handleChange} aria-label="basic tabs example" className='col-11 mx-auto'>
+          <Tab sx={{ fontSize: 'var(--fs-base)' }} label="Orders" {...a11yProps(0)} />
+          <Tab sx={{ fontSize: 'var(--fs-base)' }} label="Account" {...a11yProps(1)} />
+          <Button  className='sign-out-btn ms-auto' onClick={handleSignOut} endIcon={<LogoutIcon />}>
             Sign Out
           </Button>
         </Tabs>

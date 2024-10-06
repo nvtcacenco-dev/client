@@ -1,3 +1,4 @@
+import { JsxElement } from 'typescript';
 import { CartState } from '../network/redux/reducers/cartSlice';
 
 export const freeShipping = 300;
@@ -111,6 +112,8 @@ export enum CategoryName {
   SKIRTS = 'skirts',
   TOPS = 'tops',
 }
+
+
 export const categoryIDString: Record<CategoryName, string> = {
   [CategoryName.CATALOG]: '',
   [CategoryName.BEST_SELLERS]: '',

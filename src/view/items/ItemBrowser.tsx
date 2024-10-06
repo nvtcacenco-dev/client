@@ -27,7 +27,7 @@ const listVariants = {
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, translateX: 100},
+    hidden: { opacity: 0, translateX: 100 },
     visible: { opacity: 1, translateX: 0 },
     exit: { opacity: 0 },
 };
@@ -40,6 +40,8 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
     const dispatch = useDispatch();
     const { user } = useContext<any>(UserContext);
     const windowWidth = useWindowResize();
+
+
 
     const getManualDelay = (index: number) => {
         let rowSize = 1;
@@ -84,18 +86,22 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
                 onClick={() => dispatch(setProduct(product))}
             >
-                <OptimizedImage
-                    uImage={{
-                        src: `${product.imageURL}/2.webp?tr=w-700`,
-                        srcSet: `${product.imageURL}/2.webp?tr=w-900 1080w,
-                                    ${product.imageURL}/2.webp?tr=w-700 720w,
-                                    ${product.imageURL}/2.webp?tr=w-600 480w,
-                                    ${product.imageURL}/2.webp?tr=w-500 320w
-                                `}}
-                    hash={product.blurHash[0]}
-                    alt={`${product.Name}-2`}
-                    id='img-2'
-                />
+                {windowWidth > 576 &&
+                    <OptimizedImage
+                        uImage={{
+                            src: `${product.imageURL}/2.webp?tr=w-700`,
+                            srcSet: `${product.imageURL}/2.webp?tr=w-900 1080w,
+                                ${product.imageURL}/2.webp?tr=w-700 720w,
+                                ${product.imageURL}/2.webp?tr=w-600 480w,
+                                ${product.imageURL}/2.webp?tr=w-500 320w
+                            `}}
+                        hash={product.blurHash[0]}
+                        alt={`${product.Name}-2`}
+                        id='img-2'
+                    />
+
+                }
+
 
                 <OptimizedImage
                     uImage={{
@@ -127,8 +133,8 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
                 </div>
             </Link>
             <div className='item-fav-btn-container d-flex justify-content-center align-items-center'>
-                <CustomFavButton product={product} userID={user? user._id : null} user={user} favs={favs} className='item' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
-                
+                <CustomFavButton product={product} userID={user ? user._id : null} user={user} favs={favs} className='item' handleAddRemoveFromFavs={handleAddRemoveFromFavs} />
+
             </div>
 
             {product.Discount > 0 ?
@@ -155,20 +161,20 @@ export default function ItemBrowser({ products }: ItemBrowserProps) {
 
     ))
     return (
-         
-            <motion.ul
-                className='browsing-item-list justify-content-center flex-wrap col-12'
-                initial='hidden'
-                whileInView='visible'
-                exit='hidden'
-                variants={listVariants}
-            >
-                <AnimatePresence>
-                    {map}
-                </AnimatePresence>
-                
-            </motion.ul>
 
-        
+        <motion.ul
+            className='browsing-item-list justify-content-center flex-wrap col-12'
+            initial='hidden'
+            whileInView='visible'
+            exit='hidden'
+            variants={listVariants}
+        >
+            <AnimatePresence>
+                {map}
+            </AnimatePresence>
+
+        </motion.ul>
+
+
     );
 }

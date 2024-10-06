@@ -43,6 +43,18 @@
     transition: transform 0.3s ease-in-out;
 }
 
+@media (width > 1920px) {
+    .promotion-banner-alt{
+        top: calc(-60px - 0.5vw); 
+        height: calc(60px + 0.5vw);
+
+    }
+
+    .promotion-banner-alt li{
+        height: 66.66%;
+    }
+}
+
 @media (max-width: 768px) {
     .promotion-banner > li {
        

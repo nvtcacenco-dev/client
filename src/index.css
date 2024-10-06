@@ -162,6 +162,27 @@ ul {
   list-style: none;
 }
 
+@media (width > 1920px) {
+  :root {
+    --fs-xs: calc(12px + 0.5vw);
+    --fs-sm: calc(16px + 0.5vw);
+    --fs-base: calc(28px + 0.25vw);
+    --fs-md: calc(32px + 0.33vw);
+    --fs-lg: calc(36px + 0.5vw);
+    --fs-xl: calc(36px + 0.75vw);
+    --fs-2xl: calc(56px + 1.25vw);
+    --fs-3xl: clamp(3.05rem, 1.85vw + 2.68rem, 4.16rem);
+    --fs-4xl: clamp(3.81rem, 2.87vw + 3.24rem, 5.53rem);
+    --fs-5xl: calc(128px + 3vw);
+    --fs-title: clamp(5.96rem, 6.38vw + 4.68rem, 9.79rem);
+  }
+
+  .MuiSvgIcon-fontSizeMedium{
+    width: 2em !important;
+    height: 2em !important;
+  }
+}
+
 @media (width < 576px) {
   .discount p{
     font-size: var(--fs-base);

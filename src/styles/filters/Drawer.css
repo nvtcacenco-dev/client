@@ -1,7 +1,5 @@
 .custom-drawer {
-    --_drawer-width: min(90%, 500px);
-    
-    
+    --_drawer-width: min(90%, 500px);  
 }
 
 #cart-bottom{
@@ -464,7 +462,31 @@
     background-color: var(--tertiary-clr-800) !important;
 }
 
-@media (max-width: 1400px) {}
+@media (width > 1920px) {
+    .custom-drawer {
+        --_drawer-width: 1000px;
+        
+    }
+    .cart-scroll{
+        padding-inline-end: 0;
+    }
+    .drawer-list{
+        width: 99%;
+    }
+
+    .custom-drawer .MuiDrawer-paperAnchorRight{
+        padding-inline: calc(12px + 0.25vw);  
+    }
+
+    .quantity-btn{
+        border-width: 2px !important;
+    }
+
+    .remove-item-btn{
+        top: 1em;
+        right: 1em;
+    }
+}
 
 
 @media (max-width: 992px) {

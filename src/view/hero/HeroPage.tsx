@@ -26,6 +26,7 @@ import { Blurhash } from 'react-blurhash';
 import ItemBrowser from '../items/ItemBrowser';
 import { Product } from '../../utils/types';
 import { fetchNewProducts } from '../../network/networkConfig';
+import { useWindowResize } from '../../hooks/WindowResizeHook';
 
 
 export default function HeroPage() {
@@ -33,12 +34,17 @@ export default function HeroPage() {
     const [isLoaded, setLoaded] = useState<boolean>(false);
     const [isLoadStarted, setLoadStarted] = useState<boolean>(false);
     const [products, setProducts] = useState<Product[]>([]);
-
-    
-    const dispatch = useDispatch();
-
+    const [isiOS, setIsiOS] = useState<boolean>(false);
+    const windowWidth = useWindowResize();
     
 
+    function iOS() {
+        if (window.navigator.userAgent.includes('iPhone')){
+            setIsiOS(true)
+        }
+        return setIsiOS(false);
+    }
+    console.log(iOS)
     useEffect(() => {
         async function fetchData() {
             try {
@@ -107,51 +113,47 @@ export default function HeroPage() {
                     />
                 )}
 
-                <div id='title-text-wrapper' className="masked-text-wrapper ">
-                    {/* <p className="text-underneath ">Trend <br /> Thread</p> */}
+                <div id='title-text-wrapper' className="masked-text-wrapper">
                     <h1 id='section-title-1' className="text-default">Trend <br /> Thread</h1>
-
                 </div>
 
-                {/* <Button id='scroll-down-icon' className='cta-scroll-down-icon-container d-flex justify-content-center align-items-center'>
-                    <a href='#section-2'>
-                        <ChevronRightIcon className='cta-chevron-icon' />
-                    </a>
+                {windowWidth > 576 &&
 
-                </Button> */}
-                <div className='cta-box position-absolute col-12 col-xl-10 col-xxl-9 d-flex justify-content-center align-items-center'>
-                    <div className='col-6'>
-                        <motion.h2
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                            viewport={{ once: true }}
-                            className='cta-title'>
-                            Spring <br /> Sale</motion.h2>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                            viewport={{ once: true }}
-                            className=' bg-transparent'>
-                            <LoyaltyIcon className='cta-icon' />
-                        </motion.div>
+                    <div className='cta-box position-absolute col-12 col-xl-10 col-xxl-9 d-flex justify-content-center align-items-center'>
+                        <div className='col-6'>
+                            <motion.h2
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                                viewport={{ once: true }}
+                                className='cta-title'>
+                                Spring <br /> Sale</motion.h2>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                                viewport={{ once: true }}
+                                className=' bg-transparent'>
+                                <LoyaltyIcon className='cta-icon' />
+                            </motion.div>
 
+                        </div>
+                        <div className='col-6'>
+                            <motion.h2
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                                viewport={{ once: true }}
+                                className='cta-title'>
+                                Trending <br /> Now</motion.h2>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                                viewport={{ once: true }}
+                                className=' bg-transparent'>
+                                <WhatshotIcon className='cta-icon' />
+                            </motion.div>
+                        </div>
                     </div>
-                    <div className='col-6'>
-                        <motion.h2
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                            viewport={{ once: true }}
-                            className='cta-title'>
-                            Trending <br /> Now</motion.h2>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                            viewport={{ once: true }}
-                            className=' bg-transparent'>
-                            <WhatshotIcon className='cta-icon' />
-                        </motion.div>
-                    </div>
-                </div>
+                }
+
 
 
 
@@ -162,10 +164,10 @@ export default function HeroPage() {
                 <ul className='col-12 col-xl-12 d-flex justify-content-center align-items-center flex-wrap'>
 
                     <li className='col-12 col-md-4 position-relative'>
-                        
+
                         <motion.a
-                            initial={{opacity: 0 }}
-                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.8 } }}
                             viewport={{ once: true }}
                             href='/catalog/spring'
                         >
@@ -184,15 +186,15 @@ export default function HeroPage() {
 
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        
+
                         <motion.a
-                            initial={{opacity: 0 }}
-                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.8 } }}
                             viewport={{ once: true }}
                             href='/catalog/jackets'
                         >
                             Spring <br /> Jackets
-                            
+
                         </motion.a>
                         <img
                             loading="lazy"
@@ -205,10 +207,10 @@ export default function HeroPage() {
                         />
                     </li>
                     <li className='col-12 col-md-4 position-relative'>
-                        
+
                         <motion.a
-                            initial={{opacity: 0 }}
-                            whileInView={{opacity: 1, transition: { duration: 0.8 } }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 0.8 } }}
                             viewport={{ once: true }}
                             href='/catalog/dresses'
                         >
@@ -245,22 +247,22 @@ export default function HeroPage() {
             </section>
             <section id='botw-section' aria-labelledby='section-title-4'>
                 <div id='botw-promo-container' className='d-flex justify-content-center align-items-center col-12 col-xxl-10 flex-wrap'>
-                    <motion.img 
-                        src={img4} 
-                        loading="lazy" 
-                        className='botw-promo-img col-12 col-md-5' 
+                    <motion.img
+                        src={img4}
+                        loading="lazy"
+                        className='botw-promo-img col-12 col-md-5'
                         alt='brand of the week'
-                        initial={{translateX: -100, opacity: 0 }}
-                        whileInView={{translateX: 0, opacity: 1, transition: { duration: 1, delay: 0.5, ease: easeInOut } }}
+                        initial={{ translateX: -100, opacity: 0 }}
+                        whileInView={{ translateX: 0, opacity: 1, transition: { duration: 1, delay: 0.5, ease: easeInOut } }}
                         viewport={{ once: true }}
-                    
+
                     />
                     <ul className='botw d-flex justify-content-center pb-3 align-items-center flex-column col-12 col-md-7 col-xxl-5'>
                         <li className='botw-item'><h2 id='section-title-4'>Brand of the week</h2></li>
-                        <motion.li 
+                        <motion.li
                             className='botw-item col-9'
-                            initial={{opacity: 0 }}
-                            whileInView={{opacity: 1, transition: { duration: 1.2, delay: 0.5, ease: easeInOut } }}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1, transition: { duration: 1.2, delay: 0.5, ease: easeInOut } }}
                             viewport={{ once: true }}
                         >
                             <img loading="lazy" className='botw-brand-title' src={img5} alt='brand of the week' />

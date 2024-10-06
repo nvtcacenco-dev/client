@@ -99,3 +99,11 @@
     background-color: #fff;
     z-index: 3 !important;
   }
+
+
+  @media (max-width: 576px) {
+    .success-list {
+      grid-template-columns: repeat(1, 1fr);
+  
+    }
+  }

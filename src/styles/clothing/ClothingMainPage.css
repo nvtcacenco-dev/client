@@ -106,7 +106,36 @@
     overflow: hidden;
 }
 
+@media (width > 1920px) {
+    .filter-drawer-btn {
+        font-size: var(--fs-sm);
+    }
 
+    #filter-btn-pill-container{
+        margin-block: 1rem !important;
+    }
+
+    .filter-drawer-btn svg{
+        width: calc(24px + 0.75vw);
+        height: calc(24px + 0.75vw); 
+    }
+
+    .clothing-page-container {
+        width: 66%;
+    }
+
+    .load-more-btn svg{
+        width: calc(24px + 0.75vw);
+        height: calc(24px + 0.75vw); 
+    }
+    .item-count{
+        margin-top: 4rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    .MuiLinearProgress-root{
+        height: 8px;
+    }
+}
 
 @media (max-width: 992px) {
     .clothing-page-container {

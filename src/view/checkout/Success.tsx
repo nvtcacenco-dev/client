@@ -13,34 +13,8 @@ import { UserContext } from '../user/UserContext';
 export default function Success() {
     const [order, setOrder] = useState<Order>();
     const { state } = useLocation();
-    const { user } = useContext<any>(UserContext);
-    const [error, setError] = useState<string>('');
-    const maxRetries = 3;
-    const retryDelay = 2000; 
 
     useEffect(() => {
-        /* async function getOrderWithRetry(retries: number) {
-            try {
-                const response = await fetchRecentOrder(user._id, state.orderID);
-
-                if (!response.ok) {
-                    // If the response status is not OK (e.g., 404), throw an error
-                    throw new Error(`Error: ${response.status}`);
-                }
-
-                const data = await response.json(); // Assuming fetchRecentOrder returns a Response object
-                setOrder(data);
-            } catch (err) {
-                if (retries > 0) {
-                    console.log(`Retrying... (${maxRetries - retries + 1}/${maxRetries})`);
-                    setTimeout(() => getOrderWithRetry(retries - 1), retryDelay);
-                } else {
-                    console.error('Max retries reached. Failed to fetch the order:', err);
-                    setError('Failed to fetch the order. Please try again later.');
-                }
-            }
-        }
-        getOrderWithRetry(maxRetries); */
 
         function showRecentOrder(){
             setOrder(state.order)
@@ -90,7 +64,7 @@ export default function Success() {
                     <>
                         <h1 className='my-5'>Your Order Is On The Way!</h1>
 
-                        <ul className='success-list  col-10 flex-wrap column-gap-3 row-gap-3 mx-auto '>
+                        <ul className='success-list col-12  col-lg-10 flex-wrap column-gap-3 row-gap-3 mx-auto '>
                             {map}
                         </ul>
                         <div className='d-flex justify-content-between col-10 mx-auto'>

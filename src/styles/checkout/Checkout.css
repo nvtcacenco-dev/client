@@ -390,6 +390,31 @@
   font-size: 0.93rem;
 }
 
+@media (width > 1920px) {
+
+  .checkout-section{
+    padding-inline: 0;
+    margin-inline: auto;
+    width: 66.66%;
+  }
+  .checkout-dialog .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    width: 1000px !important;
+  }
+
+  #alert-dialog-title svg{
+    height: 3em !important;
+    width: 3em !important;
+  }
+
+  #alert-dialog-title .MuiAlert-message{
+    font-size: var(--fs-md) !important;
+  }
+
+  .MuiButton-textSuccess{
+    font-size: var(--fs-base) !important;
+  }
+}
+
 @media (min-width: 1400px) {
   .checkout-list-item-description p {
     

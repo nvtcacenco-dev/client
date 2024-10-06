@@ -175,6 +175,12 @@
     color: var(--primary-clr) !important;
 }
 
+@media (width > 1920px) {
+
+    .sign-out-btn{
+        font-size: var(--fs-base) !important;
+    }
+}
 
 @media (width < 992px) {
     #delivery-status{
@@ -205,4 +211,6 @@
     #order-list-item-collapse{
         font-size: var(--fs-sm);
     }
+
+   
 }

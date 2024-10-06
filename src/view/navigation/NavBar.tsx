@@ -158,7 +158,7 @@ export default function NavBar() {
                                 <SearchIcon />
                             </IconButton>
                         </div>
-                        <CategoriesBrandsExpander isDesktop={false} className={expanderClassName}/>
+                        <CategoriesBrandsExpander isDesktop={false} className={expanderClassName} isOpen={categoriesSmState} setIsOpen={setCategoriesSmState}/>
                         <Collapse in={searchSmState}>
                             <div className='search-bar-sm col-12'>
                                 <CustomSearch
