@@ -28,7 +28,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 * [![React][React.js]][React-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![TypeScript][TypesSript.com]][TypeScript-url]
+* [![TypeScript][TypesSript.org]][TypeScript-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
