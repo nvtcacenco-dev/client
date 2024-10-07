@@ -28,7 +28,6 @@ export default function Login({ theme }: LoginSignUpProps) {
         if (!(emailEmpty && pwEmpty)) {
             authUser(email, pw).then((data: any) => {
                 setUser(data.user);
-                console.log(data)
                 localStorage.setItem('token', data.accessToken);
             });
         }

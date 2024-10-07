@@ -49,7 +49,6 @@ export default function CategoryFilter() {
     }
 
     const noMorePages = products.length === metaData?.totalCount ? true : false;
-    console.log(sortState)
 
     useEffect(() => {
         async function fetchData() {
@@ -83,7 +82,6 @@ export default function CategoryFilter() {
             
             try {
                 const data = await fetchPopularProducts(1, 8, sorting?.option, sorting?.order);
-                console.log(data.products.data);
                 setProducts(data.products.data);
                 setMetaData(data.products.metadata);
 

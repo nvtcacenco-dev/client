@@ -327,8 +327,6 @@ export async function addUserOrder(order: Order, userID: string): Promise<any>{
             userID,
             order
         });
-        
-        console.log('Order added successfully:', response.data);
     } catch (error) {
         console.error('Error adding order:', error);
         
@@ -341,8 +339,6 @@ export async function addGuestOrder(order: Order): Promise<any>{
         const response = await axios.post(`${API_URL}/orders/guest`,{
             order
         });
-        
-        console.log('Order added successfully:', response.data);
     } catch (error) {
         console.error('Error adding order:', error);
         
@@ -377,7 +373,7 @@ export async function fetchCountryInfo(country: string) {
                 country: country
             }
         })
-        console.log(response)
+        
         return response.data;
     } catch (error) {
         console.error('Error fetching country info:', error);

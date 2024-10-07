@@ -44,7 +44,6 @@ export default function HeroPage() {
         }
         return setIsiOS(false);
     }
-    console.log(iOS)
     useEffect(() => {
         async function fetchData() {
             try {
@@ -63,7 +62,6 @@ export default function HeroPage() {
     };
 
     const handleLoadStarted = () => {
-        console.log("Started: ");
         setLoadStarted(true);
     };
 

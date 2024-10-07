@@ -58,7 +58,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
 
   const emailFieldError = emailEmpty ? 'input-error' : '';
   useEffect(() => {
-    console.log("Country in CheckoutForm:", country);
   }, [country]);
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
     if (!cS) {
       return;
     }
-    console.log(message);
   }, [stripe]);
 
   useEffect(() => {
@@ -146,7 +144,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
     setCS(clientSecret);
 
     if (!clientSecret) {
-      console.log('no client secret');
       return;
     }
 
@@ -167,7 +164,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
       .then(function (result) {
         if (result.error) {
         }
-        console.log(result)
       });
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
@@ -203,7 +199,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
     setCS(clientSecret);
 
     if (!clientSecret) {
-      console.log('no client secret');
       return;
     }
 
@@ -224,7 +219,6 @@ export default function CheckoutForm({country, countryInfo, setCountry, setCount
       .then(function (result) {
         if (result.error) {
         }
-        console.log(result)
       });
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {

@@ -71,7 +71,6 @@ export default function SignUp({ theme }: LoginSignUpProps) {
 
         if(!(fNameEmpty && lNameEmpty && emailEmpty && pwEmpty )){
             registerUser(firstName, lastName, email, pw, favs).then((res: any) => {
-                console.log(res)
                 if(res.status === 200){
                     
                     authUser(res.data.email, pw).then((data: any) => {

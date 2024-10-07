@@ -74,7 +74,6 @@ export default function CustomSearch({
         <li className='search-suggestion-item col-12 ' key={index}>
             <Link
                 to={`/catalog/${handleHyphens(product.Categories[0])}/${handleHyphens(product.Name)}&${product._id}`}
-                onClick={() => console.log(product.Name)}
                 className='search-suggestion-item-link col-12 d-flex px-3 py-2 align-items-center justify-content-between'
             >
                 <div>

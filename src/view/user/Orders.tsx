@@ -29,7 +29,6 @@ export default function Orders() {
     useEffect(() => {
         async function getUserOrders() {
             const data = await fetchUserOrders(user._id)
-            console.log(data)
             const sortedOrders = data?.sort((a: { _id: string; }, b: { _id: string; })=> {
                 if (!a._id) return -1;
                 if (!b._id) return 1;

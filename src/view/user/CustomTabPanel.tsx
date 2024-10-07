@@ -16,6 +16,7 @@ import { clearPersistedState } from '../../network/redux/actions/actions';
 import { clearPersistedStateAndRestart } from '../../network/redux/store/store';
 
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useWindowResize } from '../../hooks/WindowResizeHook';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,9 +70,9 @@ export default function BasicTabs() {
     window.location.reload();
   }
 
-
+  const windowWidth = useWindowResize();
   return (
-    <Box sx={{ width: '66.66%', fontSize: 'var(--fs-xs)', marginInline: 'auto'}}>
+    <Box sx={{ width: windowWidth > 1920 ? '66.66%' : '100%', fontSize: 'var(--fs-xs)', marginInline: 'auto'}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs sx={{ marginBottom: 'calc(12px + 1vw)' }} value={value} onChange={handleChange} aria-label="basic tabs example" className='col-11 mx-auto'>
           <Tab sx={{ fontSize: 'var(--fs-base)' }} label="Orders" {...a11yProps(0)} />

@@ -49,7 +49,7 @@ export default function SearchResults() {
 
     const noMorePages = products.length === metaData?.totalCount ? true : false;
 
-    console.log(searchQuery)
+
 
 
     useEffect(() => {
@@ -61,7 +61,7 @@ export default function SearchResults() {
 
                 else {
                     const data = await fetchSearchProducts(page, 8, searchQuery);
-                    console.log(data.products.data);
+
                     if (page !== 1) {
 
                         setProducts(prevProducts => [...prevProducts, ...data.products.data]);
@@ -94,7 +94,7 @@ export default function SearchResults() {
 
                 else {
                     const data = await fetchSearchProducts(page, 8, searchQuery);
-                    console.log(data.products.data);
+
 
                     dispatch(resetPageNumber());
 

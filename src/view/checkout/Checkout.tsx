@@ -54,8 +54,6 @@ export default function Checkout() {
     async function getCountryInfo(){
       const data = fetchCountryInfo(country);
       setCountryInfo(await data)
-      console.log(countryInfo)
-      console.log(data)
     }
     getCountryInfo()
   }, [country]);
