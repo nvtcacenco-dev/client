@@ -19,7 +19,7 @@
 
 
 ## About The Project
-TrendThread is demo project of a fully functioning and interactive webshop
+TrendThread is demo project of a fully functioning and interactive webshop.
 
 ### Why a webshop?
 
@@ -48,7 +48,7 @@ Yes I could negate some of the issues with lazy loading, loading spinners and lo
 This piqued my curiosity and I dove deeper into the rabbit hole of optimization. From my research I had two options:
 
 1) Use a CDN to deliver pre-rendered pages - which to me felt like treating the symptoms and not the core issue.
-2) Use the right tool for the right job - the obvious solution was SSR with Next.js, which is what I'm currently working on right now, namely migrating to Next.js.
+2) Use the right tool for the right job - the obvious solution was SSR with Next.js, which is what I'm currently working on right now, namely migrating to Next.js and most likely creating a new big project utilizing this knowledge.
 
 I have as a personal goal, set a restriction on myself. I have refused to use guides, templates or pre-built components unless I could build something similar, in functionality and visually, myself.
 This has given me a great and fun environment to expand my knowledge, develop my skills and further distance myself from the "I don't know how to do this, let me google it/find a library"-thought process.
