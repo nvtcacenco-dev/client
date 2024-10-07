@@ -33,3 +33,8 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
