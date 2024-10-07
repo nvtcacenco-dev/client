@@ -1,3 +1,23 @@
+<br />
+<div align="center">
+  <a href="https://github.com/nvtcacenco-dev/webshop-client">
+    <img src="public/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">Trend Thread</h3>
+
+  <p align="center">
+    A fully interactive webshop built with the MERN stack.
+    <br />
+    <a href=""><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://trendthreadshop.com">View Demo</a>
+  </p>
+</div>
+
+
+
 ## About The Project
 
 
