@@ -31,8 +31,8 @@ export default function Orders() {
             const data = await fetchUserOrders(user._id)
             console.log(data)
             const sortedOrders = data?.sort((a: { _id: string; }, b: { _id: string; })=> {
-                if (!a._id) return -1; // Move items with undefined _id to the front
-                if (!b._id) return 1;  // Move items with undefined _id to the front
+                if (!a._id) return -1;
+                if (!b._id) return 1;
                 return extractDateFromObjectId(a._id) > extractDateFromObjectId(b._id) ? -1 : 1;
             });
             setOrders(sortedOrders);

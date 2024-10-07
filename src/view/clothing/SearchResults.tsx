@@ -38,7 +38,7 @@ export default function SearchResults() {
             const percentage = (count / totalCount) * 100;
             return percentage;
         }
-        return 0; // Default to 0 if metadata is not available
+        return 0;
     };
 
     const progressPercentage = calculateProgress();

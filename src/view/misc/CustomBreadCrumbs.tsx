@@ -13,7 +13,7 @@ export default function CustomBreadCrumbs(){
     
     const dispatch = useDispatch();
     const location = useLocation();
-    const pathSegments = location.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
+    const pathSegments = location.pathname.split('/').filter(segment => segment !== '');
     const breadcrumbItems = [
         { label: 'Home', to: '/' },
         { label: 'Catalog', to: '/catalog' },
@@ -25,10 +25,8 @@ export default function CustomBreadCrumbs(){
     const renderBreadcrumbs = () => {
         return breadcrumbItems.map((item, index) => {
             if (index === breadcrumbItems.length - 1) {
-                // Last item is not a link
                 return <p key={index} className='breadcrumbs-current-page'>{item.label}</p>;
             } else {
-                // Render link for other items
                 return (
                     <Link className='breadcrumbs-link' key={index} color="inherit" to={item.to} onClick={(() => dispatch(setCategoryID(null)))}>
                         {item.label}

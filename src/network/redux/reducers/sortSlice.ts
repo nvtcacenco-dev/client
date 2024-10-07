@@ -50,7 +50,6 @@ export interface SortState {
     name: 'sort',
     initialState,
     reducers: {
-      // No need to define the action creator here
     },
     extraReducers: (builder) => {
       builder.addCase(setSortingPrice, (state, action) => {

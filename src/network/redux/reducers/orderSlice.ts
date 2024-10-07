@@ -1,5 +1,5 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { RootState } from "../store/store"; // Adjust the path as needed
+import { RootState } from "../store/store";
 import {Product } from "../../../utils/types";
 import { calculateDiscountedPrice } from "../../../utils/utils";
 import { addOrder } from "../actions/actions";
@@ -29,7 +29,7 @@ const calculateTotal = (order: OrderState['order']): number => {
     }
     
   }, 0);
-  return parseFloat(total.toFixed(2)); // Round to two decimal places
+  return parseFloat(total.toFixed(2));
 };
 
 const orderSlice = createSlice({
@@ -51,5 +51,5 @@ const orderSlice = createSlice({
 });
 
 export const selectOrder = (state: RootState) =>
-  state.orderReducer.order; // Access the 'product' property directly 
+  state.orderReducer.order;
 export default orderSlice.reducer;

@@ -115,18 +115,15 @@ export function removeBackslash(inputString: string) {
 }
 
 export function getStringAfterAmpersand(id: string) {
-  // Find the index of the first occurrence of '&'
   const index = id.indexOf('&');
 
-  // If '&' is found, return the substring after '&', otherwise return an empty string
   return index !== -1 ? id.slice(index + 1) : '';
 }
 
 export function removeAmpersandAndAfter(inputString: string) {
-  // Find the index of the first occurrence of '&'
+
   const index = inputString.indexOf('&');
 
-  // If '&' is found, return the substring before '&', otherwise return the original string
   return index !== -1 ? inputString.slice(0, index) : inputString;
 }
 
@@ -155,18 +152,14 @@ export function quantityCheck(quantity: number): boolean {
 }
 
 export const extractDateFromObjectId = (objectId: string) => {
-  // The first 8 characters of the ObjectId represent the timestamp in hexadecimal
   const timestampHex = objectId.substring(0, 8);
 
-  // Convert the hexadecimal timestamp to a decimal number
   const timestamp = parseInt(timestampHex, 16);
 
-  // Create a Date object from the Unix timestamp (multiply by 1000 to convert seconds to milliseconds)
   const date = new Date(timestamp * 1000);
 
-  // Format the date as a string (e.g., 'YYYY-MM-DD')
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
 
   return `${year}-${month}-${day}`;

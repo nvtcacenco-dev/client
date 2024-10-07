@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+<br />
+<div align="center">
+  <a href="https://github.com/nvtcacenco-dev/webshop-client">
+    <img src="public/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Trend Thread</h3>
 
-## Available Scripts
+  <p align="center">
+    A fully interactive webshop built with the MERN stack.
+    <br />
+    <a href=""><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://trendthreadshop.com">View site</a>
+  </p>
+</div>
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## About The Project
+TrendThread is demo project of a fully functioning and interactive webshop.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Why a webshop?
 
-### `npm test`
+I have built this project to practice, and later on showcase my techical knowledge within the field of web & frontend development.
+I have previously worked on various pet projects such as a chess game built from scratch in JavaScript, but have now migrated to more business relevant topics. Which brings us to a webshop.
+E-commerce is an ever expanding field in our world, and there is always a company that wants to partake in it, be it globally or locally.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### What did I learn?
 
-### `npm run build`
+Throughout the project I have learned (and continue to improve) concepts such as: 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* State management - both local and global.
+* Optimization.
+* API design, architecture and integration.
+* Various frontend-centric libraries eg. framer-motion.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+If we are to widen the scope to broader subjects, then I have also learned to:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Set realistic deadlines and goals.
+* A project can be iterated on indefinitely, and will be iterated on throughout the development. Be it architecture or design choices.
+* Choosing the right tool for the right task. Sure you can hammer in a nail with a screwdriver, but is that really the optimal way?
 
-### `npm run eject`
+To expand on the last point, after working for months on this project I slowly started to realize that the MERN stack wasn't necessarily the best option. 
+No matter how much I optimized, tinkered or adjusted the code, I could not reach the same lightning fast speeds as other commercially avaliable webshop. And they had thousands of products.
+Yes I could negate some of the issues with lazy loading, loading spinners and loading skeletons, but it was just a bandiad.
+This piqued my curiosity and I dove deeper into the rabbit hole of optimization. From my research I had two options:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1) Use a CDN to deliver pre-rendered pages - which to me felt like treating the symptoms and not the core issue.
+2) Use the right tool for the right job - the obvious solution was SSR with Next.js, which is what I'm currently working on right now, namely migrating to Next.js and most likely creating a new big project utilizing this knowledge.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I have as a personal goal, set a restriction on myself. I have refused to use guides, templates or pre-built components unless I could build something similar, in functionality and visually, myself.
+This has given me a great and fun environment to expand my knowledge, develop my skills and further distance myself from the "I don't know how to do this, let me google it/find a library"-thought process.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Built With
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* [![React][React.js]][React-url]
+* [![TypeScript][TypeScript.org]][TypeScript-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+  
 
-## Learn More
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[TypeScript.org]: https://img.shields.io/badge/TypeScript-007acc?style=for-the-badge&logo=typescript&logoColor=white
+[TypeScript-url]: https://www.typescriptlang.org

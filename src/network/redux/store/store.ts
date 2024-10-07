@@ -44,7 +44,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Disable serializable check for Redux Persist
+      serializableCheck: false,
     }),
 });
 

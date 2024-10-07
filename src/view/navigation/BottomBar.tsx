@@ -69,7 +69,6 @@ export default function BottomBar() {
 
                     <button id='cart-btn' className='bottom-bar-link' onClick={() => { (setState(true)); }}>
                         <div className='nav-icon-link me-0'>
-                            {/* <ShoppingCartIcon className='nav-icon' /> */}
 
                             <IconSelector icon='cart' />
 

@@ -60,8 +60,6 @@
 }
 
 html {
-  /* -ms-overflow-style: none !important;*/
-
   scrollbar-width: thin !important;
   scrollbar-color: var(--primary-clr-600) var(--primary-clr-200) !important;
   --scrollbar-width-legacy: 8px !important;

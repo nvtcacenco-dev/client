@@ -2,9 +2,9 @@
  
   text-align: center;
   background-color: var(--light-clr);
-  /* overflow-x: hidden; */
+  
   width: 100%;
-  /* padding-bottom: 75px; */
+  
 }
 
 main{
@@ -52,24 +52,11 @@ main{
   width: 12px !important;
 }
 
-@media (width < 576px) {
 
-  main{
-    /* padding-top: calc(75.5px + 60px); */
-    
-  }
-  
-}
 
-@media (min-width: 576px) {
-  main{
-    /* padding-top: calc(97.6px + 60px); */
-  }
-}
 
 @media (min-width: 992px) {
   main{
-    /* padding-top: calc(184px + 60px); */
     padding-bottom: 0;
   }
   .App{

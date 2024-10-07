@@ -191,7 +191,6 @@
 @media (width < 992px) {
     .browsing-item {
         max-height: none;
-        /* width: calc(50% - 12px); */
     }
 
     .item-fav-btn {

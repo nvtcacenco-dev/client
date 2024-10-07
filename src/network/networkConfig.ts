@@ -31,7 +31,7 @@ export async function fetchNewProducts(): Promise<Product[]> {
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
-        throw error; // Re-throw the error to handle it in the caller if needed
+        throw error;
     }
 }
 export async function fetchAllFilterOptions(field: string): Promise<string[]> {
@@ -66,7 +66,7 @@ export async function fetchProductByID(id: string): Promise<Product> {
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
-        throw error; // Re-throw the error to handle it in the caller if needed
+        throw error;
     }
 }
 
@@ -106,7 +106,7 @@ export async function fetchAllCategories(): Promise<Categories[]> {
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
-        throw error; // Re-throw the error to handle it in the caller if needed
+        throw error;
     }
 }
 
@@ -123,7 +123,7 @@ export async function fetchCategory(id: string | null, page: number, limit: numb
         return response.data;
     } catch (error) {
         console.error("Error fetching data:", error);
-        throw error; // Re-throw the error to handle it in the caller if needed
+        throw error;
     }
 }
 

@@ -88,14 +88,6 @@
     min-height: 100px;
 }
 
-#filter-btn-pill-container {
-    /* position: sticky;
-    top: 75.4px;
-    left: 0;
-    z-index: 5;
-    background-color: var(--light-clr); */
-}
-
 .filter-floating-action-btn-container {
     position: fixed;
     z-index: 999;

@@ -13,11 +13,11 @@ const ScrollToTop: React.FC = () => {
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: "smooth" // Enable smooth scrolling
+            behavior: "smooth"
         });
     }, [key]);
 
-    return null; // Since this component doesn't render anything, return null
+    return null;
 };
 
 export default ScrollToTop;

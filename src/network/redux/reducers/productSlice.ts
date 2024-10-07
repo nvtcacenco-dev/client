@@ -1,6 +1,6 @@
 import { createSlice} from '@reduxjs/toolkit';
-import { RootState } from '../store/store'; // Adjust the path as needed
-import { setProduct} from '../actions/actions'; // Import the action creator
+import { RootState } from '../store/store';
+import { setProduct} from '../actions/actions';
 import { Product } from '../../../utils/types';
 
 
@@ -17,7 +17,7 @@ interface ProductState {
     name: 'product',
     initialState,
     reducers: {
-      // No need to define the action creator here
+
     },
     extraReducers: (builder) => {
       builder.addCase(setProduct, (state, action) => {
@@ -26,6 +26,6 @@ interface ProductState {
     },
   });
   
-  export const selectProduct = (state: RootState) => state.persistedReducer.product.product; // Access the 'product' property directly
+  export const selectProduct = (state: RootState) => state.persistedReducer.product.product;
   
   export default productSlice.reducer;

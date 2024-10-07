@@ -37,7 +37,6 @@
 
 .user-info-list div{
     min-height: calc(33px + 1rem);
-    /* border: 1px solid red; */
 }
 .edit-user-info-btn{
     padding: 0 !important;

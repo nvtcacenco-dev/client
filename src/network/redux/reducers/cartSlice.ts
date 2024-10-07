@@ -1,6 +1,6 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { RootState } from "../store/store"; // Adjust the path as needed
-import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions"; // Import the action creator
+import { RootState } from "../store/store"; 
+import { addToCart, decrementCartProduct, incrementCartProduct, removeFromCart } from "../actions/actions";
 import {Product } from "../../../utils/types";
 import { calculateDiscountedPrice } from "../../../utils/utils";
 
@@ -29,7 +29,7 @@ const calculateTotal = (cart: CartState['cart']): number => {
     }
     
   }, 0);
-  return parseFloat(total.toFixed(2)); // Round to two decimal places
+  return parseFloat(total.toFixed(2));
 };
 
 const cartSlice = createSlice({
@@ -45,10 +45,10 @@ const cartSlice = createSlice({
           (product) => product.product._id === payload.product._id && product.size === payload.size
         );
         if (existingProduct) {
-          // Product exists, increment quantity
+          
           existingProduct.quantity++;
         } else {
-          // Product does not exist with the same size, add it to cart
+          
           state.cart.push({ product: payload.product, quantity: 1, size: payload.size });
         }
 
@@ -85,6 +85,6 @@ const cartSlice = createSlice({
 });
 
 export const selectCart = (state: RootState) =>
-  state.persistedReducer.cart.cart; // Access the 'product' property directly
+  state.persistedReducer.cart.cart; 
 
 export default cartSlice.reducer;
