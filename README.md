@@ -12,7 +12,7 @@
     <a href=""><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://trendthreadshop.com">View Demo</a>
+    <a href="https://trendthreadshop.com">View site</a>
   </p>
 </div>
 
@@ -21,10 +21,26 @@
 ## About The Project
 
 
+### Why a webshop?
+
+I have built this project to practice, and later on showcase my techical knowledge within the field of web & frontend development. 
+
+### What did I learn?
+
+Throughout the project I have learned (and continue to improve) concepts such as: 
+
+* State management - both local and global.
+* Optimization.
+* API design, architecture and integration.
+* Various frontend-centric libraries eg. framer-motion.
+
+If we are to widen the scope to broader subjects, then I have also learned to:
+
+* Set realistic deadlines and goals.
+* A project can be iterated on indefinitely, and will be iterated on throughout the development. Be it architecture or design choices.
+* Choosing the right tool for the right task. Sure you can hammer in a nail with a screwdriver, but is that really the optimal way?
 
 ### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![React][React.js]][React-url]
 * [![TypeScript][TypeScript.org]][TypeScript-url]
